@@ -5,10 +5,9 @@
 # Home page
 GET     /                                          Instructions.index
 
-# People
-GET        /people                                 People.index
-POST       /people                                 People.create
-DELETE     /people/{id}                            People.delete
+# Posts
+GET        /posts                                  Posts.getAll
+POST       /posts                                  Posts.create
 
 # Ignore favicon requests
 GET        /favicon.ico                            404
