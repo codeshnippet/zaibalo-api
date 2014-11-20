@@ -3,7 +3,7 @@
 # ~~~~
 
 # Home page
-GET     /                                          Instructions.index
+GET     /                                          Index.index
 
 # Posts
 GET        /posts                                  Posts.getAll
