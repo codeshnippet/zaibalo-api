@@ -1,1 +1,37 @@
 #{extends 'main.html'/}
+
+#{script 'form.js' /}
+
+<form class="form-horizontal" id="testForm">
+	<div class="control-group">
+		<label class="control-label" for="url" >URL</label>
+		<div class="controls">
+			<input type="text" value="/posts" name="url" />
+		</div>
+	</div>
+	<div class="control-group">
+		<label class="control-label" for="param-name" >Parameter</label>
+		<div class="controls">
+			<input type="text" value="" name="param-name" />
+			<input type="text" value="" name="param-value" />
+		</div>
+	</div>
+	<div class="control-group">
+		<label class="control-label" for="body" >Request body</label>
+		<div class="controls">
+			<textarea value="" name="body" ></textarea>
+		</div>
+	</div>
+	<div class="control-group">
+		<div class="controls">
+			<select name="method">
+				<option>GET</option>
+				<option>POST</option>
+			</select>
+			<button type="submit" class="btn">Send</button>
+		</div>
+	</div>
+</form>
+
+<div id="response">
+</div>
