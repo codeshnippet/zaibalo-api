@@ -21,10 +21,15 @@ public class Post extends Model {
 	public Date creationDate;
 	
 	@OneToOne(fetch=FetchType.EAGER)
-	private User author;
+	public User author;
 
-	public Post(String content) {
-		this.content = content;
+	public Post(){
 		creationDate = new Date();
+	}
+	
+	public Post(String content, User author) {
+		this();
+		this.content = content;
+		this.author = author;
 	}
 }

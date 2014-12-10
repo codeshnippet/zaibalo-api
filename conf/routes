@@ -3,11 +3,52 @@
 # ~~~~
 
 # Home page
-GET     /                                          Index.index
+GET        /                                       Index.index
+
+# Security
+POST       /login                                  security.Security.login
+POST       /logout                                 security.Security.logout
+
+# Users
+POST       /users                                  Users.createUser
+
+GET        /users/{id}                             Users.getUser
+PUT        /users/{id}                             Users.editUser
+DELETE     /users/{id}                             Users.deleteUser
 
 # Posts
-GET        /posts                                  Posts.getAll
-POST       /posts                                  Posts.create
+GET        /posts                                  posts.Posts.getPosts
+POST       /posts                                  posts.Posts.createPost
+
+GET        /posts/{id}                             posts.Posts.getPost
+PUT        /posts/{id}                             posts.Posts.editPost
+DELETE     /posts/{id}                             posts.Posts.deletePost
+
+GET        /posts/{postId}/comments                Comments.getPostComments
+POST       /posts/{postId}/comments                Comments.createPostComment
+
+# Comments
+GET        /comments                               Comments.getComments
+
+GET        /comments/{id}                          Comments.getComment
+PUT        /comments/{id}                          Comments.editComment
+DELETE     /comments/{id}                          Comments.deleteComment
+
+# Post ratings
+GET        /posts/{postId}/post-ratings            PostRatings.getPostRatings
+POST       /posts/{postId}/post-ratings            PostRatings.createPostRating
+
+GET        /post-ratings/{id}                      PostRatings.getPostRating
+PUT        /post-ratings/{id}                      PostRatings.updatePostRating
+DELETE     /post-ratings/{id}                      PostRatings.deletePostRating
+
+# Comment ratings
+GET        /comments/{commentId}/comment-ratings   CommentsRatings.getCommentsRatings
+POST       /comments/{commentId}/comment-ratings   CommentsRatings.createCommentRating
+
+GET        /comment-ratings/{id}                   CommentsRatings.getCommentRating
+PUT        /comment-ratings/{id}                   CommentsRatings.updateCommentRating
+DELETE     /comment-ratings/{id}                   CommentsRatings.deleteCommentRating
 
 # Ignore favicon requests
 GET        /favicon.ico                            404
