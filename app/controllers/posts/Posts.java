@@ -45,12 +45,17 @@ public class Posts extends Controller {
 		renderJSON(PostResponse.convertToJson(post));
 	}
 
-	public static void editPostPost(long id) {
+	@Secured
+	public static void editPost(long id) {
+		User connected = Security.connected(request);
 		PostRequest postJSON = new GsonBuilder().create().
 				fromJson(new InputStreamReader(request.body), PostRequest.class);
 		Post post = Post.findById(id);
 		if (post == null) {
 			notFound();
+		}
+		if(post.author.id != connected.id){
+			forbidden();
 		}
 		post.content = postJSON.content;
 		post.save();
@@ -58,12 +63,17 @@ public class Posts extends Controller {
 		ok();
 	}
 
-	public static void deletePostPost(long id) {
+	@Secured
+	public static void deletePost(long id) {
+		User connected = Security.connected(request);
 		Post post = Post.findById(id);
 		if (post == null) {
 			notFound();
 		}
-		post.delete();
+		if(post.author.id != connected.id){
+			forbidden();
+		}
+		post._delete();
 		ok();
 	}
 }

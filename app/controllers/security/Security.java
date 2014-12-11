@@ -50,6 +50,7 @@ public class Security extends Controller {
 		unauthorized();
 	}
 	
+	@Secured
 	public static void logout(){
 		User user = connected(request);
 		user.deleteToken();
