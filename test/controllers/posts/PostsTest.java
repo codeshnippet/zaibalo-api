@@ -19,6 +19,7 @@ import play.test.Fixtures;
 import play.test.FunctionalTest;
 
 import com.google.gson.Gson;
+import com.google.gson.GsonBuilder;
 import com.google.gson.JsonObject;
 import com.google.gson.reflect.TypeToken;
 
@@ -88,6 +89,46 @@ public class PostsTest extends FunctionalTest {
 		
 		Response response = GET("/posts/" + NOT_EXISTING_POST_ID);
 		assertIsNotFound(response);
+	}
+	
+	
+	@Test
+	public void testPostCreationIsSecured(){
+		Response response = POST("/posts", "application/json", new GsonBuilder().create().toJson(new PostRequest("test post content")));
+		assertStatus(401, response);
+	}
+	
+	@Test
+	public void testPostEditingIsSecured(){
+		Fixtures.loadModels("data/posts.yml");
+		
+		Post post = Post.find("byContent", "test content 1").first();
+		Response response = PUT("/posts/" + post.id, "application/json", new GsonBuilder().create().toJson(new PostRequest("new post content")));
+		assertStatus(401, response);
+	}
+	
+	@Test
+	public void testPostCanBeDeditedByOwnerOnly(){
+		Fixtures.loadModels("data/posts.yml");
+		
+		Post post = Post.find("byContent", "test content 1").first();
+		
+    	Request request = newRequest();
+    	request.headers.put("X-AUTH-TOKEN", new Header("X-AUTH-TOKEN", "billy-auth-token-123"));
+		Response response = PUT(request, "/posts/" + post.id, "application/json", new GsonBuilder().create().toJson(new PostRequest("new post content")));
+		assertStatus(403, response);
+	}
+	
+	@Test
+	public void testPostEditing(){
+		Fixtures.loadModels("data/posts.yml");
+		
+		Post post = Post.find("byContent", "test content 1").first();
+		
+    	Request request = newRequest();
+    	request.headers.put("X-AUTH-TOKEN", new Header("X-AUTH-TOKEN", "random-auth-token-123"));
+		Response response = PUT(request, "/posts/" + post.id, "application/json", new GsonBuilder().create().toJson(new PostRequest("new post content")));
+		assertIsOk(response);
 	}
 
 }

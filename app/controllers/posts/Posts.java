@@ -39,20 +39,31 @@ public class Posts extends Controller {
 
 	public static void getPost(long id) {
 		Post post = Post.findById(id);
-		if (post != null) {
-			renderJSON(PostResponse.convertToJson(post));
-		} else {
+		if (post == null) {
 			notFound();
 		}
+		renderJSON(PostResponse.convertToJson(post));
 	}
 
 	public static void editPostPost(long id) {
-		// TODO: Implement service
+		PostRequest postJSON = new GsonBuilder().create().
+				fromJson(new InputStreamReader(request.body), PostRequest.class);
+		Post post = Post.findById(id);
+		if (post == null) {
+			notFound();
+		}
+		post.content = postJSON.content;
+		post.save();
+		response.setContentTypeIfNotSet("application/json");
 		ok();
 	}
 
 	public static void deletePostPost(long id) {
-		// TODO: Implement service
+		Post post = Post.findById(id);
+		if (post == null) {
+			notFound();
+		}
+		post.delete();
 		ok();
 	}
 }

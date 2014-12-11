@@ -83,10 +83,4 @@ public class SecurityTest extends FunctionalTest {
 		assertNotNull(user);
 		assertNull(user.authToken);
 	}
-	
-	@Test
-	public void testSecuredController(){
-		Response response = POST("/posts", "application/json", new GsonBuilder().create().toJson(new PostRequest("test post content")));
-		assertStatus(401, response);
-	}
 }
