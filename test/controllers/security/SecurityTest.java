@@ -18,6 +18,7 @@ import com.google.gson.GsonBuilder;
 import controllers.posts.PostRequest;
 import controllers.security.LoginResponse;
 import controllers.security.Security;
+import controllers.users.UsersTest;
 
 public class SecurityTest extends FunctionalTest {
 	
@@ -37,7 +38,7 @@ public class SecurityTest extends FunctionalTest {
 		assertFalse(StringUtils.isEmpty(authTokenJson.authToken));
 		
 		//Check token matches user token
-		User user = User.find("byLoginName", "franky").first();
+		User user = User.findByLoginName(UsersTest.FRANKY_LOGIN_NAME);
 		assertEquals(user.authToken, authTokenJson.authToken);
 		
 		//Check cookie gets created
@@ -53,7 +54,7 @@ public class SecurityTest extends FunctionalTest {
 		assertStatus(401, response);
 		assertTrue(StringUtils.isEmpty(response.out.toString()));
 		
-		User user = User.find("byLoginName", "franky").first();
+		User user = User.findByLoginName(UsersTest.FRANKY_LOGIN_NAME);
 		assertEquals("random-auth-token-123", user.authToken);
 	}
 	
@@ -63,7 +64,7 @@ public class SecurityTest extends FunctionalTest {
 		assertStatus(401, response);
 		assertTrue(StringUtils.isEmpty(response.out.toString()));
 		
-		User user = User.find("byLoginName", "franky").first();
+		User user = User.findByLoginName(UsersTest.FRANKY_LOGIN_NAME);
 		assertEquals("random-auth-token-123", user.authToken);
 	}
 	
@@ -79,7 +80,7 @@ public class SecurityTest extends FunctionalTest {
 		assertNotNull(cookie.value);
 		assertEquals(Integer.valueOf(0), cookie.maxAge);
 		
-		User user = User.find("byLoginName", "franky").first();
+		User user = User.findByLoginName(UsersTest.FRANKY_LOGIN_NAME);
 		assertNotNull(user);
 		assertNull(user.authToken);
 	}

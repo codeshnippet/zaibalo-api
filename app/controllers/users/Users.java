@@ -4,8 +4,8 @@ import java.io.InputStreamReader;
 
 import models.User;
 import play.mvc.Controller;
-import play.mvc.With;
 import play.mvc.Http.Header;
+import play.mvc.With;
 
 import com.google.gson.GsonBuilder;
 
@@ -19,7 +19,7 @@ public class Users extends Controller {
 		UserRequest userRequest = new GsonBuilder().create().fromJson(new InputStreamReader(request.body), UserRequest.class);
 
 		User user = new User();
-		populateUserFromUserRequest(userRequest, user);
+		UserRequest.populateUserFromUserRequest(userRequest, user);
 		user.save();
 
 		response.setContentTypeIfNotSet("application/json");
@@ -49,17 +49,10 @@ public class Users extends Controller {
 			forbidden();
 		}
 		
-		populateUserFromUserRequest(userRequest, user);
+		UserRequest.populateUserFromUserRequest(userRequest, user);
 		user.save();
 
 		response.setContentTypeIfNotSet("application/json");
 		renderJSON(UserResponse.convertToJson(user));
-	}
-
-	private static void populateUserFromUserRequest(UserRequest userRequest, User user) {
-		user.loginName = userRequest.loginName;
-		user.password = userRequest.password;
-		user.displayName = userRequest.displayName;
-		user.email = userRequest.email;
 	}
 }

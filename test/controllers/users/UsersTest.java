@@ -16,8 +16,11 @@ import com.google.gson.GsonBuilder;
 
 public class UsersTest extends FunctionalTest {
 
+	private static final String EHE_HASHED = "c314409d89dea3fb1d2fc4b63e88b7fc";
+	private static final String SECRET_HASHED = "5ebe2294ecd0e0f08eab7690d2a6ee69";
+	private static final String PASS_HASHED = "1a1dc91c907325c69271ddf0c944bc72";
 	private static final String FRANKY_AUTH_TOKEN = "random-auth-token-123";
-	private static final String FRANKY_LOGIN_NAME = "franky";
+	public static final String FRANKY_LOGIN_NAME = "franky";
 	private static final String BILLY_AUTH_TOKEN = "billy-auth-token-123";
 	private static final long WRONG_ID = 286684l;
 
@@ -30,7 +33,7 @@ public class UsersTest extends FunctionalTest {
 	public void testGetUser() {
 		Fixtures.loadModels("data/user.yml");
 
-		User user = User.find("byLoginName", FRANKY_LOGIN_NAME).first();
+		User user = User.findByLoginName(FRANKY_LOGIN_NAME);
 		Response response = GET("/users/" + user.id);
 		assertIsOk(response);
 		assertContentType("application/json", response);
@@ -49,9 +52,9 @@ public class UsersTest extends FunctionalTest {
 		assertIsOk(response);
 		assertContentType("application/json", response);
 
-		User user = User.find("byLoginName", "johny").first();
+		User user = User.findByLoginName("johny");
 		assertNotNull(user);
-		assertEquals("pass", user.password);
+		assertEquals(PASS_HASHED, user.getPassword());
 		assertEquals("Boy", user.displayName);
 		assertEquals("johny@gmail.com", user.email);
 		
@@ -66,10 +69,10 @@ public class UsersTest extends FunctionalTest {
 	public void testUserCreationWithOtherParameters() {
 		POST("/users", "application/json", new Gson().toJson(createUserRequest("bill", "secret", "Cosby", "billc@gmail.com")));
 
-		User user = User.find("byLoginName", "bill").first();
+		User user = User.findByLoginName("bill");
 		assertNotNull(user.id);
 		assertNotNull(user.registrationDate);
-		assertEquals("secret", user.password);
+		assertEquals(SECRET_HASHED, user.getPassword());
 		assertEquals("Cosby", user.displayName);
 		assertEquals("billc@gmail.com", user.email);
 	}
@@ -78,7 +81,7 @@ public class UsersTest extends FunctionalTest {
 	public void testUserEditing(){
 		Fixtures.loadModels("data/user.yml");
 		
-		User user = User.find("byLoginName", FRANKY_LOGIN_NAME).first();
+		User user = User.findByLoginName(FRANKY_LOGIN_NAME);
 		
 		Request request = newRequest();
 		request.headers.put("X-AUTH-TOKEN", new Header("X-AUTH-TOKEN", FRANKY_AUTH_TOKEN));
@@ -88,7 +91,7 @@ public class UsersTest extends FunctionalTest {
 		
 		user.refresh();
 		assertEquals("Jackson", user.displayName);
-		assertEquals("ehe", user.password);
+		assertEquals(EHE_HASHED, user.getPassword());
 		assertEquals("moondance@gmail.com", user.email);
 		assertEquals("Mike", user.loginName);
 		
@@ -101,7 +104,7 @@ public class UsersTest extends FunctionalTest {
 	public void testUserEditingIsSecure(){
 		Fixtures.loadModels("data/user.yml");
 		
-		User user = User.find("byLoginName", FRANKY_LOGIN_NAME).first();
+		User user = User.findByLoginName(FRANKY_LOGIN_NAME);
 		Response response = PUT("/users/" + user.id, "application/json", new Gson().toJson(createUserRequest("Mike", "ehe", "Jackson", "moondance@gmail.com")));
 		assertStatus(401, response);
 	}
@@ -110,7 +113,7 @@ public class UsersTest extends FunctionalTest {
 	public void testUserEditingCanBeDoneByUserOnly(){
 		Fixtures.loadModels("data/user.yml");
 		
-		User user = User.find("byLoginName", FRANKY_LOGIN_NAME).first();
+		User user = User.findByLoginName(FRANKY_LOGIN_NAME);
 		Request request = newRequest();
 		request.headers.put("X-AUTH-TOKEN", new Header("X-AUTH-TOKEN", BILLY_AUTH_TOKEN));
 		Response response = PUT(request, "/users/" + user.id, "application/json", new Gson().toJson(createUserRequest("Mike", "ehe", "Jackson", "moondance@gmail.com")));

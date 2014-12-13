@@ -36,9 +36,9 @@ public class Security extends Controller {
 		LoginRequest authentication = new GsonBuilder().create().
 				fromJson(new InputStreamReader(request.body), LoginRequest.class);
 
-		User user = User.find("byLoginName", authentication.username).first();
+		User user = User.findByLoginName(authentication.username);
 		if (user != null) {
-			if (user.password.equals(authentication.password)) {
+			if (user.getPassword().equals(User.hashPassword(authentication.password))) {
 				String authToken = user.createToken();
 				response.setCookie(AUTH_TOKEN, authToken);
 				

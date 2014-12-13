@@ -3,19 +3,29 @@ package models;
 import java.util.Date;
 import java.util.UUID;
 
+import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
+
+import org.apache.commons.codec.digest.DigestUtils;
 
 import play.db.jpa.Model;
 
 @Entity
 public class User extends Model {
 	
+	@Column(unique=true)
 	public String loginName;
-	public String password;
+	
+	private String password;
+	
+	@Column(unique=true)
 	public String email;
+	
+	@Column(unique=true)
 	public String displayName;
+	
 	public String authToken;
 
 	@Temporal(TemporalType.TIMESTAMP)
@@ -24,11 +34,27 @@ public class User extends Model {
 	public User(){
 		this.registrationDate = new Date();
 	}
-	
+
+	public String getPassword() {
+		return password;
+	}
+
+	public void setPassword(String password) {
+		this.password = hashPassword(password);
+	}
+
 	public static User findByAuthToken(String authToken) {
 		return User.find("byAuthToken", authToken).first();
 	}
 
+	public static User findByLoginName(String loginName) {
+		return User.find("byLoginName", loginName).first();
+	}
+	
+	public static String hashPassword(String password) {
+		return DigestUtils.md5Hex(password);
+	}
+	
 	public String createToken() {
 		authToken = UUID.randomUUID().toString();
         save();
