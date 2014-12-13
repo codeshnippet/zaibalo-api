@@ -42,7 +42,6 @@ public class PostsTest extends FunctionalTest {
 		Response response = POST(request, "/posts", "application/json", "{\"content\":\"test post content\"}");
 		assertIsOk(response);
 		assertContentType("application/json", response);
-
 		assertEquals(1, Post.findAll().size());
 
 		Post post = Post.find("byContent", "test post content").first();
@@ -51,6 +50,15 @@ public class PostsTest extends FunctionalTest {
 		assertEquals("test post content", post.content);
 		assertNotNull(post.creationDate);
 		assertNotNull(post.author);
+		
+		assertHeaderEquals("Location", request.host + "/posts/" + post.id, response);
+		
+		PostResponse postResponse = new GsonBuilder().create().fromJson(response.out.toString(), PostResponse.class);
+		assertEquals(Long.valueOf(post.id), Long.valueOf(postResponse.id));
+		assertEquals("test post content", postResponse.content);
+		assertNotNull(postResponse.author);
+		assertEquals("Superman", postResponse.author.displayName);
+		assertEquals(Long.valueOf(post.author.id), Long.valueOf(postResponse.author.id));
 	}
 
 	@Test
@@ -126,6 +134,13 @@ public class PostsTest extends FunctionalTest {
 		assertIsOk(response);
 		post.refresh();
 		assertEquals("new post content", post.content);
+		
+		PostResponse postResponse = new GsonBuilder().create().fromJson(response.out.toString(), PostResponse.class);
+		assertEquals(Long.valueOf(post.id), Long.valueOf(postResponse.id));
+		assertEquals("new post content", postResponse.content);
+		assertNotNull(postResponse.author);
+		assertEquals("Superman", postResponse.author.displayName);
+		assertEquals(Long.valueOf(post.author.id), Long.valueOf(postResponse.author.id));
 	}
 
 	@Test
@@ -152,6 +167,7 @@ public class PostsTest extends FunctionalTest {
 	@Test
 	public void testPostDeleting() {
 		Fixtures.loadModels("data/posts.yml");
+		
 		int count = Post.findAll().size();
 		assertEquals(2, count);
 		Post post = Post.find("byContent", "test content 1").first();

@@ -7,6 +7,7 @@ import models.Post;
 import models.User;
 import play.mvc.Controller;
 import play.mvc.With;
+import play.mvc.Http.Header;
 
 import com.google.gson.GsonBuilder;
 
@@ -33,8 +34,10 @@ public class Posts extends Controller {
 		post.author = connected;
 		post.save();
 		
+		String location = request.host + "/posts/" + post.id;
+		response.headers.put("Location", new Header("Location", location));
 		response.setContentTypeIfNotSet("application/json");
-		ok();
+		renderJSON(PostResponse.convertToJson(post));
 	}
 
 	public static void getPost(long id) {
@@ -47,20 +50,20 @@ public class Posts extends Controller {
 
 	@Secured
 	public static void editPost(long id) {
-		User connected = Security.connected(request);
 		PostRequest postJSON = new GsonBuilder().create().
 				fromJson(new InputStreamReader(request.body), PostRequest.class);
 		Post post = Post.findById(id);
 		if (post == null) {
 			notFound();
 		}
-		if(post.author.id != connected.id){
+		if(post.author.id != Security.connected(request).id){
 			forbidden();
 		}
 		post.content = postJSON.content;
 		post.save();
+		
 		response.setContentTypeIfNotSet("application/json");
-		ok();
+		renderJSON(PostResponse.convertToJson(post));
 	}
 
 	@Secured

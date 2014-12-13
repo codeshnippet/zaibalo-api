@@ -6,9 +6,7 @@ $( document ).ready(function() {
     	$.ajax({
     		type : type,
     		url : url,
-    		data : {
-    			content : $("input[name='param-value']").val()
-    		},
+    		data : $("textarea[name='body']").val(),
     		success : function(data) {
     			$("#response").text(JSON.stringify(data));
     		},

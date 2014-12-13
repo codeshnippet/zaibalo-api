@@ -21,6 +21,10 @@ public class User extends Model {
 	@Temporal(TemporalType.TIMESTAMP)
 	public Date registrationDate;
 
+	public User(){
+		this.registrationDate = new Date();
+	}
+	
 	public static User findByAuthToken(String authToken) {
 		return User.find("byAuthToken", authToken).first();
 	}

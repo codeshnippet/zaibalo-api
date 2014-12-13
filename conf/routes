@@ -10,11 +10,11 @@ POST       /login                                  security.Security.login
 POST       /logout                                 security.Security.logout
 
 # Users
-POST       /users                                  Users.createUser
+POST       /users                                  users.Users.createUser
 
-GET        /users/{id}                             Users.getUser
-PUT        /users/{id}                             Users.editUser
-DELETE     /users/{id}                             Users.deleteUser
+GET        /users/{id}                             users.Users.getUser
+PUT        /users/{id}                             users.Users.editUser
+DELETE     /users/{id}                             users.Users.deleteUser
 
 # Posts
 GET        /posts                                  posts.Posts.getPosts
