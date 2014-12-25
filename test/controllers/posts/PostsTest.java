@@ -25,6 +25,7 @@ import com.google.gson.reflect.TypeToken;
 
 public class PostsTest extends FunctionalTest {
 
+	private static final String X_AUTH_TOKEN = "x-auth-token";
 	private static final int NOT_EXISTING_POST_ID = 133454552;
 
 	@Before
@@ -37,10 +38,10 @@ public class PostsTest extends FunctionalTest {
 		Fixtures.loadModels("data/user.yml");
 
 		Request request = newRequest();
-		request.headers.put("X-AUTH-TOKEN", new Header("X-AUTH-TOKEN", "random-auth-token-123"));
+		request.headers.put(X_AUTH_TOKEN, new Header(X_AUTH_TOKEN, "random-auth-token-123"));
 
 		Response response = POST(request, "/posts", "application/json", "{\"content\":\"test post content\"}");
-		assertIsOk(response);
+		assertStatus(201, response);
 		assertContentType("application/json", response);
 		assertEquals(1, Post.findAll().size());
 
@@ -52,13 +53,6 @@ public class PostsTest extends FunctionalTest {
 		assertNotNull(post.author);
 		
 		assertHeaderEquals("Location", request.host + "/posts/" + post.id, response);
-		
-		PostResponse postResponse = new GsonBuilder().create().fromJson(response.out.toString(), PostResponse.class);
-		assertEquals(Long.valueOf(post.id), Long.valueOf(postResponse.id));
-		assertEquals("test post content", postResponse.content);
-		assertNotNull(postResponse.author);
-		assertEquals("Superman", postResponse.author.displayName);
-		assertEquals(Long.valueOf(post.author.id), Long.valueOf(postResponse.author.id));
 	}
 
 	@Test
@@ -83,7 +77,7 @@ public class PostsTest extends FunctionalTest {
 		Post post = Post.find("byContent", "test content 1").first();
 
 		Response response = GET("/posts/" + post.getId());
-		assertEquals("{" + "\"id\":" + post.getId() + "," + "\"content\":\"test content 1\"," + "\"author\":{\"id\":" + post.author.id + ",\"displayName\":\"Superman\"}," + "\"creationTimestamp\":1238025600000" + "}",
+		assertEquals("{" + "\"id\":" + post.getId() + "," + "\"content\":\"test content 1\",\"author\":{\"id\":" + post.author.id + ",\"displayName\":\"Superman\"},\"creationTimestamp\":1238025600000" + "}",
 				response.out.toString());
 	}
 
@@ -96,9 +90,14 @@ public class PostsTest extends FunctionalTest {
 	}
 
 	@Test
-	public void testPostCreationIsSecured() {
+	public void testPostCreationUnauthorised() {
 		Response response = POST("/posts", "application/json", new GsonBuilder().create().toJson(new PostRequest("test post content")));
-		assertStatus(401, response);
+		assertStatus(201, response);
+		assertEquals(1, Post.findAll().size());
+		
+		Post post = Post.find("byContent", "test post content").first();
+		assertNotNull(post.author);
+		assertEquals("Anonymous", post.author.loginName);
 	}
 
 	@Test
@@ -107,7 +106,8 @@ public class PostsTest extends FunctionalTest {
 
 		Post post = Post.find("byContent", "test content 1").first();
 		Response response = PUT("/posts/" + post.id, "application/json", new GsonBuilder().create().toJson(new PostRequest("new post content")));
-		assertStatus(401, response);
+		assertStatus(403, response);
+		assertEquals("<h1>Authentication required</h1>", response.out.toString());
 	}
 
 	@Test
@@ -117,7 +117,7 @@ public class PostsTest extends FunctionalTest {
 		Post post = Post.find("byContent", "test content 1").first();
 
 		Request request = newRequest();
-		request.headers.put("X-AUTH-TOKEN", new Header("X-AUTH-TOKEN", "billy-auth-token-123"));
+		request.headers.put(X_AUTH_TOKEN, new Header(X_AUTH_TOKEN, "billy-auth-token-123"));
 		Response response = PUT(request, "/posts/" + post.id, "application/json", new GsonBuilder().create().toJson(new PostRequest("new post content")));
 		assertStatus(403, response);
 	}
@@ -129,7 +129,7 @@ public class PostsTest extends FunctionalTest {
 		Post post = Post.find("byContent", "test content 1").first();
 
 		Request request = newRequest();
-		request.headers.put("X-AUTH-TOKEN", new Header("X-AUTH-TOKEN", "random-auth-token-123"));
+		request.headers.put(X_AUTH_TOKEN, new Header(X_AUTH_TOKEN, "random-auth-token-123"));
 		Response response = PUT(request, "/posts/" + post.id, "application/json", new GsonBuilder().create().toJson(new PostRequest("new post content")));
 		assertIsOk(response);
 		post.refresh();
@@ -149,7 +149,7 @@ public class PostsTest extends FunctionalTest {
 
 		Post post = Post.find("byContent", "test content 1").first();
 		Response response = DELETE("/posts/" + post.id);
-		assertStatus(401, response);
+		assertStatus(403, response);
 	}
 
 	@Test
@@ -159,7 +159,7 @@ public class PostsTest extends FunctionalTest {
 		Post post = Post.find("byContent", "test content 1").first();
 
 		Request request = newRequest();
-		request.headers.put("X-AUTH-TOKEN", new Header("X-AUTH-TOKEN", "billy-auth-token-123"));
+		request.headers.put(X_AUTH_TOKEN, new Header(X_AUTH_TOKEN, "billy-auth-token-123"));
 		Response response = DELETE(request, "/posts/" + post.id);
 		assertStatus(403, response);
 	}
@@ -173,7 +173,7 @@ public class PostsTest extends FunctionalTest {
 		Post post = Post.find("byContent", "test content 1").first();
 
 		Request request = newRequest();
-		request.headers.put("X-AUTH-TOKEN", new Header("X-AUTH-TOKEN", "random-auth-token-123"));
+		request.headers.put(X_AUTH_TOKEN, new Header(X_AUTH_TOKEN, "random-auth-token-123"));
 		Response response = DELETE(request, "/posts/" + post.id);
 		assertIsOk(response);
 

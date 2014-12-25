@@ -4,8 +4,11 @@ import play.mvc.Controller;
 
 public class Index extends Controller {
 
-    public static void index() {
+	public static void index() {
+		render();
+	}
+	
+    public static void client() {
         render();
     }
-
 }

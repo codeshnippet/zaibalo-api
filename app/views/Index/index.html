@@ -1,37 +1,37 @@
 #{extends 'main.html'/}
 
-#{script 'form.js' /}
+#{set 'moreScripts'}
+	#{script 'knockout-3.2.0.js' /}
+	#{script 'jquery.cookie-1.4.1.js' /}
+	#{script 'posts.js' /}
+#{/set}
 
-<form class="form-horizontal" id="testForm">
-	<div class="control-group">
-		<label class="control-label" for="url" >URL</label>
-		<div class="controls">
-			<input type="text" value="/posts" name="url" />
-		</div>
-	</div>
-	<div class="control-group">
-		<label class="control-label" for="param-name" >Header</label>
-		<div class="controls">
-			<input type="text" value="X-AUTH-TOKEN" name="param-name" />
-			<input type="text" value="" name="param-value" />
-		</div>
-	</div>
-	<div class="control-group">
-		<label class="control-label" for="body" >Request body</label>
-		<div class="controls">
-			<textarea value="" name="body" ></textarea>
-		</div>
-	</div>
-	<div class="control-group">
-		<div class="controls">
-			<select name="method">
-				<option>GET</option>
-				<option>POST</option>
-			</select>
-			<button type="submit" class="btn">Send</button>
-		</div>
-	</div>
+<form class="form-inline" data-bind="visible: shouldShowLogin">
+	<input type="text" id="username" class="input-small" placeholder="Login">
+	<input type="password" id="password" class="input-small" placeholder="Password">
+	<button data-bind="click: login" class="btn btn-success">Sign in</button>
 </form>
 
-<div id="response">
-</div>
+<h2>Your posts</h2>
+
+<table>
+    <thead>
+    	<tr>
+        	<th>Author name</th>
+        	<th>Text</th>
+   		</tr>
+   	</thead>
+    <tbody data-bind="foreach: posts">
+	    <tr>
+	        <td data-bind="text: author.displayName"></td>
+	        <td data-bind="text: content"></td>
+	    </tr> 
+	</tbody>
+</table>
+
+<h2>Add post</h2>
+Author: <span data-bind="text: authUserName"></span>
+<label for="new-post-text">Text</label>
+<input id="new-post-text" value="" />
+
+<button data-bind="click: addPost">Post</button>

@@ -65,5 +65,4 @@ public class User extends Model {
 		authToken = null;
 		save();
 	}
-	
 }

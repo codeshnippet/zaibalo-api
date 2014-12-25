@@ -2,6 +2,8 @@ package controllers.users;
 
 import java.io.InputStreamReader;
 
+import org.apache.commons.lang.StringUtils;
+
 import models.User;
 import play.mvc.Controller;
 import play.mvc.Http.Header;
@@ -25,7 +27,8 @@ public class Users extends Controller {
 		response.setContentTypeIfNotSet("application/json");
 		String location = request.host + "/users/" + user.id;
 		response.headers.put("Location", new Header("Location", location));
-		renderJSON(UserResponse.convertToJson(user));
+		
+		response.status = 201;
 	}
 
 	public static void getUser(long id) {
@@ -45,7 +48,7 @@ public class Users extends Controller {
 		if (user == null) {
 			notFound();
 		}
-		if(user.id != Security.connected(request).id){
+		if(user.id != Security.getAuthenticatedUser(request).id){
 			forbidden();
 		}
 		

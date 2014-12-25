@@ -3,11 +3,11 @@
 # ~~~~
 
 # Home page
+GET        /client                                 Index.client
 GET        /                                       Index.index
 
 # Security
 POST       /login                                  security.Security.login
-POST       /logout                                 security.Security.logout
 
 # Users
 POST       /users                                  users.Users.createUser
@@ -24,15 +24,14 @@ GET        /posts/{id}                             posts.Posts.getPost
 PUT        /posts/{id}                             posts.Posts.editPost
 DELETE     /posts/{id}                             posts.Posts.deletePost
 
-GET        /posts/{postId}/comments                Comments.getPostComments
-POST       /posts/{postId}/comments                Comments.createPostComment
+GET        /posts/{postId}/comments                comments.Comments.getPostComments
+POST       /posts/{postId}/comments                comments.Comments.createPostComment
 
 # Comments
-GET        /comments                               Comments.getComments
+GET        /comments                               comments.Comments.getComments
 
-GET        /comments/{id}                          Comments.getComment
-PUT        /comments/{id}                          Comments.editComment
-DELETE     /comments/{id}                          Comments.deleteComment
+PUT        /comments/{id}                          comments.Comments.editComment
+DELETE     /comments/{id}                          comments.Comments.deleteComment
 
 # Post ratings
 GET        /posts/{postId}/post-ratings            PostRatings.getPostRatings

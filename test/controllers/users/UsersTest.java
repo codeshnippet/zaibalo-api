@@ -16,6 +16,7 @@ import com.google.gson.GsonBuilder;
 
 public class UsersTest extends FunctionalTest {
 
+	private static final String X_AUTH_TOKEN = "x-auth-token";
 	private static final String EHE_HASHED = "c314409d89dea3fb1d2fc4b63e88b7fc";
 	private static final String SECRET_HASHED = "5ebe2294ecd0e0f08eab7690d2a6ee69";
 	private static final String PASS_HASHED = "1a1dc91c907325c69271ddf0c944bc72";
@@ -49,7 +50,7 @@ public class UsersTest extends FunctionalTest {
 	@Test
 	public void testUserCreation() {
 		Response response = POST("/users", "application/json", new Gson().toJson(createUserRequest("johny", "pass", "Boy", "johny@gmail.com")));
-		assertIsOk(response);
+		assertStatus(201, response);
 		assertContentType("application/json", response);
 
 		User user = User.findByLoginName("johny");
@@ -59,10 +60,6 @@ public class UsersTest extends FunctionalTest {
 		assertEquals("johny@gmail.com", user.email);
 		
 		assertHeaderEquals("Location", newRequest().host + "/users/" + user.id, response);
-		
-		UserResponse userResponse = new GsonBuilder().create().fromJson(response.out.toString(), UserResponse.class);
-		assertEquals(Long.valueOf(user.id), Long.valueOf(userResponse.id));
-		assertEquals("Boy", userResponse.displayName);
 	}
 	
 	@Test
@@ -84,7 +81,7 @@ public class UsersTest extends FunctionalTest {
 		User user = User.findByLoginName(FRANKY_LOGIN_NAME);
 		
 		Request request = newRequest();
-		request.headers.put("X-AUTH-TOKEN", new Header("X-AUTH-TOKEN", FRANKY_AUTH_TOKEN));
+		request.headers.put(X_AUTH_TOKEN, new Header(X_AUTH_TOKEN, FRANKY_AUTH_TOKEN));
 		Response response = PUT(request, "/users/" + user.id, "application/json", new Gson().toJson(createUserRequest("Mike", "ehe", "Jackson", "moondance@gmail.com")));
 		assertIsOk(response);
 		assertContentType("application/json", response);
@@ -106,7 +103,7 @@ public class UsersTest extends FunctionalTest {
 		
 		User user = User.findByLoginName(FRANKY_LOGIN_NAME);
 		Response response = PUT("/users/" + user.id, "application/json", new Gson().toJson(createUserRequest("Mike", "ehe", "Jackson", "moondance@gmail.com")));
-		assertStatus(401, response);
+		assertStatus(403, response);
 	}
 	
 	@Test
@@ -115,7 +112,7 @@ public class UsersTest extends FunctionalTest {
 		
 		User user = User.findByLoginName(FRANKY_LOGIN_NAME);
 		Request request = newRequest();
-		request.headers.put("X-AUTH-TOKEN", new Header("X-AUTH-TOKEN", BILLY_AUTH_TOKEN));
+		request.headers.put(X_AUTH_TOKEN, new Header(X_AUTH_TOKEN, BILLY_AUTH_TOKEN));
 		Response response = PUT(request, "/users/" + user.id, "application/json", new Gson().toJson(createUserRequest("Mike", "ehe", "Jackson", "moondance@gmail.com")));
 		assertStatus(403, response);
 	}
@@ -125,7 +122,7 @@ public class UsersTest extends FunctionalTest {
 		Fixtures.loadModels("data/user.yml");
 		
 		Request request = newRequest();
-		request.headers.put("X-AUTH-TOKEN", new Header("X-AUTH-TOKEN", FRANKY_AUTH_TOKEN));
+		request.headers.put(X_AUTH_TOKEN, new Header(X_AUTH_TOKEN, FRANKY_AUTH_TOKEN));
 		Response response = PUT(request, "/users/" + WRONG_ID, "application/json", new Gson().toJson(createUserRequest("Mike", "p", "d", "e@e.e")));
 		assertIsNotFound(response);
 	}

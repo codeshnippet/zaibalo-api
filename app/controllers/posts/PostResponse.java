@@ -13,16 +13,16 @@ public class PostResponse {
 	public UserResponse author;
 	public long creationTimestamp;
 	
-	public static List<PostResponse> convertToJsonList(List<Post> postsList) {
+	public static List<PostResponse> convertToPostResponsesList(List<Post> postsList) {
 		List<PostResponse> postJsonList = new ArrayList<PostResponse>(postsList.size());
 		for(Post post: postsList){
-			PostResponse postResponseJSON = convertToJson(post);
+			PostResponse postResponseJSON = convertToPostResponse(post);
 			postJsonList.add(postResponseJSON);
 		}
 		return postJsonList;
 	}
 
-	public static PostResponse convertToJson(Post post) {
+	public static PostResponse convertToPostResponse(Post post) {
 		PostResponse postResponseJSON = new PostResponse();
 		postResponseJSON.id = post.id;
 		postResponseJSON.content = post.content;

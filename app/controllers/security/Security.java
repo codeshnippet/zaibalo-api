@@ -15,20 +15,22 @@ import play.mvc.Util;
 import com.google.gson.GsonBuilder;
 import com.google.gson.JsonObject;
 
+import controllers.users.Users;
+
 public class Security extends Controller {
 
-	public final static String AUTH_TOKEN_HEADER = "X-AUTH-TOKEN";
-	public static final String AUTH_TOKEN = "authToken";
+	private static final String ANONYMOUS = "Anonymous";
+	public final static String AUTH_TOKEN_HEADER = "x-auth-token";
 
 	@Before
 	public static void checkAccess() {
 		Secured secured = getActionAnnotation(Secured.class);
 		if (secured != null) {
-			User user = connected(request);
+			User user = getAuthenticatedUser(request);
 			if (user != null) {
 				return;
 			}
-			unauthorized();
+			forbidden("Authentication required");
 		}
 	}
 
@@ -39,30 +41,42 @@ public class Security extends Controller {
 		User user = User.findByLoginName(authentication.username);
 		if (user != null) {
 			if (user.getPassword().equals(User.hashPassword(authentication.password))) {
-				String authToken = user.createToken();
-				response.setCookie(AUTH_TOKEN, authToken);
-				
 				LoginResponse authTokenJson = new LoginResponse();
-				authTokenJson.authToken = authToken;
+				authTokenJson.authToken = user.createToken();
+				authTokenJson.displayName = user.displayName;
 				renderJSON(authTokenJson);
 			}
 		}
-		unauthorized();
-	}
-	
-	@Secured
-	public static void logout(){
-		User user = connected(request);
-		user.deleteToken();
-		response.removeCookie(AUTH_TOKEN);
+		forbidden("Authentication failed");
 	}
 	
 	@Util
-	public static User connected(Request request) {
+	public static User getAuthenticatedUser(Request request) {
 		Header authTokenHeader = request.headers.get(Security.AUTH_TOKEN_HEADER);
 		if (authTokenHeader != null && authTokenHeader.values.size() == 1 && !StringUtils.isBlank(authTokenHeader.values.get(0))) {
 			return User.find("byAuthToken", authTokenHeader.values.get(0)).first();
 		}
 		return null;
+	}
+	
+	@Util
+	public static User getAuthenticatedOrAnonymousUser(Request request) {
+		User authenticatedUser = getAuthenticatedUser(request);
+		return authenticatedUser == null? getAnonymousUser() : authenticatedUser;
+	}
+
+	@Util
+	private static User getAnonymousUser() {
+		User anonymous = User.findByLoginName(ANONYMOUS);
+		return anonymous == null ? createAnonymousUser() : anonymous;
+	}
+
+	@Util
+	private static User createAnonymousUser() {
+		User anonymous = new User();
+		anonymous.displayName = ANONYMOUS;
+		anonymous.loginName = ANONYMOUS;
+		anonymous.save();
+		return anonymous;
 	}
 }

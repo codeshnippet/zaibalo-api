@@ -1,19 +1,17 @@
-package controllers;
+package controllers.comments;
 
-import play.mvc.Controller;
+import models.Comment;
 import models.Post;
-import models.User;
+import play.mvc.Controller;
 
 public class Comments extends Controller {
-
-	public static void getComments() {
-		//TODO: Implement service
-		ok();
-	}
 	
     public static void getPostComments(long postId) {
-    	//TODO: Implement service
-    	ok();
+    	response.setContentTypeIfNotSet("application/json");
+    	
+    	Post post = Post.findById(postId);
+    	
+    	renderJSON(CommentResponse.convertToCommentResponsesList(post.comments));
     }
     
     public static void createPostComment(long postId) {

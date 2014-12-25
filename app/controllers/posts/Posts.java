@@ -19,13 +19,12 @@ public class Posts extends Controller {
 
 	public static void getPosts() {
 		List<Post> postsList = Post.findAll();
-		List<PostResponse> responseList = PostResponse.convertToJsonList(postsList);
+		List<PostResponse> responseList = PostResponse.convertToPostResponsesList(postsList);
 		renderJSON(responseList);
 	}
 
-	@Secured
 	public static void createPost() {
-		User connected = Security.connected(request);
+		User connected = Security.getAuthenticatedOrAnonymousUser(request);
 		
 		PostRequest postJSON = new GsonBuilder().create().
 				fromJson(new InputStreamReader(request.body), PostRequest.class);
@@ -37,7 +36,7 @@ public class Posts extends Controller {
 		String location = request.host + "/posts/" + post.id;
 		response.headers.put("Location", new Header("Location", location));
 		response.setContentTypeIfNotSet("application/json");
-		renderJSON(PostResponse.convertToJson(post));
+		response.status = 201;
 	}
 
 	public static void getPost(long id) {
@@ -45,7 +44,7 @@ public class Posts extends Controller {
 		if (post == null) {
 			notFound();
 		}
-		renderJSON(PostResponse.convertToJson(post));
+		renderJSON(PostResponse.convertToPostResponse(post));
 	}
 
 	@Secured
@@ -56,19 +55,19 @@ public class Posts extends Controller {
 		if (post == null) {
 			notFound();
 		}
-		if(post.author.id != Security.connected(request).id){
+		if(post.author.id != Security.getAuthenticatedUser(request).id){
 			forbidden();
 		}
 		post.content = postJSON.content;
 		post.save();
 		
 		response.setContentTypeIfNotSet("application/json");
-		renderJSON(PostResponse.convertToJson(post));
+		renderJSON(PostResponse.convertToPostResponse(post));
 	}
 
 	@Secured
 	public static void deletePost(long id) {
-		User connected = Security.connected(request);
+		User connected = Security.getAuthenticatedUser(request);
 		Post post = Post.findById(id);
 		if (post == null) {
 			notFound();
