@@ -5,6 +5,7 @@ import java.util.UUID;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.Table;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
 
@@ -13,6 +14,7 @@ import org.apache.commons.codec.digest.DigestUtils;
 import play.db.jpa.Model;
 
 @Entity
+@Table(name = "users")
 public class User extends Model {
 	
 	@Column(unique=true)

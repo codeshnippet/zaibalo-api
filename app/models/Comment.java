@@ -7,12 +7,14 @@ import javax.persistence.FetchType;
 import javax.persistence.JoinColumn;
 import javax.persistence.Lob;
 import javax.persistence.OneToOne;
+import javax.persistence.Table;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
 
 import play.db.jpa.Model;
 
 @Entity
+@Table(name = "comments")
 public class Comment extends Model{
 
 	@Lob
