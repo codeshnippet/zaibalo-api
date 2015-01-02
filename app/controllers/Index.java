@@ -5,7 +5,7 @@ import play.mvc.Controller;
 public class Index extends Controller {
 
 	public static void index() {
-		render();
+		renderTemplate("Index/posts.html");
 	}
 	
     public static void client() {
