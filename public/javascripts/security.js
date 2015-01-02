@@ -10,25 +10,27 @@ var jso = new JSO({
 	}
 });
 
-jso.ajax({
-    url: "https://www.googleapis.com/oauth2/v1/userinfo",
-    oauth: {
-        scopes: {
-            request: ["https://www.googleapis.com/auth/userinfo.email"],
-            require: ["https://www.googleapis.com/auth/userinfo.email"]
-        }
-    },
-    dataType: 'json',
-    success: function(data) {
-        alert(data);
-    }
-});
+function login(){
+	jso.ajax({
+	    url: "https://www.googleapis.com/oauth2/v1/userinfo",
+	    oauth: {
+	        scopes: {
+	            request: ["https://www.googleapis.com/auth/userinfo.email"],
+	            require: ["https://www.googleapis.com/auth/userinfo.email"]
+	        }
+	    },
+	    dataType: 'json',
+	    success: function(data) {
+	        alert(data);
+	    }
+	});
+}
 
-jso.getToken(function(token) {
-
-    console.log("I got the token: ", token);
-
-}, opts);
+function logToken(){
+	jso.getToken(function(token) {
+	    console.log("I got the token: ", token);
+	}, null);
+}
 
 
 var username = "test";
