@@ -5,6 +5,7 @@ import java.util.List;
 
 import models.Post;
 import models.User;
+import play.db.jpa.GenericModel.JPAQuery;
 import play.mvc.Controller;
 import play.mvc.With;
 import play.mvc.Http.Header;
@@ -17,15 +18,27 @@ import controllers.security.Security;
 @With(Security.class)
 public class Posts extends Controller {
 
-	public static void getPosts() {
-		List<Post> postsList = Post.findAll();
+	public static void getPosts(String sort, int page, int limit) {
+		JPAQuery postsQuery = null;
+		if("created_at".equals(sort)){
+			postsQuery = Post.find("order by creationDate desc");
+		}else{
+			postsQuery = Post.all();
+		}
+		limit = (limit == 0) ? 10 : limit; 
+		List<Post> postsList = postsQuery.fetch(page, limit);
 		List<PostResponse> responseList = PostResponse.convertToPostResponsesList(postsList);
 		renderJSON(responseList);
 	}
+	
+	public static void getPostsCount(){
+		renderJSON("{\"count\":" + Post.count() +"}");
+	}
 
+	@Secured
 	public static void createPost() {
-		User connected = Security.getAuthenticatedOrAnonymousUser(request);
-		
+		User connected = Security.getAuthenticatedUser();
+
 		PostRequest postJSON = new GsonBuilder().create().
 				fromJson(new InputStreamReader(request.body), PostRequest.class);
 		Post post = new Post();
@@ -37,6 +50,7 @@ public class Posts extends Controller {
 		response.headers.put("Location", new Header("Location", location));
 		response.setContentTypeIfNotSet("application/json");
 		response.status = 201;
+		renderJSON(PostResponse.convertToPostResponse(post));
 	}
 
 	public static void getPost(long id) {
@@ -55,7 +69,7 @@ public class Posts extends Controller {
 		if (post == null) {
 			notFound();
 		}
-		if(post.author.id != Security.getAuthenticatedUser(request).id){
+		if(post.author.id != Security.getAuthenticatedUser().id){
 			forbidden();
 		}
 		post.content = postJSON.content;
@@ -67,7 +81,7 @@ public class Posts extends Controller {
 
 	@Secured
 	public static void deletePost(long id) {
-		User connected = Security.getAuthenticatedUser(request);
+		User connected = Security.getAuthenticatedUser();
 		Post post = Post.findById(id);
 		if (post == null) {
 			notFound();

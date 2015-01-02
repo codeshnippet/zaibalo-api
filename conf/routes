@@ -6,9 +6,6 @@
 GET        /client                                 Index.client
 GET        /                                       Index.index
 
-# Security
-POST       /login                                  security.Security.login
-
 # Users
 POST       /users                                  users.Users.createUser
 
@@ -18,6 +15,7 @@ DELETE     /users/{id}                             users.Users.deleteUser
 
 # Posts
 GET        /posts                                  posts.Posts.getPosts
+GET        /posts/count                            posts.Posts.getPostsCount
 POST       /posts                                  posts.Posts.createPost
 
 GET        /posts/{id}                             posts.Posts.getPost

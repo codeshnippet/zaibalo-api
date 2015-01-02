@@ -56,15 +56,4 @@ public class User extends Model {
 	public static String hashPassword(String password) {
 		return DigestUtils.md5Hex(password);
 	}
-	
-	public String createToken() {
-		authToken = UUID.randomUUID().toString();
-        save();
-        return authToken;
-	}
-
-	public void deleteToken() {
-		authToken = null;
-		save();
-	}
 }

@@ -9,20 +9,19 @@ import play.mvc.Http.Header;
 import play.mvc.Http.Request;
 import play.mvc.Http.Response;
 import play.test.Fixtures;
-import play.test.FunctionalTest;
 
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 
-public class UsersTest extends FunctionalTest {
+import controllers.BasicFunctionalTest;
 
-	private static final String X_AUTH_TOKEN = "x-auth-token";
+public class UsersTest extends BasicFunctionalTest {
+
 	private static final String EHE_HASHED = "c314409d89dea3fb1d2fc4b63e88b7fc";
 	private static final String SECRET_HASHED = "5ebe2294ecd0e0f08eab7690d2a6ee69";
 	private static final String PASS_HASHED = "1a1dc91c907325c69271ddf0c944bc72";
-	private static final String FRANKY_AUTH_TOKEN = "random-auth-token-123";
 	public static final String FRANKY_LOGIN_NAME = "franky";
-	private static final String BILLY_AUTH_TOKEN = "billy-auth-token-123";
+	public static final String BILLY_LOGIN_NAME = "billy";
 	private static final long WRONG_ID = 286684l;
 
 	@Before
@@ -80,8 +79,7 @@ public class UsersTest extends FunctionalTest {
 		
 		User user = User.findByLoginName(FRANKY_LOGIN_NAME);
 		
-		Request request = newRequest();
-		request.headers.put(X_AUTH_TOKEN, new Header(X_AUTH_TOKEN, FRANKY_AUTH_TOKEN));
+		Request request = getAuthRequest();
 		Response response = PUT(request, "/users/" + user.id, "application/json", new Gson().toJson(createUserRequest("Mike", "ehe", "Jackson", "moondance@gmail.com")));
 		assertIsOk(response);
 		assertContentType("application/json", response);
@@ -103,7 +101,7 @@ public class UsersTest extends FunctionalTest {
 		
 		User user = User.findByLoginName(FRANKY_LOGIN_NAME);
 		Response response = PUT("/users/" + user.id, "application/json", new Gson().toJson(createUserRequest("Mike", "ehe", "Jackson", "moondance@gmail.com")));
-		assertStatus(403, response);
+		assertStatus(401, response);
 	}
 	
 	@Test
@@ -111,8 +109,7 @@ public class UsersTest extends FunctionalTest {
 		Fixtures.loadModels("data/user.yml");
 		
 		User user = User.findByLoginName(FRANKY_LOGIN_NAME);
-		Request request = newRequest();
-		request.headers.put(X_AUTH_TOKEN, new Header(X_AUTH_TOKEN, BILLY_AUTH_TOKEN));
+		Request request = getAuthRequest(BILLY_LOGIN_NAME, "secret");
 		Response response = PUT(request, "/users/" + user.id, "application/json", new Gson().toJson(createUserRequest("Mike", "ehe", "Jackson", "moondance@gmail.com")));
 		assertStatus(403, response);
 	}
@@ -121,8 +118,7 @@ public class UsersTest extends FunctionalTest {
 	public void testUserEditingWithWrongId(){
 		Fixtures.loadModels("data/user.yml");
 		
-		Request request = newRequest();
-		request.headers.put(X_AUTH_TOKEN, new Header(X_AUTH_TOKEN, FRANKY_AUTH_TOKEN));
+		Request request = getAuthRequest();
 		Response response = PUT(request, "/users/" + WRONG_ID, "application/json", new Gson().toJson(createUserRequest("Mike", "p", "d", "e@e.e")));
 		assertIsNotFound(response);
 	}

@@ -11,57 +11,47 @@ function Post(content, displayName) {
 
 function PostsViewModel() {
 	var self = this;
-
+	
 	self.posts = ko.observableArray([]);
-	self.shouldShowLogin = ko.observable(!isAuthenticated());
-	self.authUserName = ko.observable(getAuthUserName());
-
-	$.getJSON("/posts", function(allData) {
-		var mappedPosts = $.map(allData, function(item) {
-			return new Post(item.content, item.author.displayName)
-		});
-		self.posts(mappedPosts);
-	});
+	self.pageIndex = ko.observable(0);
 
 	// Operations
 	self.addPost = function() {
 		var data = JSON.stringify({ content : $('#new-post-text').val() });
 		
 		$.post('/posts', data, function(response) {
-			self.posts.push(new Post($('#new-post-text').val(), self.authUserName()));
+			self.posts.unshift(new Post($('#new-post-text').val(), response.author.displayName));
 		}, 'json');
 	}
 
-	self.login = function() {
-		var data = JSON.stringify({
-			username : $('#username').val(),
-			password : $('#password').val()
+	self.loadPosts = function(){
+		var PAGE_SIZE = 10;
+		self.pageIndex(self.pageIndex() + 1);
+		$.getJSON("/posts?sort=created_at&count=" + PAGE_SIZE + "&page=" + self.pageIndex(), function(allData) {
+			var mappedPosts = $.map(allData, function(item) {
+				return new Post(item.content, item.author.displayName);
+			});
+			self.posts.pushAll(mappedPosts);
 		});
-		
-		$.post('/login', data, function(response) {
-			self.shouldShowLogin(false);
-			self.authUserName(response.displayName);
-			$.cookie("authToken", response.authToken);
-			$.cookie("username", response.displayName);
-		}, 'json');
 	}
-	
+
+	//Initialization
+	self.loadPosts();
 }
 
-function isAuthenticated() {
-	return getAuthTokenFromCookies() != undefined;
-}
-
-function getAuthUserName() {
-	return getAuthTokenFromCookies() != undefined ? $.cookie("username") : 'Anonymous';
-}
-
-function getAuthTokenFromCookies(){
-	return $.cookie("authToken");
-}
+ko.observableArray.fn.pushAll = function(valuesToPush) {
+    var underlyingArray = this();
+    this.valueWillMutate();
+    ko.utils.arrayPushAll(underlyingArray, valuesToPush);
+    this.valueHasMutated();
+    return this;
+};
 
 $.ajaxSetup({
     statusCode: {
+        401: function(error, callback){
+        	alert(error.responseText);
+        },
         403: function(error, callback){
         	alert(error.responseText);
         }

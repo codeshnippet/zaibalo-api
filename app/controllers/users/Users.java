@@ -48,7 +48,7 @@ public class Users extends Controller {
 		if (user == null) {
 			notFound();
 		}
-		if(user.id != Security.getAuthenticatedUser(request).id){
+		if(user.id != Security.getAuthenticatedUser().id){
 			forbidden();
 		}
 		
