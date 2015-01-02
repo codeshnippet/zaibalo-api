@@ -10,28 +10,20 @@ var jso = new JSO({
 	}
 });
 
+jso.callback();
+
+function userInfo(){
+	var getUserInfo = function(data){
+		$.getJSON("https://www.googleapis.com/oauth2/v1/userinfo?alt=json&access_token=" + data.access_token, function(allData) {
+			console.log(allData);
+		});
+	}
+	jso.getToken(getUserInfo, null);
+}
+
 function login(){
-	jso.ajax({
-	    url: "https://www.googleapis.com/oauth2/v1/userinfo",
-	    oauth: {
-	        scopes: {
-	            request: ["https://www.googleapis.com/auth/userinfo.email"],
-	            require: ["https://www.googleapis.com/auth/userinfo.email"]
-	        }
-	    },
-	    dataType: 'json',
-	    success: function(data) {
-	        alert(data);
-	    }
-	});
+	jso.getToken(function(token) {}, jso.config.config);
 }
-
-function logToken(){
-	jso.getToken(function(token) {
-	    console.log("I got the token: ", token);
-	}, jso.config.config);
-}
-
 
 var username = "test";
 var password = "secret";
