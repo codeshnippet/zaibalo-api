@@ -29,7 +29,7 @@ function login(){
 function logToken(){
 	jso.getToken(function(token) {
 	    console.log("I got the token: ", token);
-	}, null);
+	}, jso.config.config);
 }
 
 
