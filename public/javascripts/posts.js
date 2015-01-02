@@ -3,10 +3,19 @@ function User(displayName) {
 	self.displayName = displayName;
 }
 
-function Post(content, displayName) {
+function Post(id, content, displayName) {
 	var self = this;
-	self.content = content;
+	self.id = id;
+	self.content = ko.editable(content);
 	self.author = new User(displayName);
+	
+	self.content.endEditAndSubmit = function() {
+		var data = JSON.stringify({ content : self.content() });
+		
+		$.put('/posts/' + self.id, data, function(response) {
+			self.content.endEdit();
+		}, 'json');
+	}
 }
 
 function PostsViewModel() {
@@ -20,7 +29,7 @@ function PostsViewModel() {
 		var data = JSON.stringify({ content : $('#new-post-text').val() });
 		
 		$.post('/posts', data, function(response) {
-			self.posts.unshift(new Post($('#new-post-text').val(), response.author.displayName));
+			self.posts.unshift(new Post(response.id, $('#new-post-text').val(), response.author.displayName));
 		}, 'json');
 	}
 
@@ -29,12 +38,18 @@ function PostsViewModel() {
 		self.pageIndex(self.pageIndex() + 1);
 		$.getJSON("/posts?sort=created_at&count=" + PAGE_SIZE + "&page=" + self.pageIndex(), function(allData) {
 			var mappedPosts = $.map(allData, function(item) {
-				return new Post(item.content, item.author.displayName);
+				return new Post(item.id, item.content, item.author.displayName);
 			});
 			self.posts.pushAll(mappedPosts);
 		});
 	}
-
+	
+	self.deletePost = function(post){
+		$.delete('/posts/' + post.id, null, function(response) {
+			self.posts.remove(post);
+		}, 'json');
+	}
+	
 	//Initialization
 	self.loadPosts();
 }
@@ -55,8 +70,39 @@ $.ajaxSetup({
         403: function(error, callback){
         	alert(error.responseText);
         }
-    }
+    },
+    username: "test",
+    password: "secret"
 });
+
+$.put = function(url, data, callback, type) {
+
+	if ($.isFunction(data)) {
+		type = type || callback, callback = data, data = {}
+	}
+
+	return $.ajax({
+		url : url,
+		type : 'PUT',
+		success : callback,
+		data : data,
+		contentType : type
+	});
+}
+
+$.delete = function(url, data, callback, type) {
+	if ( $.isFunction(data) ){
+		type = type || callback, callback = data, data = {}
+	}
+	 
+	return $.ajax({
+		url: url,
+		type: 'DELETE',
+		success: callback,
+		data: data,
+		contentType: type
+	});
+}
 
 $(document).ready(function() {
 	ko.applyBindings(new PostsViewModel());

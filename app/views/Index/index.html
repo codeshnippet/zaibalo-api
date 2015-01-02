@@ -1,4 +1,6 @@
-#{extends 'main.html'/} #{set 'moreScripts'} #{script 'posts.js' /}
+#{extends 'main.html'/} 
+#{set 'moreScripts'} 
+	#{script 'posts.js' /}
 #{/set}
 
 <h2>&{'add.post'}</h2>
@@ -12,7 +14,15 @@
 <div class="posts" data-bind="foreach: posts">
 	<div class="post">
 		<span data-bind="text: author.displayName"></span>
-		<span data-bind="text: content"></span>
+		
+		<input data-bind="value: content, visible: content.isEditing" />
+		<span data-bind="text: content, visible: !content.isEditing()" ></span>
+		
+		<a href="#" data-bind="visible: !content.isEditing(), click: content.beginEdit">Edit</a>
+		<a href="#" data-bind="click: content.endEditAndSubmit, visible: content.isEditing">Confirm</a>
+		<a href="#" data-bind="click: content.cancelEdit, visible: content.isEditing">Cancel</a>
+		
+		<a href="#" data-bind="click: $root.deletePost">Delete</a>
 	</div>
 </div>
 
