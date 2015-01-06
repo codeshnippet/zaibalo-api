@@ -3,6 +3,7 @@ package controllers.posts;
 import java.util.List;
 
 import models.Post;
+import models.User;
 
 import org.junit.Before;
 import org.junit.Test;
@@ -30,10 +31,12 @@ public class PostsTest extends BasicFunctionalTest {
 	@Test
 	public void testPostCreation() {
 		Fixtures.loadModels("data/user.yml");
+		
+		String bodyJson = "{\"content\":\"test post content\"}";
+		String url = "/posts";
+		Request request = getAuthRequest(url, "application/json", bodyJson, "POST");
 
-		Request request = getAuthRequest();
-
-		Response response = POST(request, "/posts", "application/json", "{\"content\":\"test post content\"}");
+		Response response = POST(request, url, "application/json", bodyJson);
 		assertStatus(201, response);
 		assertContentType("application/json", response);
 		assertEquals(1, Post.findAll().size());
@@ -140,8 +143,11 @@ public class PostsTest extends BasicFunctionalTest {
 
 		Post post = Post.find("byContent", "test content 1").first();
 
-		Request request = getAuthRequest("billy", "secret");
-		Response response = PUT(request, "/posts/" + post.id, "application/json", new GsonBuilder().create().toJson(new PostRequest("new post content")));
+		String bodyJson = new GsonBuilder().create().toJson(new PostRequest("new post content"));
+		String url = "/posts/" + post.id;
+		Request request = getAuthRequest(url, "application/json", bodyJson, "PUT", "billy", "secret");
+		
+		Response response = PUT(request, url, "application/json", bodyJson);
 		assertStatus(403, response);
 	}
 
@@ -151,8 +157,11 @@ public class PostsTest extends BasicFunctionalTest {
 
 		Post post = Post.find("byContent", "test content 1").first();
 
-		Request request = getAuthRequest();
-		Response response = PUT(request, "/posts/" + post.id, "application/json", new GsonBuilder().create().toJson(new PostRequest("new post content")));
+		String bodyJson = new GsonBuilder().create().toJson(new PostRequest("new post content"));
+		String url = "/posts/" + post.id;
+		Request request = getAuthRequest(url, "application/json", bodyJson, "PUT");
+		
+		Response response = PUT(request, url, "application/json", bodyJson);
 		assertIsOk(response);
 		post.refresh();
 		assertEquals("new post content", post.content);
@@ -179,9 +188,11 @@ public class PostsTest extends BasicFunctionalTest {
 		Fixtures.loadModels("data/posts.yml");
 
 		Post post = Post.find("byContent", "test content 1").first();
+		
+		String url = "/posts/" + post.id;
+		Request request = getAuthRequestForUser(url, "DELETE", "billy", "secret");
 
-		Request request = getAuthRequest("billy", "secret");
-		Response response = DELETE(request, "/posts/" + post.id);
+		Response response = DELETE(request, url);
 		assertStatus(403, response);
 	}
 
@@ -193,8 +204,10 @@ public class PostsTest extends BasicFunctionalTest {
 		assertEquals(2, count);
 		Post post = Post.find("byContent", "test content 1").first();
 
-		Request request = getAuthRequest();
-		Response response = DELETE(request, "/posts/" + post.id);
+		String url = "/posts/" + post.id;
+		Request request = getAuthRequestForDefaultUser(url, "DELETE");
+		
+		Response response = DELETE(request, url);
 		assertIsOk(response);
 
 		count = Post.findAll().size();

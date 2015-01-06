@@ -29,14 +29,14 @@ function PostsViewModel() {
 		var data = JSON.stringify({ content : $('#new-post-text').val() });
 
 		$.post('/posts', data, function(response) {
-			self.posts.unshift(new Post(response.id, $('#new-post-text').val(), response.author.displayName));
+			self.posts.unshift(new Post(response.id, response.content, response.author.displayName));
 		}, 'json');
 	}
 
 	self.loadPosts = function(){
 		var PAGE_SIZE = 10;
 		self.pageIndex(self.pageIndex() + 1);
-		$.getJSON("/posts?sort=created_at&count=" + PAGE_SIZE + "&page=" + self.pageIndex(), function(allData) {
+		$.getJSON("/posts?sort=created_at&count=" + PAGE_SIZE + "&page=" + self.pageIndex(), "json", function(allData) {
 			var mappedPosts = $.map(allData, function(item) {
 				return new Post(item.id, item.content, item.author.displayName);
 			});

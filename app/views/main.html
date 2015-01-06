@@ -8,7 +8,9 @@
 	#{script 'bootstrap.min.js' /}
 	#{script 'knockout-3.2.0.js' /}
 	#{script 'ko.editable-0.0.15.js' /}
-	#{script 'jso.js' /}
+	#{script 'sha.js' /}
+	#{script 'hmac-sha1.js' /}
+	#{script 'md5.js' /}
 	#{script 'security.js' /}
 	#{script 'main.js' /}
 	#{get 'moreScripts' /}
@@ -19,9 +21,10 @@
 </head>
 
 <body>
-	<button onclick="javascript:login();" >Login</button>
-	<button onclick="javascript:userInfo();" >Get user info</button>
 	<div class="container">
+		Authentication: 
+		<input type="text" id="username" value="test"/>
+		<input type="text" id = "password" value="secret"/>
 		#{doLayout /}
 	</div>
 </body>

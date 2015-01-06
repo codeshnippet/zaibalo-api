@@ -1,16 +1,20 @@
 package controllers.posts;
 
+import java.io.IOException;
 import java.io.InputStreamReader;
 import java.util.List;
+
+import org.apache.commons.io.IOUtils;
 
 import models.Post;
 import models.User;
 import play.db.jpa.GenericModel.JPAQuery;
 import play.mvc.Controller;
-import play.mvc.With;
 import play.mvc.Http.Header;
+import play.mvc.With;
 
 import com.google.gson.GsonBuilder;
+import play.Logger;
 
 import controllers.security.Secured;
 import controllers.security.Security;

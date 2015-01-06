@@ -17,6 +17,7 @@ import controllers.BasicFunctionalTest;
 
 public class UsersTest extends BasicFunctionalTest {
 
+	private static final String APPLICATION_JSON = "application/json";
 	private static final String EHE_HASHED = "c314409d89dea3fb1d2fc4b63e88b7fc";
 	private static final String SECRET_HASHED = "5ebe2294ecd0e0f08eab7690d2a6ee69";
 	private static final String PASS_HASHED = "1a1dc91c907325c69271ddf0c944bc72";
@@ -36,7 +37,7 @@ public class UsersTest extends BasicFunctionalTest {
 		User user = User.findByLoginName(FRANKY_LOGIN_NAME);
 		Response response = GET("/users/" + user.id);
 		assertIsOk(response);
-		assertContentType("application/json", response);
+		assertContentType(APPLICATION_JSON, response);
 		assertEquals("{\"id\":" + user.id + ",\"displayName\":\"Superman\"}", response.out.toString());
 	}
 
@@ -48,9 +49,9 @@ public class UsersTest extends BasicFunctionalTest {
 
 	@Test
 	public void testUserCreation() {
-		Response response = POST("/users", "application/json", new Gson().toJson(createUserRequest("johny", "pass", "Boy", "johny@gmail.com")));
+		Response response = POST("/users", APPLICATION_JSON, new Gson().toJson(createUserRequest("johny", "pass", "Boy", "johny@gmail.com")));
 		assertStatus(201, response);
-		assertContentType("application/json", response);
+		assertContentType(APPLICATION_JSON, response);
 
 		User user = User.findByLoginName("johny");
 		assertNotNull(user);
@@ -63,7 +64,7 @@ public class UsersTest extends BasicFunctionalTest {
 	
 	@Test
 	public void testUserCreationWithOtherParameters() {
-		POST("/users", "application/json", new Gson().toJson(createUserRequest("bill", "secret", "Cosby", "billc@gmail.com")));
+		POST("/users", APPLICATION_JSON, new Gson().toJson(createUserRequest("bill", "secret", "Cosby", "billc@gmail.com")));
 
 		User user = User.findByLoginName("bill");
 		assertNotNull(user.id);
@@ -78,11 +79,13 @@ public class UsersTest extends BasicFunctionalTest {
 		Fixtures.loadModels("data/user.yml");
 		
 		User user = User.findByLoginName(FRANKY_LOGIN_NAME);
+		String bodyJson = new Gson().toJson(createUserRequest("Mike", "ehe", "Jackson", "moondance@gmail.com"));
+		String url = "/users/" + user.id;
 		
-		Request request = getAuthRequest();
-		Response response = PUT(request, "/users/" + user.id, "application/json", new Gson().toJson(createUserRequest("Mike", "ehe", "Jackson", "moondance@gmail.com")));
+		Request request = getAuthRequest(url, APPLICATION_JSON, bodyJson, "PUT", FRANKY_LOGIN_NAME, "secret");
+		Response response = PUT(request, url, APPLICATION_JSON, bodyJson);
 		assertIsOk(response);
-		assertContentType("application/json", response);
+		assertContentType(APPLICATION_JSON, response);
 		
 		user.refresh();
 		assertEquals("Jackson", user.displayName);
@@ -100,7 +103,7 @@ public class UsersTest extends BasicFunctionalTest {
 		Fixtures.loadModels("data/user.yml");
 		
 		User user = User.findByLoginName(FRANKY_LOGIN_NAME);
-		Response response = PUT("/users/" + user.id, "application/json", new Gson().toJson(createUserRequest("Mike", "ehe", "Jackson", "moondance@gmail.com")));
+		Response response = PUT("/users/" + user.id, APPLICATION_JSON, new Gson().toJson(createUserRequest("Mike", "ehe", "Jackson", "moondance@gmail.com")));
 		assertStatus(401, response);
 	}
 	
@@ -109,8 +112,12 @@ public class UsersTest extends BasicFunctionalTest {
 		Fixtures.loadModels("data/user.yml");
 		
 		User user = User.findByLoginName(FRANKY_LOGIN_NAME);
-		Request request = getAuthRequest(BILLY_LOGIN_NAME, "secret");
-		Response response = PUT(request, "/users/" + user.id, "application/json", new Gson().toJson(createUserRequest("Mike", "ehe", "Jackson", "moondance@gmail.com")));
+		String bodyJson = new Gson().toJson(createUserRequest("Mike", "ehe", "Jackson", "moondance@gmail.com"));
+		String url = "/users/" + user.id;
+		
+		Request request = getAuthRequest(url, APPLICATION_JSON, bodyJson, "PUT", BILLY_LOGIN_NAME, "secret");
+		Response response = PUT(request, url, APPLICATION_JSON, bodyJson);
+		
 		assertStatus(403, response);
 	}
 	
@@ -118,8 +125,11 @@ public class UsersTest extends BasicFunctionalTest {
 	public void testUserEditingWithWrongId(){
 		Fixtures.loadModels("data/user.yml");
 		
-		Request request = getAuthRequest();
-		Response response = PUT(request, "/users/" + WRONG_ID, "application/json", new Gson().toJson(createUserRequest("Mike", "p", "d", "e@e.e")));
+		String bodyJson = new Gson().toJson(createUserRequest("Mike", "p", "d", "e@e.e"));
+		String url = "/users/" + WRONG_ID;
+		
+		Request request = getAuthRequest(url, APPLICATION_JSON, bodyJson, "PUT", BILLY_LOGIN_NAME, "secret");
+		Response response = PUT(request, "/users/" + WRONG_ID, APPLICATION_JSON, bodyJson);
 		assertIsNotFound(response);
 	}
 

@@ -27,8 +27,6 @@ public class User extends Model {
 	
 	@Column(unique=true)
 	public String displayName;
-	
-	public String authToken;
 
 	@Temporal(TemporalType.TIMESTAMP)
 	public Date registrationDate;
