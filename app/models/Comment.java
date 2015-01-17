@@ -30,4 +30,8 @@ public class Comment extends Model{
 	@OneToOne(fetch=FetchType.LAZY)
 	@JoinColumn(name="post_id", referencedColumnName="id", nullable = false)
 	public Post post;
+
+	public Comment() {
+		creationDate = new Date();
+	}
 }

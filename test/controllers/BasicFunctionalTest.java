@@ -17,7 +17,7 @@ import play.test.FunctionalTest;
 public abstract class BasicFunctionalTest extends FunctionalTest {
 
 	protected static final String AUTHENTICATION_HEADER = "Authorization";
-	public static final String TIMESTAMP_HEADER_NAME = "X-UTC-Timestamp";
+	public static final String TIMESTAMP_HEADER_NAME = "x-utc-timestamp";
 
 	@Util
 	protected Request getAuthRequest(String url, String contentType, String body, String method) {

@@ -9,7 +9,6 @@
 	#{script 'knockout-3.2.0.js' /}
 	#{script 'ko.editable-0.0.15.js' /}
 	#{script 'sha.js' /}
-	#{script 'hmac-sha1.js' /}
 	#{script 'md5.js' /}
 	#{script 'security.js' /}
 	#{script 'main.js' /}
@@ -22,10 +21,22 @@
 
 <body>
 	<div class="container">
-		Authentication: 
-		<input type="text" id="username" value="test"/>
-		<input type="text" id = "password" value="secret"/>
 		#{doLayout /}
+	</div>
+	<div class="modal fade" id="test_modal">
+		<div class="modal-header">
+			<a class="close" data-dismiss="modal">&times;</a>
+			<h3>Modal Header</h3>
+		</div>
+		<div class="modal-body">
+			<input type="text" id="username" value="test" />
+			<input type="text" id="password" value="secret" />
+			<div class="hide" id="login-error">Error</div>
+		</div>
+		<div class="modal-footer">
+			<a href="#" class="btn" data-dismiss="modal">Cancel</a>
+			<a href="#" class="btn btn-primary" id="login-button">Login</a>
+		</div>
 	</div>
 </body>
 </html>

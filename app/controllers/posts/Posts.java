@@ -22,7 +22,7 @@ import controllers.security.Security;
 @With(Security.class)
 public class Posts extends Controller {
 
-	public static void getPosts(String sort, int page, int limit) {
+	public static void getPosts(String sort, int from, int limit) {
 		JPAQuery postsQuery = null;
 		if("created_at".equals(sort)){
 			postsQuery = Post.find("order by creationDate desc");
@@ -30,7 +30,7 @@ public class Posts extends Controller {
 			postsQuery = Post.all();
 		}
 		limit = (limit == 0) ? 10 : limit; 
-		List<Post> postsList = postsQuery.fetch(page, limit);
+		List<Post> postsList = postsQuery.from(from).fetch(limit);
 		List<PostResponse> responseList = PostResponse.convertToPostResponsesList(postsList);
 		renderJSON(responseList);
 	}
@@ -73,9 +73,9 @@ public class Posts extends Controller {
 		if (post == null) {
 			notFound();
 		}
-		if(post.author.id != Security.getAuthenticatedUser().id){
-			forbidden();
-		}
+		
+		Security.verifyOwner(post.author);
+		
 		post.content = postJSON.content;
 		post.save();
 		
@@ -85,14 +85,13 @@ public class Posts extends Controller {
 
 	@Secured
 	public static void deletePost(long id) {
-		User connected = Security.getAuthenticatedUser();
 		Post post = Post.findById(id);
 		if (post == null) {
 			notFound();
 		}
-		if(post.author.id != connected.id){
-			forbidden();
-		}
+		
+		Security.verifyOwner(post.author);
+		
 		post._delete();
 		ok();
 	}

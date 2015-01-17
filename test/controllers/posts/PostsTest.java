@@ -95,7 +95,7 @@ public class PostsTest extends BasicFunctionalTest {
 	public void testGetPostsPaginated() {
 		Fixtures.loadModels("data/posts.yml");
 		
-		Response response = GET("/posts?page=2&limit=1");
+		Response response = GET("/posts?from=1&limit=1");
 
 		List<Post> postsList = new Gson().fromJson(response.out.toString(), new TypeToken<List<Post>>() {
 		}.getType());

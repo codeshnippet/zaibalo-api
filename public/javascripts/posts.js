@@ -8,6 +8,7 @@ function Post(id, content, displayName) {
 	self.id = id;
 	self.content = ko.editable(content);
 	self.author = new User(displayName);
+	self.comments = ko.observableArray([]);
 	
 	self.content.endEditAndSubmit = function() {
 		var data = JSON.stringify({ content : self.content() });
@@ -19,24 +20,23 @@ function Post(id, content, displayName) {
 }
 
 function PostsViewModel() {
+	var PAGE_SIZE = 10;
+	
 	var self = this;
 
 	self.posts = ko.observableArray([]);
-	self.pageIndex = ko.observable(0);
-
+	self.fromIndex = ko.observable(0);
+	self.postsCount = ko.observable(0);
+	
 	// Operations
-	self.addPost = function() {
-		var data = JSON.stringify({ content : $('#new-post-text').val() });
-
-		$.post('/posts', data, function(response) {
-			self.posts.unshift(new Post(response.id, response.content, response.author.displayName));
-		}, 'json');
+	self.initPostsCount = function(){
+		$.getJSON("/posts/count", "json", function(response) {
+			self.postsCount(response.count)
+		});
 	}
-
+	
 	self.loadPosts = function(){
-		var PAGE_SIZE = 10;
-		self.pageIndex(self.pageIndex() + 1);
-		$.getJSON("/posts?sort=created_at&count=" + PAGE_SIZE + "&page=" + self.pageIndex(), "json", function(allData) {
+		$.getJSON("/posts?sort=created_at&limit=" + PAGE_SIZE + "&from=" + self.fromIndex(), "json", function(allData) {
 			var mappedPosts = $.map(allData, function(item) {
 				return new Post(item.id, item.content, item.author.displayName);
 			});
@@ -44,13 +44,35 @@ function PostsViewModel() {
 		});
 	}
 	
+	self.loadMorePosts = function(){
+		if(self.postsCount() > self.posts().length){
+			self.fromIndex(self.fromIndex() + PAGE_SIZE);
+			self.loadPosts();
+		}
+	}
+	
+	self.addPost = function() {
+		var data = JSON.stringify({ content : $('#new-post-text').val() });
+
+		$.post('/posts', data, function(response) {
+			self.posts.unshift(new Post(response.id, response.content, response.author.displayName));
+		}, 'json');
+		
+		self.fromIndex(self.fromIndex() + 1);
+		self.postsCount(self.postsCount() + 1);
+	}
+
 	self.deletePost = function(post){
 		$.delete('/posts/' + post.id, null, function(response) {
 			self.posts.remove(post);
+			self.postsCount(self.postsCount() - 1);
+			self.fromIndex(self.fromIndex() - 1);
 		}, 'json');
 	}
 	
 	//Initialization
+	self.initPostsCount();
+	
 	self.loadPosts();
 }
 

@@ -27,7 +27,7 @@ public class Security extends Controller {
 	private static final String UTF_8 = "UTF-8";
 
 	@Before
-	public static void checkAccess() {
+	public static void securityCheck() {
 		Secured secured = getActionAnnotation(Secured.class);
 		if (secured != null) {
 			User user = getAuthenticatedUser();
@@ -58,6 +58,13 @@ public class Security extends Controller {
 		}
 	}
 
+	@Util
+	public static void verifyOwner(User user){
+		if(getAuthenticatedUser().id != user.id){
+			forbidden();
+		}
+	}
+	
 	@Util
 	private static String createHmac1Token(String passwordHash, String timestampValue) throws IOException, UnsupportedEncodingException, NoSuchAlgorithmException, InvalidKeyException {
 		String data = request.method + "\n" +
