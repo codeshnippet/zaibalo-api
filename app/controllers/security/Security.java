@@ -23,6 +23,7 @@ import play.mvc.Util;
 
 public class Security extends Controller {
 
+	private static final String CONTENT_TYPE = "content-type";
 	private static final String HMAC_SHA1 = "HmacSHA1";
 	private static final String UTF_8 = "UTF-8";
 
@@ -69,10 +70,10 @@ public class Security extends Controller {
 	private static String createHmac1Token(String passwordHash, String timestampValue) throws IOException, UnsupportedEncodingException, NoSuchAlgorithmException, InvalidKeyException {
 		String data = request.method + "\n" +
 				DigestUtils.md5Hex(readRequestBody()) + "\n" +
-				request.contentType + "\n" +
+				request.headers.get(CONTENT_TYPE).value() + "\n" +
 				timestampValue + "\n" +
 				request.path + request.querystring;
-		return sha1(passwordHash, data);
+		return sha1(passwordHash, data.toLowerCase());
 	}
 
 	@Util

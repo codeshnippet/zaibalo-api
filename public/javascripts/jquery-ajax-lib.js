@@ -8,29 +8,18 @@ $.ajaxPrefilter(function(opts, originalOpts, jqXHR) {
         	var newOpts = $.extend({}, originalOpts, {
         		refreshRequest: true
         	});
-        	$( "#login-button" ).off();
-        	$('#login-error').addClass('hide');
-        	$('#login-button').on('click', function(event) {
-        		$.ajax(newOpts)
-        			.done(function() {
-        				$('#test_modal').modal('hide');
-        			})
-        			.fail(function() {
-        				$('#login-error').removeClass('hide');
-        			});
-            });
-        	$('#test_modal').modal('show');
+        	loginPopup.showPopup(function(opts){
+        		$.ajax(opts)
+        		.done(function() {
+        			loginPopup.hide();
+        		})
+        		.fail(function() {
+        			loginPopup.showErrorMessage();
+        		}, newOpts);
+        	});
         }
     });
 });
-
-ko.observableArray.fn.pushAll = function(valuesToPush) {
-    var underlyingArray = this();
-    this.valueWillMutate();
-    ko.utils.arrayPushAll(underlyingArray, valuesToPush);
-    this.valueHasMutated();
-    return this;
-};
 
 $.put = function(url, data, callback, type) {
 

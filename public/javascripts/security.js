@@ -1,20 +1,27 @@
-$.ajaxSetup({
-	contentType: "application/json",
-	beforeSend: function (request, settings)
-    {
-		var requestBodyMd5 = CryptoJS.MD5(settings.data).toString();
-		var timestamp = new Date().getTime();
-		var data = settings.type + '\n' + 
-					requestBodyMd5 + '\n' +
-					settings.contentType + '\n' +
-					timestamp + '\n' +
-					settings.url;
-		
-		var passwordMD5Hex = CryptoJS.MD5($('#password').val()).toString();
-		var shaObj = new jsSHA(data, "TEXT");
-		this.password = shaObj.getHMAC(passwordMD5Hex, "TEXT", "SHA-1", "B64");
-		this.username = $('#username').val();
-		
-        request.setRequestHeader("X-UTC-Timestamp", timestamp);
-    }
-});
+
+function getHMAC(type, url, contentType, body, timestamp, passwordMD5){
+	var requestBodyMd5 = CryptoJS.MD5(body).toString();
+	var data = type + '\n' + 
+	requestBodyMd5 + '\n' +
+	contentType + '\n' +
+	timestamp + '\n' +
+	url;
+	
+	var shaObj = new jsSHA(data.toLowerCase(), "TEXT");
+	return shaObj.getHMAC(passwordMD5, "TEXT", "SHA-1", "B64");
+}
+
+function getTimestampHeaderName(){
+	return 'x-utc-timestamp';
+}
+
+//TODO has to return password hash from cookies or saved in a page variable
+function getPasswordMd5(){
+	return CryptoJS.MD5($('#password').val()).toString();
+//	return CryptoJS.MD5('secret').toString();
+}
+//TODO has to return username from cookies or saved in a page variable
+function getUsername(){
+	return $('#username').val();
+//	return 'test';
+}

@@ -3,15 +3,13 @@
 <html>
 <head>
 	<meta charset="utf-8">
-	<title>Zaibalo API</title>
+	<title>&{'title'}</title>
 	#{script 'jquery-1.7.js' /}
 	#{script 'bootstrap.min.js' /}
-	#{script 'knockout-3.2.0.js' /}
-	#{script 'ko.editable-0.0.15.js' /}
 	#{script 'sha.js' /}
 	#{script 'md5.js' /}
 	#{script 'security.js' /}
-	#{script 'main.js' /}
+	#{script 'login-popup.js' /}
 	#{get 'moreScripts' /}
 
 	#{stylesheet 'bootstrap.min.css' /}
@@ -23,20 +21,6 @@
 	<div class="container">
 		#{doLayout /}
 	</div>
-	<div class="modal fade" id="test_modal">
-		<div class="modal-header">
-			<a class="close" data-dismiss="modal">&times;</a>
-			<h3>Modal Header</h3>
-		</div>
-		<div class="modal-body">
-			<input type="text" id="username" value="test" />
-			<input type="text" id="password" value="secret" />
-			<div class="hide" id="login-error">Error</div>
-		</div>
-		<div class="modal-footer">
-			<a href="#" class="btn" data-dismiss="modal">Cancel</a>
-			<a href="#" class="btn btn-primary" id="login-button">Login</a>
-		</div>
-	</div>
+	#{login_popup /}
 </body>
 </html>

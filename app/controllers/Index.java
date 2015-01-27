@@ -8,7 +8,15 @@ public class Index extends Controller {
 		renderTemplate("Index/posts.html");
 	}
 	
+	public static void ang() {
+		render();
+	}
+	
     public static void client() {
         render();
     }
+    
+	public static void avatar() {
+		render();
+	}
 }
