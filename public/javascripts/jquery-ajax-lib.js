@@ -8,14 +8,16 @@ $.ajaxPrefilter(function(opts, originalOpts, jqXHR) {
         	var newOpts = $.extend({}, originalOpts, {
         		refreshRequest: true
         	});
-        	loginPopup.showPopup(function(opts){
-        		$.ajax(opts)
+        	var loginPopup = getLoginPopup();
+        	
+        	loginPopup.showPopup(function(){
+        		$.ajax(newOpts)
         		.done(function() {
         			loginPopup.hide();
         		})
         		.fail(function() {
         			loginPopup.showErrorMessage();
-        		}, newOpts);
+        		});
         	});
         }
     });

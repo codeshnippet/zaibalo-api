@@ -1,4 +1,3 @@
-
 function getHMAC(type, url, contentType, body, timestamp, passwordMD5){
 	var requestBodyMd5 = CryptoJS.MD5(body).toString();
 	var data = type + '\n' + 
@@ -18,10 +17,8 @@ function getTimestampHeaderName(){
 //TODO has to return password hash from cookies or saved in a page variable
 function getPasswordMd5(){
 	return CryptoJS.MD5($('#password').val()).toString();
-//	return CryptoJS.MD5('secret').toString();
 }
 //TODO has to return username from cookies or saved in a page variable
 function getUsername(){
 	return $('#username').val();
-//	return 'test';
 }
