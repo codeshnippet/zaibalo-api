@@ -13,7 +13,7 @@ function Post(id, content, displayName) {
 	function() {
 		var app = angular.module('zaibaloApp', []);
 
-		app.controller('PostsController', ['$http', function($http) {
+		app.controller('PostsController', ['$http', '$scope', function($http, $scope) {
 			var self = this;
 			self.posts = [];
 			self.newPost = {
@@ -22,18 +22,21 @@ function Post(id, content, displayName) {
 				}
 			};
 			
-			$.getJSON('/posts?sort=created_at&limit=10&from=0', "json", function(allData) {
-				$.each(allData, function( index, item ) {
-					self.posts.push(new Post(item.id, item.content, item.author.displayName));
+			$http.get('/posts?sort=created_at&limit=10&from=0').
+				success(function(data, status, headers, config) {
+					var mappedPosts = $.map(data, function(item) {
+						return new Post(item.id, item.content, item.author.displayName);
+					});
+					self.posts = mappedPosts;
 				});
-			});
 
-			self.addPost = function(){
+			self.addPost = function(posts){
 				self.newPost.creationTimestamp = new Date().getTime();
 				var data = JSON.stringify({ content : self.newPost.content });
 
 				$.post('/posts', data, function(data) {
-					self.posts.unshift(new Post(data.id, data.content, data.author.displayName));
+					posts.unshift(new Post(data.id, data.content, data.author.displayName));
+					$scope.$apply();
 				}, 'json');
 
 				this.newPost = {};

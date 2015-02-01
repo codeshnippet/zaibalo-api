@@ -4,14 +4,15 @@
 <head>
 	<meta charset="utf-8">
 	<title>&{'title'}</title>
-	#{script 'jquery-1.7.js' /}
-	#{script 'bootstrap.min.js' /}
+	#{script 'jquery-1.11.2.min.js' /}
+	<script type="text/javascript" language="javascript" src="/public/bootstrap-3.3.2/js/bootstrap.min.js"></script>
 	#{script 'sha.js' /}
 	#{script 'md5.js' /}
+	#{script 'jquery.cookie.js' /}
 	#{script 'security-shared.js' /}
 	#{get 'moreScripts' /}
 
-	#{stylesheet 'bootstrap.min.css' /}
+	<link rel="stylesheet" type="text/css" href="/public/bootstrap-3.3.2/css/bootstrap.min.css" charset="utf-8">
 	#{stylesheet 'main.css' /}
 	#{get 'moreStyles' /}
 </head>

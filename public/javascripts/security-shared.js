@@ -14,11 +14,21 @@ function getTimestampHeaderName(){
 	return 'x-utc-timestamp';
 }
 
-//TODO has to return password hash from cookies or saved in a page variable
-function getPasswordMd5(){
-	return CryptoJS.MD5($('#password').val()).toString();
+function saveAuthValues(username, password){
+	$.cookie("username", username);
+	$.cookie("password", CryptoJS.MD5(password).toString());
 }
-//TODO has to return username from cookies or saved in a page variable
+
+function getPasswordMd5(){
+	var passwordHash = $.cookie("password");
+	if(passwordHash == undefined)
+		passwordHash = '';
+	return passwordHash;
+}
+
 function getUsername(){
-	return $('#username').val();
+	var username = $.cookie("username");
+	if(username == undefined)
+		username = 'username';
+	return username;
 }
