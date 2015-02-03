@@ -15,13 +15,17 @@
 			</form>
 			
 			<h2>&{'latest.posts'}</h2>
-			<div class="post" ng-hide="postsCtrl.newPost">
-				<strong>{{postsCtrl.newPost.author.displayName}}</strong> on {{postsCtrl.newPost.creationTimestamp | date: dd/mm/yyyy}}
-				<p>{{postsCtrl.newPost.content}}</p>
+			<div class="row">
+				<div class="post col-md-4 col-sm-6 col-xs-12" ng-hide="postsCtrl.newPost">
+					<strong>{{postsCtrl.newPost.author.displayName}}</strong> on {{postsCtrl.newPost.creationTimestamp | date: dd/mm/yyyy}}
+					<pre>{{postsCtrl.newPost.content}}</pre>
+				</div>
 			</div>
-			<div class="post" ng-repeat="post in postsCtrl.posts">
-				<strong>{{post.author.displayName}}</strong> on {{post.creationTimestamp | date: dd/mm/yyyy}}
-				<p>{{post.content}}</p>
+			<div class="row">
+				<div class="post col-md-4 col-sm-6 col-xs-12" ng-repeat="post in postsCtrl.posts">
+					<strong>{{post.author.displayName}}</strong> on {{post.creationTimestamp | date: dd/mm/yyyy}}
+					<pre>{{post.content}}</pre>
+				</div>
 			</div>
 			
 			<a href="#" data-bind="click: loadMorePosts">Load more posts</span></a>
