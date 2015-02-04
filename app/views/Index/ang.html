@@ -18,13 +18,13 @@
 			<div class="row">
 				<div class="post col-md-4 col-sm-6 col-xs-12" ng-hide="postsCtrl.newPost">
 					<strong>{{postsCtrl.newPost.author.displayName}}</strong> on {{postsCtrl.newPost.creationTimestamp | date: dd/mm/yyyy}}
-					<pre>{{postsCtrl.newPost.content}}</pre>
+					<p class="well well-sm">{{postsCtrl.newPost.content}}</p>
 				</div>
 			</div>
 			<div class="row">
 				<div class="post col-md-4 col-sm-6 col-xs-12" ng-repeat="post in postsCtrl.posts">
 					<strong>{{post.author.displayName}}</strong> on {{post.creationTimestamp | date: dd/mm/yyyy}}
-					<pre>{{post.content}}</pre>
+					<p class="well well-sm">{{post.content}}</p>
 				</div>
 			</div>
 			
