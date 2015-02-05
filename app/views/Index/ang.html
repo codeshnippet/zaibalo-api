@@ -16,18 +16,11 @@
 			
 			<h2>&{'latest.posts'}</h2>
 			<div class="row">
-				<div class="post col-md-4 col-sm-6 col-xs-12" ng-hide="postsCtrl.newPost">
-					<strong>{{postsCtrl.newPost.author.displayName}}</strong> on {{postsCtrl.newPost.creationTimestamp | date: dd/mm/yyyy}}
-					<p class="well well-sm">{{postsCtrl.newPost.content}}</p>
+				<div class="post" ng-repeat="post in postsCtrl.posts">
+					<span class="col-sm-2 col-xs-12"><strong>{{post.author.displayName}}</strong> on {{post.creationTimestamp | date: dd/mm/yyyy}}</span>
+					<p class="col-sm-10 col-xs-12 well well-sm">{{post.content}}</p>
 				</div>
 			</div>
-			<div class="row">
-				<div class="post col-md-4 col-sm-6 col-xs-12" ng-repeat="post in postsCtrl.posts">
-					<strong>{{post.author.displayName}}</strong> on {{post.creationTimestamp | date: dd/mm/yyyy}}
-					<p class="well well-sm">{{post.content}}</p>
-				</div>
-			</div>
-			
-			<a href="#" data-bind="click: loadMorePosts">Load more posts</span></a>
+			<a data-bind="click: loadMorePosts">Load more posts</a>
 		</div>
 </div>
