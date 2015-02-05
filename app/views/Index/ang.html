@@ -10,8 +10,12 @@
 			<h2>&{'add.post'}</h2>
 			
 			<form ng-submit="postsCtrl.addPost(postsCtrl.posts)">
-				<textarea id="new-post-text" value="" placeholder="&{'text'}" ng-model="postsCtrl.newPost.content"></textarea>
-				<button class="btn">&{'post'}</button>
+				<div class="form-group">
+					<textarea id="new-post-text" class="form-control" placeholder="&{'text'}" ng-model="postsCtrl.newPost.content"></textarea>
+				</div>
+				<div class="form-group clearfix">
+					<button class="btn btn-default pull-right">&{'post'}</button>
+				</div>
 			</form>
 			
 			<h2>&{'latest.posts'}</h2>
