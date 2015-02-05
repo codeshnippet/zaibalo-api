@@ -51,7 +51,7 @@ public class Users extends Controller {
 		
 		Security.verifyOwner(user);
 		
-		UserRequest.populateUserFromUserRequest(userRequest, user);
+		UserRequest.updateUserFromUserRequest(userRequest, user);
 		user.save();
 
 		response.setContentTypeIfNotSet("application/json");

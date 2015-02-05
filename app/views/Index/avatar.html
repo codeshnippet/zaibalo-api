@@ -1,6 +1,8 @@
 #{extends 'main.html'/} 
 #{set 'moreScripts'} 
 	#{script 'avatars.io.min.js' /}
+	#{script 'jquery-ajax-security.js' /}
+	#{script 'jquery-ajax-lib.js' /}
 #{/set}
 
 <script>
@@ -10,7 +12,10 @@ $(function(){
     var uploader = client.create('#avatar'); // selector for input[type="file"] field, here #avatar, for example
     uploader.setAllowedExtensions(['png', 'jpg']); // optional, defaults to png, gif, jpg, jpeg
     uploader.on('complete', function(url){
-        alert(url); // for example, http://avatars.io/ua3aS5a
+    	var json = JSON.stringify({ photo : url });
+    	$.put('/users/1', json, function(data) {
+    		alert(JSON.parse(data));
+		}, 'json');
     });
 });
 </script>
