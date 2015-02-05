@@ -2,11 +2,12 @@ function User(displayName) {
 	this.displayName = displayName;
 }
 
-function Post(id, content, displayName) {
+function Post(id, content, displayName, creationTimestamp) {
 	this.id = id;
 	this.content = content;
 	this.author = new User(displayName);
 	this.comments = [];
+	this.creationTimestamp = creationTimestamp;
 }
 
 (
@@ -35,7 +36,7 @@ function Post(id, content, displayName) {
 				$http.get('/posts?sort=created_at&limit=' + PAGE_SIZE + '&from=' + self.fromIndex).
 				success(function(data, status, headers, config) {
 					for (var i = 0; i < data.length; i++) {
-						var post = new Post(data[i].id, data[i].content, data[i].author.displayName);
+						var post = new Post(data[i].id, data[i].content, data[i].author.displayName, data[i].creationTimestamp);
 						self.posts.unshift(post);
 					}
 					self.fromIndex = self.fromIndex + PAGE_SIZE;
@@ -43,11 +44,10 @@ function Post(id, content, displayName) {
 			}
 
 			self.addPost = function(posts){
-				self.newPost.creationTimestamp = new Date().getTime();
 				var data = JSON.stringify({ content : self.newPost.content });
 
 				$.post('/posts', data, function(data) {
-					posts.unshift(new Post(data.id, data.content, data.author.displayName));
+					posts.unshift(new Post(data.id, data.content, data.author.displayName, data.creationTimestamp));
 					$scope.$apply();
 				}, 'json');
 
