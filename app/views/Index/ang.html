@@ -21,7 +21,12 @@
 			<h2>&{'latest.posts'}</h2>
 			<div class="row">
 				<div class="post" ng-repeat="post in postsCtrl.posts">
-					<span class="col-sm-2 col-xs-12"><strong>{{post.author.displayName}}</strong> on {{post.creationTimestamp | date: dd/mm/yyyy}}</span>
+					<div class="col-sm-2 col-xs-12">
+						<img src="http://avatars.io/16XTmzfwia?size=medium" class="img-circle" alt="Circular Image">
+						<div class="ng-binding">
+							<strong>{{post.author.displayName}}</strong> on {{post.creationTimestamp | date: dd/mm/yyyy}}
+						</div>
+					</div>
 					<div class="post-content col-sm-10 col-xs-12 well well-sm">{{post.content}}</div>
 				</div>
 			</div>
