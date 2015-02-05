@@ -22,7 +22,7 @@
 			<div class="row">
 				<div class="post" ng-repeat="post in postsCtrl.posts">
 					<span class="col-sm-2 col-xs-12"><strong>{{post.author.displayName}}</strong> on {{post.creationTimestamp | date: dd/mm/yyyy}}</span>
-					<p class="col-sm-10 col-xs-12 well well-sm">{{post.content}}</p>
+					<div class="post-content col-sm-10 col-xs-12 well well-sm">{{post.content}}</div>
 				</div>
 			</div>
 			<a data-bind="click: loadMorePosts">Load more posts</a>
