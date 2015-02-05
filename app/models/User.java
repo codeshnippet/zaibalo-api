@@ -30,6 +30,8 @@ public class User extends Model {
 
 	@Temporal(TemporalType.TIMESTAMP)
 	public Date registrationDate;
+	
+	public String photo = "http://avatars.io/16XTmzfwia";
 
 	public User(){
 		this.registrationDate = new Date();

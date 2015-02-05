@@ -27,13 +27,7 @@ public class PostResponse {
 		postResponseJSON.id = post.id;
 		postResponseJSON.content = post.content;
 		postResponseJSON.creationTimestamp = post.creationDate.getTime();
-		UserResponse userResponseJSON = new UserResponse();
-		if(post.author != null){
-			userResponseJSON.id = post.author.id;
-			userResponseJSON.displayName = post.author.displayName;
-		}else{
-			userResponseJSON.displayName = "Anonymous";
-		}
+		UserResponse userResponseJSON = UserResponse.convertToJson(post.author);
 		postResponseJSON.author = userResponseJSON;
 		return postResponseJSON;
 	}

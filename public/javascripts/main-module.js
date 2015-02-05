@@ -1,15 +1,3 @@
-function User(displayName) {
-	this.displayName = displayName;
-}
-
-function Post(id, content, displayName, creationTimestamp) {
-	this.id = id;
-	this.content = content;
-	this.author = new User(displayName);
-	this.comments = [];
-	this.creationTimestamp = creationTimestamp;
-}
-
 (
 	function() {
 		var app = angular.module('zaibaloApp', []);
@@ -21,11 +9,7 @@ function Post(id, content, displayName, creationTimestamp) {
 			self.fromIndex = 0;
 			self.posts = [];
 			self.postsCount = 0;
-			self.newPost = {
-				author: {
-					displayName: $('#username').val()
-				}
-			};
+			self.newPost = "";
 			
 			$http.get('/posts/count').
 				success(function(data, status, headers, config) {
@@ -34,24 +18,23 @@ function Post(id, content, displayName, creationTimestamp) {
 			
 			self.loadPosts = function(){
 				$http.get('/posts?sort=created_at&limit=' + PAGE_SIZE + '&from=' + self.fromIndex).
-				success(function(data, status, headers, config) {
-					for (var i = 0; i < data.length; i++) {
-						var post = new Post(data[i].id, data[i].content, data[i].author.displayName, data[i].creationTimestamp);
-						self.posts.unshift(post);
+				success(function(posts, status, headers, config) {
+					for (var i = 0; i < posts.length; i++) {
+						self.posts.unshift(posts[i]);
 					}
 					self.fromIndex = self.fromIndex + PAGE_SIZE;
 				});
 			}
 
 			self.addPost = function(posts){
-				var data = JSON.stringify({ content : self.newPost.content });
+				var json = JSON.stringify({ content : self.newPost });
 
-				$.post('/posts', data, function(data) {
-					posts.unshift(new Post(data.id, data.content, data.author.displayName, data.creationTimestamp));
+				$.post('/posts', json, function(data) {
+					posts.unshift(data);
 					$scope.$apply();
 				}, 'json');
 
-				this.newPost = {};
+				this.newPost = "";
 				self.fromIndex = self.fromIndex + 1;
 			}
 			
