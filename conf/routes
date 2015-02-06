@@ -3,9 +3,9 @@
 # ~~~~
 
 # Home page
-GET        /client                                 Index.client
 GET        /                                       Index.index
-GET        /ang                                    Index.ang
+GET        /client                                 Index.client
+GET        /knockout                               Index.knockout
 GET        /avatar                                 Index.avatar
 
 # Users

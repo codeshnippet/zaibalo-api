@@ -5,10 +5,10 @@ import play.mvc.Controller;
 public class Index extends Controller {
 
 	public static void index() {
-		renderTemplate("Index/posts.html");
+		render();
 	}
 	
-	public static void ang() {
+	public static void knockout() {
 		render();
 	}
 	

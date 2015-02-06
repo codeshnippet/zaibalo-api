@@ -20,7 +20,7 @@
 				$http.get('/posts?sort=created_at&limit=' + PAGE_SIZE + '&from=' + self.fromIndex).
 				success(function(posts, status, headers, config) {
 					for (var i = 0; i < posts.length; i++) {
-						self.posts.unshift(posts[i]);
+						self.posts.push(posts[i]);
 					}
 					self.fromIndex = self.fromIndex + PAGE_SIZE;
 				});
@@ -38,11 +38,11 @@
 				self.fromIndex = self.fromIndex + 1;
 			}
 			
-			self.loadMorePosts = function(){
+			self.loadMorePosts = function(event){
 				if(self.postsCount > self.posts.length){
-					self.fromIndex = self.fromIndex + PAGE_SIZE;
 					self.loadPosts();
 				}
+				event.preventDefault();
 			}
 			
 			self.loadPosts();
