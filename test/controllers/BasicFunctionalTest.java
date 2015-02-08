@@ -1,8 +1,5 @@
 package controllers;
 
-import java.io.IOException;
-import java.io.InputStream;
-
 import javax.crypto.Mac;
 import javax.crypto.spec.SecretKeySpec;
 
@@ -11,6 +8,7 @@ import org.apache.commons.codec.digest.DigestUtils;
 
 import play.mvc.Http.Header;
 import play.mvc.Http.Request;
+import play.mvc.Http.Response;
 import play.mvc.Util;
 import play.test.FunctionalTest;
 
@@ -18,6 +16,8 @@ public abstract class BasicFunctionalTest extends FunctionalTest {
 
 	protected static final String AUTHENTICATION_HEADER = "Authorization";
 	public static final String TIMESTAMP_HEADER_NAME = "x-utc-timestamp";
+	private static final String APPLICATION_JSON = "application/json";
+	private static final String CONTENT_TYPE = "content-type";
 
 	@Util
 	protected Request getAuthRequest(String url, String contentType, String body, String method) {
@@ -38,7 +38,7 @@ public abstract class BasicFunctionalTest extends FunctionalTest {
 	protected Request getAuthRequest(String path, String contentType, String body, String method, String username, String password) {
 		String timestamp = String.valueOf(System.currentTimeMillis());
 		String data = concatDataString(timestamp, path, contentType, DigestUtils.md5Hex(body), method);
-		return createAuthRequest(timestamp, data, username, password);
+		return createAuthRequest(timestamp, data, username, password, APPLICATION_JSON);
 	}
 	
 	@Util
@@ -56,16 +56,21 @@ public abstract class BasicFunctionalTest extends FunctionalTest {
 	}
 
 	@Util
-	protected Request createAuthRequest(String timestamp, String data, String username, String password) {
+	protected Request createAuthRequest(String timestamp, String data, String username, String password, String contentType) {
 		Request request = newRequest();
 		request.user = username;
 		request.headers.put(TIMESTAMP_HEADER_NAME, new Header(TIMESTAMP_HEADER_NAME, timestamp));
+		if(contentType != null){
+			request.headers.put(CONTENT_TYPE, new Header(CONTENT_TYPE, contentType));
+		}
 		request.password = sha1(data, DigestUtils.md5Hex(password));
 		return request;
 	}
 
 	@Util
 	protected String concatDataString(String timestamp, String path, String contentType, String bodyMd5Hex, String method) {
-		return method + "\n" + bodyMd5Hex + "\n" + contentType + "\n" + timestamp + "\n" + path;
+		String data = method + "\n" + bodyMd5Hex + "\n" + contentType + "\n" + timestamp + "\n" + path;
+		System.out.println(data);
+		return data.toLowerCase();
 	}
 }

@@ -1,20 +1,12 @@
 package controllers.security;
 
-import java.io.UnsupportedEncodingException;
-import java.security.InvalidKeyException;
-import java.security.NoSuchAlgorithmException;
-
-import javax.crypto.Mac;
-import javax.crypto.spec.SecretKeySpec;
-
-import org.apache.commons.codec.binary.Base64;
 import org.apache.commons.codec.digest.DigestUtils;
 import org.junit.Before;
 import org.junit.Test;
 
+import play.mvc.Http.Header;
 import play.mvc.Http.Request;
 import play.mvc.Http.Response;
-import play.mvc.Util;
 import play.test.Fixtures;
 import controllers.BasicFunctionalTest;
 
@@ -52,7 +44,7 @@ public class SecurityTest extends BasicFunctionalTest {
 		assertIsOk(response);
 		assertContentEquals("This text is a secret!", response);
 	}
-	
+
 	@Test
 	public void testSecureActionFailsWithWrongUsername() {
 		Fixtures.loadModels("data/user.yml");
@@ -62,7 +54,7 @@ public class SecurityTest extends BasicFunctionalTest {
 		Response response = POST(request, DEFAULT_PATH, APPLICATION_JSON, DEFAULT_BODY);
 		assertStatus(401, response);
 	}
-	
+
 	@Test
 	public void testSecureActionFailsWithWrongPassword() {
 		Fixtures.loadModels("data/user.yml");
@@ -101,7 +93,8 @@ public class SecurityTest extends BasicFunctionalTest {
 		Fixtures.loadModels("data/user.yml");
 
 		Request request = createAuthRequestForContentType(APPLICATION_JSON);
-
+		
+		request.headers.put("content-type", new Header("content-type", "application/xml"));
 		Response response = POST(request, DEFAULT_PATH, "application/xml", DEFAULT_BODY);
 		assertStatus(401, response);
 	}
@@ -135,17 +128,17 @@ public class SecurityTest extends BasicFunctionalTest {
 		Response response = POST(request, "/controllers.SecurityTestController/otherSecureAction", APPLICATION_JSON, DEFAULT_BODY);
 		assertStatus(401, response);
 	}
-	
+
 	private Request createAuthRequestForUsername(String username) {
 		String timestamp = String.valueOf(System.currentTimeMillis());
 		String data = createDataString(timestamp, null, null, null, null);
-		return createAuthRequest(timestamp, data, username, USER_PASSWORD);
+		return createAuthRequest(timestamp, data, username, USER_PASSWORD, APPLICATION_JSON);
 	}
 	
 	private Request createAuthRequestForPassword(String passord) {
 		String timestamp = String.valueOf(System.currentTimeMillis());
 		String data = createDataString(timestamp, null, null, null, null);
-		return createAuthRequest(timestamp, data, USER_NAME, passord);
+		return createAuthRequest(timestamp, data, USER_NAME, passord, APPLICATION_JSON);
 	}
 
 	private Request createAuthRequestForBody(String body) {
@@ -168,7 +161,7 @@ public class SecurityTest extends BasicFunctionalTest {
 	private Request createAuthRequestForContentType(String contentType) {
 		String timestamp = String.valueOf(System.currentTimeMillis());
 		String data = createDataString(timestamp, null, contentType, null, null);
-		return createAuthRequest(timestamp, data);
+		return createAuthRequest(timestamp, data, contentType);
 	}
 
 	private Request createAuthRequestForPath(String path) {
@@ -185,8 +178,12 @@ public class SecurityTest extends BasicFunctionalTest {
 		return concatDataString(timestamp, path, contentType, bodyMd5Hex, method);
 	}
 
+	private Request createAuthRequest(String timestamp, String data, String contentType) {
+		return createAuthRequest(timestamp, data, USER_NAME, USER_PASSWORD, contentType);
+	}
+	
 	private Request createAuthRequest(String timestamp, String data) {
-		return createAuthRequest(timestamp, data, USER_NAME, USER_PASSWORD);
+		return createAuthRequest(timestamp, data, APPLICATION_JSON);
 	}
 
 }

@@ -73,6 +73,7 @@ public class Security extends Controller {
 				request.headers.get(CONTENT_TYPE).value() + "\n" +
 				timestampValue + "\n" +
 				request.path + request.querystring;
+		System.out.println(data);
 		return sha1(passwordHash, data.toLowerCase());
 	}
 
