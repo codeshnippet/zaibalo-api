@@ -38,13 +38,6 @@
 				self.fromIndex = self.fromIndex + 1;
 			}
 			
-			self.loadMorePosts = function(event){
-				if(self.postsCount > self.posts.length){
-					self.loadPosts();
-				}
-				event.preventDefault();
-			}
-			
 			self.loadPosts();
 		}]);
 	}
