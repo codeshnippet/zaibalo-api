@@ -3,10 +3,10 @@
 # ~~~~
 
 # Home page
-GET        /                                       Application.index
-GET        /client                                 Application.client
-GET        /knockout                               Application.knockout
-GET        /avatar                                 Application.avatar
+GET        /                                       Index.index
+GET        /client                                 Index.client
+GET        /knockout                               Index.knockout
+GET        /avatar                                 Index.avatar
 
 # Users
 POST       /users                                  users.Users.createUser
@@ -50,11 +50,10 @@ PUT        /comment-ratings/{id}                   CommentsRatings.updateComment
 DELETE     /comment-ratings/{id}                   CommentsRatings.deleteCommentRating
 
 # Ignore favicon requests
-GET     /favicon.ico                            404
+GET        /favicon.ico                            404
 
 # Map static resources from the /app/public folder to the /public path
-GET     /app/                                   staticDir:/public/app
-GET     /partials/                              staticDir:/public/app/partials
+GET        /public/                                staticDir:public
 
 # Catch all
-*       /{controller}/{action}                  {controller}.{action}
+*           /{controller}/{action}                 {controller}.{action}

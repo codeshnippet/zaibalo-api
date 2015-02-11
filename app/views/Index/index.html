@@ -1,0 +1,37 @@
+#{extends 'main.html'/} 
+#{set 'moreScripts'} 
+	#{script 'angular.min.js' /}
+	#{script 'main-module.js' /}
+	#{script 'jquery-ajax-security.js' /}
+	#{script 'jquery-ajax-lib.js' /}
+#{/set}
+<div ng-app="zaibaloApp">
+		<div ng-controller="PostsController as postsCtrl">
+			<h2>&{'add.post'}</h2>
+			
+			<form ng-submit="postsCtrl.addPost(postsCtrl.posts)">
+				<div class="form-group">
+					<textarea id="new-post-text" class="form-control" placeholder="&{'text'}" ng-model="postsCtrl.newPost"></textarea>
+				</div>
+				<div class="form-group clearfix">
+					<button class="btn btn-default pull-right">&{'post'}</button>
+				</div>
+			</form>
+			
+			<h2>&{'latest.posts'}</h2>
+			<div class="row">
+				<div class="post" ng-repeat="post in postsCtrl.posts">
+					<div class="post-header col-sm-2 col-xs-12">
+						<img ng-src="{{post.author.photo}}?size=small" class="img-circle" alt="Circular Image">
+						<strong>{{post.author.displayName}}</strong>
+					</div>
+					<div class="post-content col-sm-10 col-xs-12 well well-sm">{{post.content}}</div>
+				</div>
+			</div>
+			<div class="row">
+				<div class="col-sm-offset-4 col-sm-4 col-xs-12">
+					<button type="button" class="btn btn-md btn-default btn-block" ng-show="postsCtrl.postsCount > postsCtrl.posts.length" ng-click="postsCtrl.loadPosts()">&{'load.more.posts'}</button>
+				</div>
+			</div>
+		</div>
+</div>

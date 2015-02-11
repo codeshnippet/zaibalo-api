@@ -1,0 +1,25 @@
+#{extends 'main.html'/} 
+#{set 'moreScripts'} 
+	#{script 'avatars.io.min.js' /}
+	#{script 'jquery-ajax-security.js' /}
+	#{script 'jquery-ajax-lib.js' /}
+#{/set}
+
+<script>
+var client = new AvatarsIO('eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJwcml2YXRlX3Rva2VuIjoiZmZlOWQ2MzY5NjEwZDQ5YWEwMzM4MTJiZThkZWQ3ZDFjMzQ2OTY3NzQwNjFiMTY2ODAzMjdiMTc5ZDFkNWU3YiJ9.WFRUHk_uYIorZ7-mxO2xakXTFeWWkPEwHF_ZG-OPRsM'); // obtain at http://avatars.io/
+
+$(function(){
+    var uploader = client.create('#avatar'); // selector for input[type="file"] field, here #avatar, for example
+    uploader.setAllowedExtensions(['png', 'jpg']); // optional, defaults to png, gif, jpg, jpeg
+    uploader.on('complete', function(url){
+    	var json = JSON.stringify({ photo : url });
+    	$.put('/users/1', json, function(data) {
+    		alert(JSON.parse(data));
+		}, 'json');
+    });
+});
+</script>
+
+<div>
+    <input type="file" id="avatar">
+</div>
