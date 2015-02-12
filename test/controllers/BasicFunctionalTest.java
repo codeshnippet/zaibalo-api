@@ -70,7 +70,6 @@ public abstract class BasicFunctionalTest extends FunctionalTest {
 	@Util
 	protected String concatDataString(String timestamp, String path, String contentType, String bodyMd5Hex, String method) {
 		String data = method + "\n" + bodyMd5Hex + "\n" + contentType + "\n" + timestamp + "\n" + path;
-		System.out.println(data);
 		return data.toLowerCase();
 	}
 }

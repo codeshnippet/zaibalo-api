@@ -105,7 +105,6 @@ public class RequestBuilder {
 		request.headers.put(CONTENT_TYPE, new Header(CONTENT_TYPE, contentType.getText()));
 		
 		String data = concatDataString(timestamp, path, contentType.getText(), DigestUtils.md5Hex(body), httpMethod.getText());
-		System.out.println(data);
 		request.user = username;
 		request.password = sha1(data, DigestUtils.md5Hex(password));
 		

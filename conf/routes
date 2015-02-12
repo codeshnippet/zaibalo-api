@@ -2,6 +2,10 @@
 # This file defines all application routes (Higher priority routes first)
 # ~~~~
 
+# Angular scripts, templates, libraries and artifacts
+GET        /app/                                   staticDir:/public/app
+GET        /partials/                              staticDir:/public/app/partials
+
 # Home page
 GET        /                                       Application.index
 GET        /client                                 Application.client
@@ -51,10 +55,6 @@ DELETE     /comment-ratings/{id}                   CommentsRatings.deleteComment
 
 # Ignore favicon requests
 GET     /favicon.ico                            404
-
-# Map static resources from the /app/public folder to the /public path
-GET     /app/                                   staticDir:/public/app
-GET     /partials/                              staticDir:/public/app/partials
 
 # Catch all
 *       /{controller}/{action}                  {controller}.{action}

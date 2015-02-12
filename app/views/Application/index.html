@@ -2,67 +2,23 @@
 
 <html ng-app="myApp">
     <head>
-        <meta charset="${_response_encoding}">
+        <meta charset="utf-8">
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
         <title>&{'title'}</title>
-        <link rel="stylesheet" type="text/css" href="@{'/public/app/lib/bootstrap-3.3.2/css/bootstrap.min.css'}" charset="utf-8">
+        <link rel="stylesheet" type="text/css" href="@{'/public/app/lib/bootstrap-3.3.2/css/bootstrap.min.css'}">
         <link rel="stylesheet" media="screen" href="@{'/public/app/css/app.css'}">
     </head>
+
     <body>
-        <div class="navbar navbar-default navbar-static-top">
-            <div class='container'>
-                <div class="navbar-header">
-                    <a href="index.html" class='navbar-brand'>Zaibalo</a>
-                    <button type="button" class="navbar-toggle"
-                        data-toggle="collapse"
-                        data-target=".navbar-collapse">
-                        <span class="icon-bar"></span>
-                        <span class="icon-bar"></span>
-                        <span class="icon-bar"></span>
-                    </button>
-                </div>
-                <ul class="nav navbar-nav navbar-right collapse navbar-collapse">
-                    <li><a href="#/view1">Home</a></li>
-                    <li><a href="#/view2">Profile</a></li>
-                </ul>
-            </div>
-        </div>
+        
+        <navigation-bar></navigation-bar>
 
-        <div class="container">
-            <div ng-view></div>
-            <div>Angular seed app: v<span app-version></span></div>
-            
-              <div class="modal fade" id="login_modal">
-                <div class="modal-dialog">
-                  <div class="modal-content">
-                    <div class="modal-header">
-                      <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
-                      <h4 class="modal-title">&{'login.popup.header'}</h4>
-                    </div>
-                    <div class="modal-body">
-                      <form>
-                        <div class="form-group">
-                          <label for="username" class="control-label">&{'username'}</label>
-                          <input type="text" class="form-control" id="username"/>
-                        </div>
-                        <div class="form-group">
-                          <label for="password" class="control-label">&{'password'}</label>
-                          <input type="password" class="form-control" id="password"/>
-                        </div>
-                      </form>
-                      <div class="hide" id="login-error">&{'login.popup.error'}</div>
-                    </div>
-                    <div class="modal-footer">
-                      <button type="button" class="btn btn-default" data-dismiss="modal">&{'cancel'}</button>
-                      <button type="button" class="btn btn-primary" id="login-button">&{'login'}</button>
-                    </div>
-                  </div>
-                </div>
-              </div>
-            
-        </div>
+		<div class="container">
+			<div ng-view></div>
+			<login-popup></login-popup>
+		</div>
 
-        <script src="@{'/public/app/lib/jquery/jquery-1.11.2.min.js'}"></script>
+		<script src="@{'/public/app/lib/jquery/jquery-1.11.2.min.js'}"></script>
         <script src="@{'/public/app/lib/bootstrap-3.3.2/js/bootstrap.min.js'}"></script>
         <!-- In production use:
         <script src="//ajax.googleapis.com/ajax/libs/angularjs/1.0.2/angular.min.js"></script>

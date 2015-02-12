@@ -5,7 +5,6 @@
 angular.module('myApp.controllers', []).
   controller('PostsController', ['$http', '$scope', function($http, $scope) {
             var PAGE_SIZE = 10;
-//            var $scope = this;
             $scope.fromIndex = 0;
             $scope.posts = [];
             $scope.postsCount = 0;
@@ -40,6 +39,6 @@ angular.module('myApp.controllers', []).
             
             $scope.loadPosts();
   }])
-  .controller('MyCtrl2', [function() {
+  .controller('ProfileController', [function() {
 
   }]);
