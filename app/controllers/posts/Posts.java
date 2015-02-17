@@ -29,12 +29,12 @@ public class Posts extends Controller {
 		}else{
 			postsQuery = Post.all();
 		}
-		limit = (limit == 0) ? 10 : limit; 
+		limit = (limit == 0) ? 10 : limit;
 		List<Post> postsList = postsQuery.from(from).fetch(limit);
 		List<PostResponse> responseList = PostResponse.convertToPostResponsesList(postsList);
 		renderJSON(responseList);
 	}
-	
+
 	public static void getPostsCount(){
 		renderJSON("{\"count\":" + Post.count() +"}");
 	}
@@ -49,7 +49,7 @@ public class Posts extends Controller {
 		post.content = postJSON.content;
 		post.author = connected;
 		post.save();
-		
+
 		String location = request.host + "/posts/" + post.id;
 		response.headers.put("Location", new Header("Location", location));
 		response.setContentTypeIfNotSet("application/json");
@@ -73,12 +73,12 @@ public class Posts extends Controller {
 		if (post == null) {
 			notFound();
 		}
-		
+
 		Security.verifyOwner(post.author);
-		
+
 		post.content = postJSON.content;
 		post.save();
-		
+
 		response.setContentTypeIfNotSet("application/json");
 		renderJSON(PostResponse.convertToPostResponse(post));
 	}
@@ -89,9 +89,9 @@ public class Posts extends Controller {
 		if (post == null) {
 			notFound();
 		}
-		
+
 		Security.verifyOwner(post.author);
-		
+
 		post._delete();
 		ok();
 	}

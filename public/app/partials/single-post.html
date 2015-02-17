@@ -1,0 +1,35 @@
+<div ng-controller="SinglePostController">
+
+      <div class="panel panel-default">
+        <div class="panel-heading">
+          <img ng-src="{{post.author.photo}}?size=small" class="img-circle" alt="Circular Image">
+          <strong>{{post.author.displayName}}</strong>&nbsp;<span class="post-date">{{post.creationTimestamp | date:'mediumDate'}}</span>
+        </div>
+        <div class="panel-body post-content">{{post.content}}</div>
+        <div class="panel-footer">
+          <div ng-repeat="comment in comments">
+            <div class="row">
+              <div class="col-sm-offset-1 col-xs-1">
+                <img ng-src="{{comment.author.photo}}?size=small" class="img-circle" alt="Circular Image">
+              </div>
+              <div class="col-xs-10">
+                <div><strong>{{comment.author.displayName}}</strong>:</div>
+                {{comment.content}}
+              </div>
+            </div>
+            <hr></hr>
+          </div>
+          <div class="row">
+            <form ng-submit="addComment(comments)" class="col-sm-offset-1 col-xs-11">
+              <div class="form-group">
+                <textarea id="new-comment-text" class="form-control" placeholder="{{ 'text' | translate }}" ng-model="newComment"></textarea>
+              </div>
+              <div class="form-group clearfix">
+                <button class="btn btn-default pull-right">{{ 'send' | translate }}</button>
+              </div>
+            </form>
+          </div>
+        </div>
+      </div>
+
+</div>

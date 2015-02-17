@@ -16,12 +16,12 @@ import controllers.security.Security;
 
 @With(Security.class)
 public class Comments extends Controller {
-	
+
     public static void getPostComments(long postId) {
     	response.setContentTypeIfNotSet("application/json");
-    	
+
     	Post post = Post.findById(postId);
-    	
+
     	renderJSON(CommentResponse.convertToCommentResponsesList(post.comments));
     }
 
@@ -37,22 +37,23 @@ public class Comments extends Controller {
 		comment.content = commentJSON.content;
 		comment.post = post;
 		comment.save();
-		
+
 		String location = request.host + "/comments/" + comment.id;
 		response.headers.put("Location", new Header("Location", location));
 		response.status = 201;
+		renderJSON(CommentResponse.convertToCommentResponse(comment));
     }
-    
+
     public static void getComment(long id) {
     	//TODO: Implement service
     	ok();
     }
-    
+
     public static void editComment(long id) {
     	//TODO: Implement service
     	ok();
     }
-    
+
     public static void deleteComment(long id) {
     	//TODO: Implement service
     	ok();
