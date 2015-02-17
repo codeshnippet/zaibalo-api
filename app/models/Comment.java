@@ -11,6 +11,8 @@ import javax.persistence.Table;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
 
+import org.hibernate.annotations.Type;
+
 import play.db.jpa.Model;
 
 @Entity
@@ -18,15 +20,16 @@ import play.db.jpa.Model;
 public class Comment extends Model{
 
 	@Lob
+	@Type(type="org.hibernate.type.StringClobType")
 	public String content;
-	
+
 	@Temporal(TemporalType.TIMESTAMP)
 	public Date creationDate;
-	
+
 	@OneToOne(fetch=FetchType.EAGER)
 	@JoinColumn(name="author_id", referencedColumnName="id", nullable = false)
 	public User author;
-	
+
 	@OneToOne(fetch=FetchType.LAZY)
 	@JoinColumn(name="post_id", referencedColumnName="id", nullable = false)
 	public Post post;
