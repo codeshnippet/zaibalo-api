@@ -28,3 +28,9 @@ a:hover, a:visited, a:link, a:active
 	color: #666;
 	font-size: 12px;
 }
+
+.post-menu-button {
+	font-weight: bold;
+	font-size: 16px;
+	padding: 0px 8px 7px 8px;
+}

@@ -34,7 +34,17 @@ angular.module('myApp.controllers', []).
         }, 'json');
 
         this.newPost = "";
-        $scope.fromIndex = $scope.fromIndex + 1;
+        $scope.fromIndex++;
+    }
+
+    $scope.deletePost = function(postId, index, event){
+      $.delete('/posts/' + postId, '', function(data) {
+        $scope.posts.splice(index, 1);
+        $scope.postsCount--;
+        $scope.$apply();
+      }, 'json');
+
+      event.preventDefault();
     }
 
     $scope.loadPosts();

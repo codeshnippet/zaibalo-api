@@ -15,5 +15,8 @@
   "login.popup.error" : "Спробуйте ще",
   "cancel" : "Відміна",
   "load.more.posts" : "Показати більше заобів",
-  "switch" : "English"
+  "switch" : "English",
+  "comments" : "коментар (я/ів)",
+  "view.post.page" : "Сторінка зайоба",
+  "delete.post" : "Видалити зайоб"
 }

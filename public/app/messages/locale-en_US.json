@@ -15,5 +15,8 @@
   "login.popup.error" : "Login failed",
   "cancel" : "Cancel",
   "load.more.posts" : "Load more posts",
-  "switch" : "Українською"
+  "switch" : "Українською",
+  "comments" : "comment (s)",
+  "view.post.page" : "View post page",
+  "delete.post" : "Delete post"
 }
