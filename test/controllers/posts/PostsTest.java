@@ -110,13 +110,21 @@ public class PostsTest extends BasicFunctionalTest {
 	}
 
 	@Test
-	public void testGetPostJsonFormat() {
+	public void testGetSinglePost() {
 		Fixtures.loadModels("data/posts.yml");
 
 		Post post = Post.find("byContent", "test content 1").first();
 
 		Response response = GET("/posts/" + post.getId());
-		assertEquals("{" + "\"id\":" + post.getId() + "," + "\"content\":\"test content 1\",\"author\":{\"id\":" + post.author.id + ",\"displayName\":\"Superman\"},\"creationTimestamp\":1238025600000" + "}", response.out.toString());
+		String responseBody = response.out.toString();
+		SinglePostResponse json = new GsonBuilder().create().fromJson(responseBody, SinglePostResponse.class);
+		assertEquals(post.getId().longValue(), json.post.id);
+		assertEquals("test content 1", json.post.content);
+		assertEquals(post.author.id.longValue(), json.post.author.id);
+		assertEquals(post.author.displayName, json.post.author.displayName);
+		assertEquals(1238025600000l, json.post.creationTimestamp);
+		assertEquals(0, json.post.commentsCount);
+		assertEquals(0, json.comments.size());
 	}
 
 	@Test

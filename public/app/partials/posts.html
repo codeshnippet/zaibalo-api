@@ -1,6 +1,4 @@
-<div>
-		<div ng-controller="PostsController">
-			<h4>{{ 'add.post' | translate }}</h4>
+<div ng-controller="PostsController">
 
 			<form ng-submit="addPost(posts)">
 				<div class="form-group">
@@ -11,19 +9,21 @@
 				</div>
 			</form>
 
-			<h4>{{ 'latest.posts' | translate }}</h4>
-			<div class="row">
-				<div class="panel panel-default" ng-repeat="post in posts">
-					<div class="panel-heading">
-						<img ng-src="{{post.author.photo}}?size=small" class="img-circle" alt="Circular Image">
-						<strong>{{post.author.displayName}}</strong> on {{post.creationTimestamp | date:'mediumDate'}}
-					</div>
-					<div class="panel-body">{{post.content}}</div>
+			<div class="panel panel-default" ng-repeat="post in posts">
+				<div class="panel-heading">
+					<img ng-src="{{post.author.photo}}?size=small" class="img-circle" alt="Circular Image">
+					<strong>{{post.author.displayName}}</strong>&nbsp;<span class="post-date">{{post.creationTimestamp | date:'mediumDate'}}</span>
 				</div>
+				<div class="panel-body post-content">{{post.content}}</div>
+				<div class="panel-footer">
+					<a href="#">
+						<span class="glyphicon glyphicon-comment" aria-hidden="true" style="vertical-align:middle"></span>&nbsp;{{post.commentsCount}} comments</a>
+				</div>
+			</div>
+
 			<div class="row">
 				<div class="col-sm-offset-4 col-sm-4 col-xs-12">
 					<button type="button" class="btn btn-md btn-default btn-block" ng-show="postsCount > posts.length" ng-click="loadPosts()">{{ 'load.more.posts' | translate }}</button>
 				</div>
 			</div>
-		</div>
 </div>
