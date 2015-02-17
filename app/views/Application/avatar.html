@@ -1,4 +1,4 @@
-<!DOCTYPE html>
+
 
 <html ng-app="myApp">
     <head>
@@ -17,12 +17,7 @@
         <!-- In production use:
         <script src="//ajax.googleapis.com/ajax/libs/angularjs/1.0.2/angular.min.js"></script>
         -->
-        <script src="@{'/public/app/lib/angular/angular.js'}"></script>
-        <script src="@{'/public/app/js/app.js'}"></script>
-        <script src="@{'/public/app/js/services.js'}"></script>
-        <script src="@{'/public/app/js/controllers.js'}"></script>
-        <script src="@{'/public/app/js/filters.js'}"></script>
-        <script src="@{'/public/app/js/directives.js'}"></script>
+
         <script src="@{'/public/app/lib/encryption/sha.js'}"></script>
         <script src="@{'/public/app/lib/encryption/md5.js'}"></script><!-- use sha for password hashing also? -->
         <script src="@{'/public/app/lib/jquery/jquery.cookie.js'}"></script>
@@ -36,7 +31,7 @@
 
         <script>
         var client = new AvatarsIO('eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJwcml2YXRlX3Rva2VuIjoiZmZlOWQ2MzY5NjEwZDQ5YWEwMzM4MTJiZThkZWQ3ZDFjMzQ2OTY3NzQwNjFiMTY2ODAzMjdiMTc5ZDFkNWU3YiJ9.WFRUHk_uYIorZ7-mxO2xakXTFeWWkPEwHF_ZG-OPRsM'); // obtain at http://avatars.io/
-        
+
         $(function(){
             var uploader = client.create('#avatar'); // selector for input[type="file"] field, here #avatar, for example
             uploader.setAllowedExtensions(['png', 'jpg']); // optional, defaults to png, gif, jpg, jpeg
