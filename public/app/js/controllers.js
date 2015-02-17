@@ -9,12 +9,12 @@ angular.module('myApp.controllers', []).
             $scope.posts = [];
             $scope.postsCount = 0;
             $scope.newPost = "";
-            
+
             $http.get('/posts/count').
                 success(function(data, status, headers, config) {
                     $scope.postsCount = data.count;
                 });
-            
+
             $scope.loadPosts = function(){
                 $http.get('/posts?sort=created_at&limit=' + PAGE_SIZE + '&from=' + $scope.fromIndex).
                 success(function(posts, status, headers, config) {
@@ -36,9 +36,15 @@ angular.module('myApp.controllers', []).
                 this.newPost = "";
                 $scope.fromIndex = $scope.fromIndex + 1;
             }
-            
+
             $scope.loadPosts();
   }])
   .controller('ProfileController', [function() {
 
-  }]);
+  }])
+  .controller('NavigationController', function($translate, $scope) {
+    $scope.toggleLanguage = function () {
+      var langKey = $translate.use() =='uk_UA' ? 'en_US' : 'uk_UA';
+      $translate.use(langKey);
+    };
+  });

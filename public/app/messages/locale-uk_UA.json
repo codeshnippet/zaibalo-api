@@ -1,0 +1,19 @@
+{
+  "title": "Заїбало...",
+  "posts": "Зайоби",
+  "profile": "Профіль",
+  "sign.in" : "Залогуватися",
+  "latest.posts" : "Останні зайоби",
+  "login" : "Залогуватися",
+  "username" : "Ім'я користувача",
+  "password" : "Пароль",
+  "text" : "Текст",
+  "author.colon.space" : "Автор:&nbsp;",
+  "add.post" : "Додати зайоб",
+  "send" : "Відправити",
+  "login.popup.header" : "Будь ласка залогуйтеся",
+  "login.popup.error" : "Спробуйте ще",
+  "cancel" : "Відміна",
+  "load.more.posts" : "Показати більше заобів",
+  "switch" : "English"
+}

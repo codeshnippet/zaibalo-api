@@ -2,9 +2,18 @@
 
 
 // Declare app level module which depends on filters, and services
-angular.module('myApp', ['myApp.filters', 'myApp.services', 'myApp.directives', 'myApp.controllers']).
-  config(['$routeProvider', function($routeProvider) {
+angular.module('myApp', ['myApp.filters', 'myApp.services', 'myApp.directives', 'myApp.controllers', 'pascalprecht.translate'])
+
+  .config(['$routeProvider', function($routeProvider) {
     $routeProvider.when('', {templateUrl: 'partials/posts.html', controller: 'PostsController'});
     $routeProvider.when('/profile', {templateUrl: 'partials/profile.html', controller: 'ProfileController'});
     $routeProvider.otherwise({redirectTo: ''});
-  }]);
+  }])
+
+  .config(function ($translateProvider) {
+    $translateProvider.useStaticFilesLoader({
+      prefix: 'app/messages/locale-',
+      suffix: '.json'
+    });
+    $translateProvider.use('uk_UA');
+  });
