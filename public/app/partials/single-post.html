@@ -2,7 +2,7 @@
 
       <div class="panel panel-default">
         <div class="panel-heading">
-          <img ng-src="{{post.author.photo}}?size=small" class="img-circle" alt="Circular Image">
+          <img ng-src="{{post.author.photo}}?size=small" class="img-circle" width="32px" height="32px">
           <strong>{{post.author.displayName}}</strong>&nbsp;<span class="post-date">{{post.creationTimestamp | date:'mediumDate'}}</span>
         </div>
         <div class="panel-body post-content">{{post.content}}</div>
@@ -10,7 +10,7 @@
           <div ng-repeat="comment in comments">
             <div class="row">
               <div class="col-sm-offset-1 col-xs-1">
-                <img ng-src="{{comment.author.photo}}?size=small" class="img-circle" alt="Circular Image">
+                <img ng-src="{{comment.author.photo}}?size=small" class="img-circle" width="32px" height="32px">
               </div>
               <div class="col-xs-10">
                 <div><strong>{{comment.author.displayName}}</strong>:</div>

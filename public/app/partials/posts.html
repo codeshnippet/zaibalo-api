@@ -11,7 +11,7 @@
 
 			<div class="panel panel-default" ng-repeat="post in posts">
 				<div class="panel-heading">
-					<img ng-src="{{post.author.photo}}?size=small" class="img-circle" alt="Circular Image">
+					<img ng-src="{{post.author.photo}}?size=small" class="img-circle" width="32px" height="32px">
 					<strong>{{post.author.displayName}}</strong>&nbsp;<span class="post-date">{{ post.creationTimestamp | date:'mediumDate' }}</span>
 				</div>
 				<div class="panel-body post-content">{{post.content}}</div>
