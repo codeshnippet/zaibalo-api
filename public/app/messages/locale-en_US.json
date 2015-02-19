@@ -16,7 +16,9 @@
   "cancel" : "Cancel",
   "load.more.posts" : "Load more posts",
   "switch" : "Українською",
-  "comments" : "comment (s)",
+  "comments1" : " {{value}} comment",
+  "comments2" : " {{value}} comments",
+  "comments5" : " {{value}} comments",
   "view.post.page" : "View post page",
   "delete.post" : "Delete post"
 }

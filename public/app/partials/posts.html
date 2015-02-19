@@ -17,7 +17,7 @@
 				<div class="panel-body post-content">{{post.content}}</div>
 				<div class="panel-footer clearfix">
 					<div class="pull-left">
-						<a href="#/post/{{post.id}}"><span class="glyphicon glyphicon-comment" aria-hidden="true" style="vertical-align:middle"></span>&nbsp;{{ post.commentsCount }}&nbsp;{{ 'comments' | translate }}</a>
+						<a href="#/post/{{post.id}}"><span class="glyphicon glyphicon-comment" aria-hidden="true" style="vertical-align:middle"></span>{{ 'comments' + translationSufix(post.commentsCount) | translate:'{value: post.commentsCount}' }}</a>
 					</div>
 					<div class="pull-right">
 						<div class="btn-group">

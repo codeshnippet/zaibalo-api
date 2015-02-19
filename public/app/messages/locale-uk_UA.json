@@ -16,7 +16,9 @@
   "cancel" : "Відміна",
   "load.more.posts" : "Показати більше заобів",
   "switch" : "English",
-  "comments" : "коментар (я/ів)",
+  "comments1" : " {{value}} коментар",
+  "comments2" : " {{value}} коментарі",
+  "comments5" : " {{value}} коментарів",
   "view.post.page" : "Сторінка зайоба",
   "delete.post" : "Видалити зайоб"
 }
