@@ -117,13 +117,12 @@ public class PostsTest extends BasicFunctionalTest {
 
 		Response response = GET("/posts/" + post.getId());
 		String responseBody = response.out.toString();
-		SinglePostResponse json = new GsonBuilder().create().fromJson(responseBody, SinglePostResponse.class);
-		assertEquals(post.getId().longValue(), json.post.id);
-		assertEquals("test content 1", json.post.content);
-		assertEquals(post.author.id.longValue(), json.post.author.id);
-		assertEquals(post.author.displayName, json.post.author.displayName);
-		assertEquals(1238025600000l, json.post.creationTimestamp);
-		assertEquals(0, json.post.commentsCount);
+		PostResponse json = new GsonBuilder().create().fromJson(responseBody, PostResponse.class);
+		assertEquals(post.getId().longValue(), json.id);
+		assertEquals("test content 1", json.content);
+		assertEquals(post.author.id.longValue(), json.author.id);
+		assertEquals(post.author.displayName, json.author.displayName);
+		assertEquals(1238025600000l, json.creationTimestamp);
 		assertEquals(0, json.comments.size());
 	}
 

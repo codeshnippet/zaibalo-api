@@ -1,0 +1,32 @@
+<div class="">
+  <div style="display: none;">
+    <div ng-repeat="comment in post.comments">
+      <div class="row">
+        <div class="col-sm-offset-1 col-xs-1">
+          <img ng-src="{{comment.author.photo}}?size=small" class="img-circle" width="32px" height="32px">
+        </div>
+        <div class="col-xs-10">
+          <div><strong>{{comment.author.displayName}}</strong>:</div>
+          <div ng-bind-html="comment.content | hashtagger"></div>
+        </div>
+      </div>
+      <hr></hr>
+    </div>
+
+    <div class="row">
+      <form ng-submit="addComment(post)" class="col-sm-offset-1 col-xs-11">
+        <div class="form-group">
+          <textarea id="new-comment-text" class="form-control" placeholder="{{ 'text' | translate }}" ng-model="post.newComment"></textarea>
+        </div>
+        <div class="form-group clearfix">
+          <button class="btn btn-default pull-right">{{ 'send' | translate }}</button>
+        </div>
+      </form>
+    </div>
+  </div>
+
+  <a class="pull-left" ng-click="toggleComments($event, $event.currentTarget)" href="#">
+     <span class="glyphicon glyphicon-comment" aria-hidden="true" style="vertical-align:middle"></span>{{ 'comments' + translationSufix(post.comments.length) | translate:'{value: post.comments.length}' }}
+  </a>
+
+</div>

@@ -48,20 +48,35 @@ angular.module('myApp.controllers', []).
       event.preventDefault();
     }
 
+    $scope.addComment = function(post){
+        var json = JSON.stringify({ content : post.newComment });
+
+        $.post('/posts/' + post.id + '/comments', json, function(data) {
+            post.comments.push(data);
+            $scope.$apply();
+        }, 'json');
+
+        post.newComment = "";
+    }
+
+    $scope.toggleComments = function(event, target){
+      $(target).prev().slideToggle(500);
+      event.preventDefault();
+    }
+
 	$scope.translationSufix = function(number){
-		if((number-number%10)%100!=10)
-		{
-			if(number%10==1){
-				return 1;
-			} else if(number%10>=2 && number%10<=4){
-				return 2;
-			} else {
-				return 5;
-			}
-		} else {
-			return 5;
-		}
-	}
+	   if((number-number%10)%100!=10){
+       if(number%10==1){
+         return 1;
+       } else if(number%10>=2 && number%10<=4){
+         return 2;
+       } else {
+         return 5;
+       }
+     } else {
+       return 5;
+     }
+   }
 
     $scope.loadPosts();
   }])
@@ -73,29 +88,4 @@ angular.module('myApp.controllers', []).
       var langKey = $translate.use() =='uk_UA' ? 'en_US' : 'uk_UA';
       $translate.use(langKey);
     };
-  })
-  .controller('SinglePostController', ['$http', '$scope', '$routeParams', function($http, $scope, $routeParams) {
-    $scope.post = {};
-    $scope.postId = $routeParams.postId;
-    $scope.comments = [];
-    $scope.newComment = "";
-
-    $http.get('/posts/' + $scope.postId).
-        success(function(data, status, headers, config) {
-            $scope.post = data.post;
-            for (var i = 0; i < data.comments.length; i++) {
-                $scope.comments.push(data.comments[i]);
-            }
-        });
-
-    $scope.addComment = function(comments){
-        var json = JSON.stringify({ content : $scope.newComment });
-
-        $.post('/posts/' + $scope.postId + '/comments', json, function(data) {
-            comments.push(data);
-            $scope.$apply();
-        }, 'json');
-
-        this.newComment = "";
-    }
-  }]);
+  });

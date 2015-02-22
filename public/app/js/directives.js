@@ -23,7 +23,15 @@ angular.module('myApp.directives', [])
 .directive('post', function() {
 	return {
 		restrict : 'E',
-		templateUrl : 'partials/post.html',
+		templateUrl : 'partials/single-post.html',
+		replace : true
+	};
+})
+
+.directive('comments', function() {
+	return {
+		restrict : 'E',
+		templateUrl : 'partials/comments.html',
 		replace : true
 	};
 });

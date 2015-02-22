@@ -63,7 +63,7 @@ public class Posts extends Controller {
 		if (post == null) {
 			notFound();
 		}
-		renderJSON(PostResponse.convertToSinglePostResponse(post));
+		renderJSON(PostResponse.convertToPostResponse(post));
 	}
 
 	@Secured
