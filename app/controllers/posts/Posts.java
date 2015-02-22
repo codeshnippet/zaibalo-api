@@ -23,7 +23,7 @@ import controllers.security.Security;
 public class Posts extends Controller {
 
 	public static void getPostsByTag(String name, String sort, int from, int limit) {
-		renderPostsListJson(sort, from, limit, "content like ?1 or content like ?2 or content like ?3", "#" + name + "%", "%#" + name, "%#" + name + " %");
+		renderPostsListJson(sort, from, limit, "content like ?1", "%#" + name + "%");
 	}
 	
 	public static void getPosts(String sort, int from, int limit) {
@@ -36,7 +36,7 @@ public class Posts extends Controller {
 	}
 
 	public static void getPostsByTagCount(String name){
-		long count = Post.count("content like ?1 or content like ?2 or content like ?3", "#" + name + "%", "%#" + name, "%#" + name + " %");
+		long count = Post.count("content like ?1", "%#" + name + "%");
 		renderCountJson(count);
 	}
 	

@@ -15,13 +15,8 @@ Post(postTwo):
     author:       frank
     creationDate: 2009-03-27
 
-Post(postThree):
-    content:      "test #taggedtwo content 3"
-    author:       frank
-    creationDate: 2009-03-28
-
 Post(postFour):
-    content:      "test content 4 #tagged"
+    content:      "test content 4 #tagged."
     author:       frank
     creationDate: 2009-03-29
 

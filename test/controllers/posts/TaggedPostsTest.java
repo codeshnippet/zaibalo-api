@@ -39,7 +39,7 @@ public class TaggedPostsTest extends BasicFunctionalTest {
 		}.getType());
 		assertEquals(2, postsList.size());
 		assertEquals("#tagged test content 1", postsList.get(0).content);
-		assertEquals("test content 4 #tagged", postsList.get(1).content);
+		assertEquals("test content 4 #tagged.", postsList.get(1).content);
 	}
 
 	@Test
@@ -51,7 +51,7 @@ public class TaggedPostsTest extends BasicFunctionalTest {
 		List<Post> postsList = new Gson().fromJson(response.out.toString(), new TypeToken<List<Post>>() {
 		}.getType());
 		assertEquals(2, postsList.size());
-		assertEquals("test content 4 #tagged", postsList.get(0).content);
+		assertEquals("test content 4 #tagged.", postsList.get(0).content);
 		assertEquals("#tagged test content 1", postsList.get(1).content);
 	}
 
@@ -76,7 +76,7 @@ public class TaggedPostsTest extends BasicFunctionalTest {
 		List<Post> postsList = new Gson().fromJson(response.out.toString(), new TypeToken<List<Post>>() {
 		}.getType());
 		assertEquals(1, postsList.size());
-		assertEquals("test content 4 #tagged", postsList.get(0).content);
+		assertEquals("test content 4 #tagged.", postsList.get(0).content);
 	}
 
 	@Test
@@ -96,6 +96,6 @@ public class TaggedPostsTest extends BasicFunctionalTest {
 		Fixtures.loadModels("data/tagged-posts.yml");
 
 		Response response = GET("/posts/hashtag/tagged/count");
-		assertEquals("{'count':2}", response.out.toString());
+		assertEquals("{\"count\":2}", response.out.toString());
 	}
 }
