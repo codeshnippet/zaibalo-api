@@ -18,4 +18,12 @@ angular.module('myApp.directives', [])
 		templateUrl : 'partials/navigation-bar.html',
 		replace : true
 	};
+})
+
+.directive('post', function() {
+	return {
+		restrict : 'E',
+		templateUrl : 'partials/post.html',
+		replace : true
+	};
 });

@@ -1,0 +1,13 @@
+User(frank):
+    displayName:      Superman
+    email:            superman@mail.com
+    registrationDate: 2009-03-26
+    loginName:        franky
+    password:         secret
+
+User(bill):
+    displayName:      Drunk
+    email:            bill@mail.com
+    registrationDate: 2009-03-27
+    loginName:        billy
+    password:         secret

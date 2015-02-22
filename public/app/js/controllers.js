@@ -3,20 +3,21 @@
 /* Controllers */
 
 angular.module('myApp.controllers', []).
-  controller('PostsController', ['$http', '$scope', function($http, $scope) {
+  controller('PostsController', ['$http', '$scope', '$routeParams', function($http, $scope, $routeParams) {
     var PAGE_SIZE = 10;
     $scope.fromIndex = 0;
     $scope.posts = [];
     $scope.postsCount = 0;
+    $scope.postsRoot = $routeParams.tag == undefined ? '/posts' : '/posts/hashtag/' + $routeParams.tag;
     $scope.newPost = "";
 
-    $http.get('/posts/count').
+    $http.get($scope.postsRoot + '/count').
         success(function(data, status, headers, config) {
             $scope.postsCount = data.count;
         });
 
     $scope.loadPosts = function(){
-        $http.get('/posts?sort=created_at&limit=' + PAGE_SIZE + '&from=' + $scope.fromIndex).
+        $http.get($scope.postsRoot + '?sort=created_at&limit=' + PAGE_SIZE + '&from=' + $scope.fromIndex).
         success(function(posts, status, headers, config) {
             for (var i = 0; i < posts.length; i++) {
                 $scope.posts.push(posts[i]);
@@ -48,20 +49,20 @@ angular.module('myApp.controllers', []).
     }
 
 	$scope.translationSufix = function(number){
-		if((number-number%10)%100!=10) 
-		{ 
-			if(number%10==1){ 
-				return 1; 
+		if((number-number%10)%100!=10)
+		{
+			if(number%10==1){
+				return 1;
 			} else if(number%10>=2 && number%10<=4){
 				return 2;
-			} else { 
+			} else {
 				return 5;
-			} 
-		} else { 
+			}
+		} else {
 			return 5;
 		}
 	}
-	
+
     $scope.loadPosts();
   }])
   .controller('ProfileController', [function() {

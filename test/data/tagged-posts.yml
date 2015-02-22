@@ -1,0 +1,31 @@
+User(frank):
+    displayName:      Superman
+    email:            superman@mail.com
+    registrationDate: 2009-03-26
+    loginName:        franky
+    password:         secret
+
+Post(postOne):
+    content:      "#tagged test content 1"
+    author:       frank
+    creationDate: 2009-03-26
+
+Post(postTwo):
+    content:      "test content 2"
+    author:       frank
+    creationDate: 2009-03-27
+
+Post(postThree):
+    content:      "test #taggedtwo content 3"
+    author:       frank
+    creationDate: 2009-03-28
+
+Post(postFour):
+    content:      "test content 4 #tagged"
+    author:       frank
+    creationDate: 2009-03-29
+
+Post(postFive):
+    content:      "Ще одненький #тег українською"
+    author:       frank
+    creationDate: 2009-03-29

@@ -5,7 +5,7 @@
           <img ng-src="{{post.author.photo}}?size=small" class="img-circle" width="32px" height="32px">
           <strong>{{post.author.displayName}}</strong>&nbsp;<span class="post-date">{{post.creationTimestamp | date:'mediumDate'}}</span>
         </div>
-        <div class="panel-body post-content">{{post.content}}</div>
+        <div class="panel-body post-content" ng-bind-html="post.content | hashtagger"></div>
         <div class="panel-footer">
           <div ng-repeat="comment in comments">
             <div class="row">
@@ -14,7 +14,7 @@
               </div>
               <div class="col-xs-10">
                 <div><strong>{{comment.author.displayName}}</strong>:</div>
-                {{comment.content}}
+                <div ng-bind-html="comment.content | hashtagger"></div>
               </div>
             </div>
             <hr></hr>

@@ -22,23 +22,24 @@ import controllers.security.Security;
 @With(Security.class)
 public class Posts extends Controller {
 
+	public static void getPostsByTag(String name, String sort, int from, int limit) {
+		renderPostsListJson(sort, from, limit, "content like ?1 or content like ?2 or content like ?3", "#" + name + "%", "%#" + name, "%#" + name + " %");
+	}
+	
 	public static void getPosts(String sort, int from, int limit) {
-		JPAQuery postsQuery = null;
-		if("created_at".equals(sort)){
-			postsQuery = Post.find("order by creationDate desc");
-		}else{
-			postsQuery = Post.all();
-		}
-		limit = (limit == 0) ? 10 : limit;
-		List<Post> postsList = postsQuery.from(from).fetch(limit);
-		List<PostResponse> responseList = PostResponse.convertToPostResponsesList(postsList);
-		renderJSON(responseList);
+		renderPostsListJson(sort, from, limit, "");
 	}
 
 	public static void getPostsCount(){
-		renderJSON("{\"count\":" + Post.count() +"}");
+		long count = Post.count();
+		renderCountJson(count);
 	}
 
+	public static void getPostsByTagCount(String name){
+		long count = Post.count("content like ?1 or content like ?2 or content like ?3", "#" + name + "%", "%#" + name, "%#" + name + " %");
+		renderCountJson(count);
+	}
+	
 	@Secured
 	public static void createPost() {
 		User connected = Security.getAuthenticatedUser();
@@ -94,5 +95,22 @@ public class Posts extends Controller {
 
 		post._delete();
 		ok();
+	}
+	
+	private static void renderPostsListJson(String sort, int from, int limit, String query, Object... params) {
+		JPAQuery postsQuery = null;
+		if("created_at".equals(sort)){
+			postsQuery = Post.find(query + " order by creationDate desc", params);
+		}else{
+			postsQuery = Post.find(query, params);
+		}
+		limit = (limit == 0) ? 10 : limit;
+		List<Post> postsList = postsQuery.from(from).fetch(limit);
+		List<PostResponse> responseList = PostResponse.convertToPostResponsesList(postsList);
+		renderJSON(responseList);
+	}
+
+	private static void renderCountJson(long count) {
+		renderJSON("{\"count\":" + count +"}");
 	}
 }
