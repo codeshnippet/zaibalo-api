@@ -23,7 +23,7 @@ angular.module('myApp.directives', [])
 .directive('post', function() {
 	return {
 		restrict : 'E',
-		templateUrl : 'partials/single-post.html',
+		templateUrl : 'partials/post.html',
 		replace : true
 	};
 })
