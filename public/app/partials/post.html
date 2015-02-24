@@ -11,7 +11,7 @@
     </div>
     <div>
       <img ng-src="{{post.author.photo}}?size=small" class="img-circle" width="32px" height="32px">
-      <strong>{{post.author.displayName}}</strong>&nbsp;<span class="post-date">{{post.creationTimestamp | date:'mediumDate'}}</span>
+      <strong>{{post.author.displayName}}</strong>&nbsp;<span class="post-date">{{ post.creationTimestamp | timeDistance }}</span>
     </div>
   </div>
   <div class="panel-body post-content" ng-bind-html="post.content | hashtagger"></div>
