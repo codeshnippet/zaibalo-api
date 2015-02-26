@@ -3,13 +3,14 @@
 /* Controllers */
 
 angular.module('myApp.controllers', ['myApp.services']).
-  controller('PostsController', ['$http', '$scope', '$routeParams', 'PostService', function($http, $scope, $routeParams, PostService) {
+  controller('PostsController', ['$http', '$scope', '$routeParams', 'PostService', '$translate', function($http, $scope, $routeParams, PostService, $translate) {
     var PAGE_SIZE = 10;
     $scope.fromIndex = 0;
     $scope.posts = [];
     $scope.postsCount = 0;
     $scope.postsRoot = $routeParams.tag == undefined ? '/posts' : '/posts/hashtag/' + $routeParams.tag;
     $scope.newPost = "";
+    $scope.locale = $translate.use();
 
     $http.get($scope.postsRoot + '/count').
         success(function(data, status, headers, config) {
