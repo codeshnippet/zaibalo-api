@@ -8,9 +8,6 @@ angular.module('myApp.filters', []).
           return function(text) {
               if (!text) return text;
 
-              //var replacedText = $filter('linky')(text);
-              //var replacedText = $sce.trustAsHtml(text);
-
               // replace #hashtags and send them to twitter
               var replacePattern1 = /(^|\s)#(\w*[a-zA-ZА-Яа-яґіїєё'_]+\w*)/gim;
               var replacedText = text.replace(replacePattern1, '$1<a href="#/hashtag/$2">#$2</a>');
