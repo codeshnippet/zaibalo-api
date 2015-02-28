@@ -12,7 +12,7 @@ angular.module('myApp.controllers')
     $scope.newPost = "";
 
     if ($routeParams.tag != undefined) {
-      $scope.postsRoot += '/hashtag/' + $routeParams.tag;
+      $scope.postsRoot += '/tag/' + $routeParams.tag;
     } else if($routeParams.postId != undefined) {
       $scope.postsRoot += '/' + $routeParams.postId;
       $scope.postsCount = 1;
