@@ -9,7 +9,7 @@ app.config(['$routeProvider', function($routeProvider) {
     $routeProvider.when('/',              {templateUrl: 'partials/posts.html',       controller: 'PostsController'});
     $routeProvider.when('/hashtag/:tag',  {templateUrl: 'partials/posts.html',       controller: 'PostsController'});
     $routeProvider.when('/profile',       {templateUrl: 'partials/profile.html',     controller: 'ProfileController'});
-    $routeProvider.when('/post/:postId',  {templateUrl: 'partials/post.html',        controller: 'PostsController'});
+    $routeProvider.when('/post/:postId',  {templateUrl: 'partials/posts.html',        controller: 'PostsController'});
 
     $routeProvider.otherwise({redirectTo: '/'});
 }]);

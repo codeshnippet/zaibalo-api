@@ -7,18 +7,30 @@ angular.module('myApp.controllers')
     var PAGE_SIZE = 10;
     $scope.fromIndex = 0;
     $scope.posts = [];
-    $scope.postsCount = 0;
-    $scope.postsRoot = $routeParams.tag == undefined ? '/posts' : '/posts/hashtag/' + $routeParams.tag;
+    $scope.postsCount;
+    $scope.postsRoot = '/posts';
     $scope.newPost = "";
 
-    $http.get($scope.postsRoot + '/count').
+    if ($routeParams.tag != undefined) {
+      $scope.postsRoot += '/hashtag/' + $routeParams.tag;
+    } else if($routeParams.postId != undefined) {
+      $scope.postsRoot += '/' + $routeParams.postId;
+      $scope.postsCount = 1;
+    }
+
+    if($scope.postsCount == undefined) {
+      $http.get($scope.postsRoot + '/count').
         success(function(data, status, headers, config) {
             $scope.postsCount = data.count;
         });
+    }
 
     $scope.loadPosts = function(){
         $http.get($scope.postsRoot + '?sort=created_at&limit=' + PAGE_SIZE + '&from=' + $scope.fromIndex).
         success(function(posts, status, headers, config) {
+            if(posts.constructor !== Array){
+              posts = [posts];
+            }
             for (var i = 0; i < posts.length; i++) {
                 $scope.posts.push(posts[i]);
             }

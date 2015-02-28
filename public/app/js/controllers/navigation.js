@@ -6,7 +6,7 @@ angular.module('myApp.controllers')
   $scope.locale = $translate.use();
 
   $scope.toggleLanguage = function () {
-    var langKey = $translate.use() =='uk_UA' ? 'en_US' : 'uk_UA';
+    var langKey = $scope.locale =='uk_UA' ? 'en_US' : 'uk_UA';
     $translate.use(langKey);
     $scope.locale = langKey;
   };
