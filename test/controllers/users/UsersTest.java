@@ -23,7 +23,7 @@ public class UsersTest extends BasicFunctionalTest {
 	private static final String PASS_HASHED = "1a1dc91c907325c69271ddf0c944bc72";
 	public static final String FRANKY_LOGIN_NAME = "franky";
 	public static final String BILLY_LOGIN_NAME = "billy";
-	private static final long WRONG_ID = 286684l;
+	private static final String WRONG_DISPLAY_NAME = "NOT_EXISTING_USER";
 
 	@Before
 	public void beforeTest() {
@@ -35,7 +35,7 @@ public class UsersTest extends BasicFunctionalTest {
 		Fixtures.loadModels("data/user.yml");
 
 		User user = User.findByLoginName(FRANKY_LOGIN_NAME);
-		Response response = GET("/users/" + user.id);
+		Response response = GET("/users/Superman");
 		assertIsOk(response);
 		assertContentType(APPLICATION_JSON, response);
 		assertEquals("{\"id\":" + user.id + ",\"displayName\":\"Superman\"}", response.out.toString());
@@ -43,7 +43,7 @@ public class UsersTest extends BasicFunctionalTest {
 
 	@Test
 	public void testUserNotFound() {
-		Response response = GET("/users/" + WRONG_ID);
+		Response response = GET("/users/" + WRONG_DISPLAY_NAME);
 		assertIsNotFound(response);
 	}
 
@@ -126,10 +126,10 @@ public class UsersTest extends BasicFunctionalTest {
 		Fixtures.loadModels("data/user.yml");
 		
 		String bodyJson = new Gson().toJson(createUserRequest("Mike", "p", "d", "e@e.e"));
-		String url = "/users/" + WRONG_ID;
+		String url = "/users/" + WRONG_DISPLAY_NAME;
 		
 		Request request = getAuthRequest(url, APPLICATION_JSON, bodyJson, "PUT", BILLY_LOGIN_NAME, "secret");
-		Response response = PUT(request, "/users/" + WRONG_ID, APPLICATION_JSON, bodyJson);
+		Response response = PUT(request, "/users/" + WRONG_DISPLAY_NAME, APPLICATION_JSON, bodyJson);
 		assertIsNotFound(response);
 	}
 

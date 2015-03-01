@@ -1,9 +1,11 @@
 package controllers.users;
 
 import java.io.InputStreamReader;
+import java.util.List;
 
 import org.apache.commons.lang.StringUtils;
 
+import models.Post;
 import models.User;
 import play.mvc.Controller;
 import play.mvc.Http.Header;
@@ -11,6 +13,7 @@ import play.mvc.With;
 
 import com.google.gson.GsonBuilder;
 
+import controllers.posts.Posts;
 import controllers.security.Secured;
 import controllers.security.Security;
 
@@ -30,9 +33,9 @@ public class Users extends Controller {
 		
 		response.status = 201;
 	}
-
-	public static void getUser(long id) {
-		User user = User.findById(id);
+	
+	public static void getUserByDisplayName(String displayName) {
+		User user = User.find("byDisplayName", displayName).first();
 		if (user == null) {
 			notFound();
 		}
@@ -56,5 +59,13 @@ public class Users extends Controller {
 
 		response.setContentTypeIfNotSet("application/json");
 		renderJSON(UserResponse.convertToJson(user));
+	}
+	
+	public static void getUserPosts(long id, String sort, int from, int limit){
+		User user = User.findById(id);
+		if (user == null) {
+			notFound();
+		}
+		Posts.renderPostsListJson(sort, from, limit, "author = ?", user);
 	}
 }

@@ -15,9 +15,10 @@ GET        /avatar                                 Application.avatar
 # Users
 POST       /users                                  users.Users.createUser
 
-GET        /users/{id}                             users.Users.getUser
+GET        /users/{displayName}                    users.Users.getUserByDisplayName
 PUT        /users/{id}                             users.Users.editUser
 DELETE     /users/{id}                             users.Users.deleteUser
+GET        /users/{id}/posts                       users.Users.getUserPosts
 
 # Posts
 GET        /posts                                  posts.Posts.getPosts

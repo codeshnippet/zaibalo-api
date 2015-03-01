@@ -2,6 +2,13 @@
 
 angular.module('myApp.controllers')
 
-.controller('ProfileController', [function() {
+.controller('UserController', ['$scope', '$http', '$routeParams', function($scope, $http, $routeParams) {
+  $scope.user = {};
 
+  $http({
+      method: 'GET',
+      url: '/users/' + $routeParams.displayName
+    }).success(function(data){
+      $scope.user = data;
+    });
 }]);

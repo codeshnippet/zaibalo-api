@@ -7,7 +7,10 @@
           <img ng-src="{{comment.author.photo}}?size=small" class="img-circle" width="32px" height="32px">
         </div>
         <div class="col-xs-10">
-          <div><strong>{{comment.author.displayName}}</strong>:</div>
+          <div>
+            <a href="/#/user/{{comment.author.displayName}}"><strong>{{comment.author.displayName}}</strong></a>
+            <span class="post-date">{{ comment.creationTimestamp | timeDistance : locale }}</span>
+          </div>
           <div ng-bind-html="comment.content | hashtagger"></div>
         </div>
       </div>

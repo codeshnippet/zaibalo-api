@@ -6,12 +6,24 @@ var app = angular.module('myApp', ['myApp.filters', 'myApp.services', 'myApp.dir
 angular.module('myApp.controllers', []);
 
 app.config(['$routeProvider', function($routeProvider) {
-    $routeProvider.when('/',              {templateUrl: 'partials/posts.html',       controller: 'PostsController'});
-    $routeProvider.when('/tag/:tag',  {templateUrl: 'partials/posts.html',       controller: 'PostsController'});
-    $routeProvider.when('/profile',       {templateUrl: 'partials/profile.html',     controller: 'ProfileController'});
-    $routeProvider.when('/post/:postId',  {templateUrl: 'partials/posts.html',        controller: 'PostsController'});
-
-    $routeProvider.otherwise({redirectTo: '/'});
+    $routeProvider
+    .when('/', {
+      templateUrl: 'partials/posts.html',
+      controller: 'PostsController'
+      })
+    .when('/tag/:tag', {
+      templateUrl: 'partials/posts.html',
+      controller: 'PostsController'
+      })
+    .when('/user/:displayName', {
+      templateUrl: 'partials/user.html',
+      controller: 'UserController'
+      })
+    .when('/post/:postId', {
+      templateUrl: 'partials/posts.html',
+      controller: 'PostsController'
+      })
+    .otherwise({redirectTo: '/'});
 }]);
 
 app.config(function ($translateProvider) {

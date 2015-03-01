@@ -11,7 +11,8 @@
     </div>
     <div>
       <img ng-src="{{post.author.photo}}?size=small" class="img-circle" width="32px" height="32px">
-      <strong>{{post.author.displayName}}</strong>&nbsp;<span class="post-date">{{ post.creationTimestamp | timeDistance : locale }}</span>
+      <a href="/#/user/{{post.author.displayName}}"><strong>{{post.author.displayName}}</strong></a>
+      <span class="post-date">{{ post.creationTimestamp | timeDistance : locale }}</span>
     </div>
   </div>
   <div class="panel-body post-content" ng-bind-html="post.content | hashtagger"></div>
