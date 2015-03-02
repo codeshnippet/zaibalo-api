@@ -34,8 +34,8 @@ public class Users extends Controller {
 		response.status = 201;
 	}
 	
-	public static void getUserByDisplayName(String displayName) {
-		User user = User.find("byDisplayName", displayName).first();
+	public static void getUserByLogin(String loginName) {
+		User user = User.find("byLoginName", loginName).first();
 		if (user == null) {
 			notFound();
 		}
@@ -61,11 +61,20 @@ public class Users extends Controller {
 		renderJSON(UserResponse.convertToJson(user));
 	}
 	
-	public static void getUserPosts(long id, String sort, int from, int limit){
-		User user = User.findById(id);
+	public static void getUserPosts(String loginName, String sort, int from, int limit){
+		User user = User.find("byLoginName", loginName).first();
 		if (user == null) {
 			notFound();
 		}
-		Posts.renderPostsListJson(sort, from, limit, "author = ?", user);
+		Posts.renderPostsListJson(sort, from, limit, "byAuthor", user);
+	}
+	
+	public static void getUserPostsCount(String loginName){
+		User user = User.find("byLoginName", loginName).first();
+		if (user == null) {
+			notFound();
+		}
+		long count = Post.count("byAuthor", user);
+		Posts.renderCountJson(count);
 	}
 }

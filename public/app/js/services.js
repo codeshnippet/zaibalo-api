@@ -2,8 +2,4 @@
 
 /* Services */
 
-angular.module('myApp.services', [])
-  .factory("PostService", function() {
-    return {
-    };
-  });
+angular.module('myApp.services', []);

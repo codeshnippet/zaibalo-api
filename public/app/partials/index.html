@@ -1,0 +1,12 @@
+<div>
+
+			<form ng-submit="addPost(posts)">
+				<div class="form-group">
+					<textarea id="new-post-text" class="form-control" placeholder="{{ 'text' | translate }}" ng-model="newPost"></textarea>
+				</div>
+				<div class="form-group clearfix">
+					<button class="btn btn-default pull-right">{{ 'send' | translate }}</button>
+				</div>
+			</form>
+			<posts></posts>
+</div>

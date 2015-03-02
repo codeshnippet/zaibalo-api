@@ -28,7 +28,7 @@ public class CommentsTest extends BasicFunctionalTest{
 		assertIsOk(response);
 		assertContentType("application/json", response);
 		
-		assertContentEquals("[{\"id\":"+comment.id+",\"content\":\"Funny comment!\",\"author\":{\"id\":" + comment.author.id + ",\"displayName\":\"Superman\"},\"creationTimestamp\":1238025600000}]", response);
+		assertContentEquals("[{\"id\":"+comment.id+",\"content\":\"Funny comment!\",\"author\":{\"id\":" + comment.author.id + ",\"displayName\":\"Superman\",\"loginName\":\"franky\"},\"creationTimestamp\":1238025600000}]", response);
 	}
 	
 	@Test

@@ -1,21 +1,32 @@
 <div>
+  <div ng-repeat="post in posts">
+    <div class="panel panel-default" ng-show="post">
+      <div class="panel-heading clearfix">
+        <div class="pull-right">
+          <div class="btn-group">
+            <button type="button" class="btn btn-default dropdown-toggle post-menu-button" data-toggle="dropdown" aria-expanded="false">...
+            </button>
+            <ul class="dropdown-menu pull-right" role="menu">
+              <li><a href="#" ng-click="deletePost(post.id, $index, $event)" style="color: red;">{{ 'delete.post' | translate }}</a></li>
+            </ul>
+          </div>
+        </div>
+        <div>
+          <img ng-src="{{post.author.photo}}?size=small" class="img-circle" width="32px" height="32px">
+          <a href="/#/@{{post.author.loginName}}"><strong>{{post.author.displayName}}</strong></a>
+          <span class="post-date">{{ post.creationTimestamp | timeDistance : locale }}</span>
+        </div>
+      </div>
+      <div class="panel-body post-content" ng-bind-html="post.content | hashtagger"></div>
+      <div class="panel-footer clearfix">
+        <comments></comments>
+      </div>
+    </div>
+  </div>
 
-			<form ng-submit="addPost(posts)">
-				<div class="form-group">
-					<textarea id="new-post-text" class="form-control" placeholder="{{ 'text' | translate }}" ng-model="newPost"></textarea>
-				</div>
-				<div class="form-group clearfix">
-					<button class="btn btn-default pull-right">{{ 'send' | translate }}</button>
-				</div>
-			</form>
-
-			<div ng-repeat="post in posts">
-				<post></post>
-			</div>
-
-			<div class="row">
-				<div class="col-sm-offset-4 col-sm-4 col-xs-12">
-					<button type="button" class="btn btn-md btn-default btn-block" ng-show="postsCount > posts.length" ng-click="loadPosts()">{{ 'load.more.posts' | translate }}</button>
-				</div>
-			</div>
+  <div class="row">
+    <div class="col-sm-offset-4 col-sm-4 col-xs-12">
+      <button type="button" class="btn btn-md btn-default btn-block" ng-show="postsCount > posts.length" ng-click="loadPosts()">{{ 'load.more.posts' | translate }}</button>
+    </div>
+  </div>
 </div>

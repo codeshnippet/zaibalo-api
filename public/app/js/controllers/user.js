@@ -3,11 +3,11 @@
 angular.module('myApp.controllers')
 
 .controller('UserController', ['$scope', '$http', '$routeParams', function($scope, $http, $routeParams) {
-  $scope.user = {};
+  $scope.user;
 
   $http({
       method: 'GET',
-      url: '/users/' + $routeParams.displayName
+      url: '/users/' + $routeParams.login
     }).success(function(data){
       $scope.user = data;
     });

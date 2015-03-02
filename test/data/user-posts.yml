@@ -1,0 +1,28 @@
+User(frank):
+    displayName:      Superman
+    email:            superman@mail.com
+    registrationDate: 2009-03-26
+    loginName:        franky
+    password:         secret
+
+User(bill):
+    displayName:      Drunk
+    email:            bill@mail.com
+    registrationDate: 2009-03-27
+    loginName:        billy
+    password:         secret
+
+Post(postOne):
+    content:      test content 1
+    author:       frank
+    creationDate: 2009-03-26
+
+Post(postTwo):
+    content:      test content 2
+    author:       bill
+    creationDate: 2009-03-27
+
+Post(postThree):
+    content:      test content 3
+    author:       frank
+    creationDate: 2009-03-27

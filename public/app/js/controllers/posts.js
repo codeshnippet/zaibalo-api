@@ -2,20 +2,21 @@
 
 angular.module('myApp.controllers')
 
-.controller('PostsController', ['$http', '$scope', '$routeParams', 'PostService', '$translate',
-  function($http, $scope, $routeParams, PostService, $translate) {
+.controller('PostsController', ['$http', '$scope', '$routeParams', '$translate',
+  function($http, $scope, $routeParams, $translate) {
     var PAGE_SIZE = 10;
     $scope.fromIndex = 0;
     $scope.posts = [];
     $scope.postsCount;
     $scope.postsRoot = '/posts';
-    $scope.newPost = "";
 
     if ($routeParams.tag != undefined) {
-      $scope.postsRoot += '/tag/' + $routeParams.tag;
+      $scope.postsRoot += '/hashtag/' + $routeParams.tag;
     } else if($routeParams.postId != undefined) {
       $scope.postsRoot += '/' + $routeParams.postId;
       $scope.postsCount = 1;
+    } else if($routeParams.login != undefined) {
+      $scope.postsRoot = '/users/' + $routeParams.login + '/posts';
     }
 
     if($scope.postsCount == undefined) {
@@ -38,18 +39,6 @@ angular.module('myApp.controllers')
         });
     }
 
-    $scope.addPost = function(posts){
-        var json = JSON.stringify({ content : $scope.newPost });
-
-        $.post('/posts', json, function(data) {
-            posts.unshift(data);
-            $scope.$apply();
-        }, 'json');
-
-        this.newPost = "";
-        $scope.fromIndex++;
-    }
-
     $scope.deletePost = function(postId, index, event){
       $.delete('/posts/' + postId, '', function(data) {
         $scope.posts.splice(index, 1);
@@ -59,36 +48,6 @@ angular.module('myApp.controllers')
 
       event.preventDefault();
     }
-
-    $scope.addComment = function(post){
-      var json = JSON.stringify({ content : post.newComment });
-
-      $.post('/posts/' + post.id + '/comments', json, function(data) {
-          post.comments.push(data);
-          $scope.$apply();
-      }, 'json');
-
-      post.newComment = "";
-    }
-
-    $scope.toggleComments = function(event, target){
-      $(target).prev().slideToggle(500);
-      event.preventDefault();
-    }
-
-    $scope.translationSufix = function(number){
-       if((number-number%10)%100!=10){
-         if(number%10==1){
-           return 1;
-         } else if(number%10>=2 && number%10<=4){
-           return 2;
-         } else {
-           return 5;
-         }
-       } else {
-         return 5;
-       }
-     };
 
     $scope.loadPosts();
 }]);

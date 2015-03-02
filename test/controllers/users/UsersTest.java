@@ -1,5 +1,8 @@
 package controllers.users;
 
+import java.util.List;
+
+import models.Post;
 import models.User;
 
 import org.junit.Before;
@@ -12,6 +15,7 @@ import play.test.Fixtures;
 
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
+import com.google.gson.reflect.TypeToken;
 
 import controllers.BasicFunctionalTest;
 
@@ -35,10 +39,13 @@ public class UsersTest extends BasicFunctionalTest {
 		Fixtures.loadModels("data/user.yml");
 
 		User user = User.findByLoginName(FRANKY_LOGIN_NAME);
-		Response response = GET("/users/Superman");
+		Response response = GET("/users/franky");
 		assertIsOk(response);
 		assertContentType(APPLICATION_JSON, response);
-		assertEquals("{\"id\":" + user.id + ",\"displayName\":\"Superman\"}", response.out.toString());
+		UserResponse userResponse = new Gson().fromJson(response.out.toString(), UserResponse.class);
+		assertEquals(Long.valueOf(user.id), Long.valueOf(userResponse.id));
+		assertEquals("Superman", userResponse.displayName);
+		assertEquals("franky", userResponse.loginName);
 	}
 
 	@Test
@@ -132,7 +139,33 @@ public class UsersTest extends BasicFunctionalTest {
 		Response response = PUT(request, "/users/" + WRONG_DISPLAY_NAME, APPLICATION_JSON, bodyJson);
 		assertIsNotFound(response);
 	}
+	
+	@Test
+	public void testGetUserPosts() {
+		Fixtures.loadModels("data/user-posts.yml");
+		
+		User franky = User.findByLoginName("franky");
+		
+		Response response = GET("/users/" + franky.loginName + "/posts");
 
+		List<Post> postsList = new Gson().fromJson(response.out.toString(), new TypeToken<List<Post>>() {
+		}.getType());
+		assertEquals(2, postsList.size());
+		assertEquals("test content 1", postsList.get(0).content);
+		assertEquals("test content 3", postsList.get(1).content);
+	}
+
+	@Test
+	public void testGetUserPostsCount() {
+		Fixtures.loadModels("data/user-posts.yml");
+		
+		User franky = User.findByLoginName("franky");
+		
+		Response response = GET("/users/" + franky.loginName + "/posts/count");
+
+		assertEquals("{\"count\":2}", response.out.toString());
+	}
+	
 	private UserRequest createUserRequest(String login, String pass, String displayName, String email) {
 		UserRequest userRequest = new UserRequest();
 		userRequest.loginName = login;

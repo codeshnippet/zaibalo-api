@@ -20,11 +20,12 @@ angular.module('myApp.directives', [])
 	};
 })
 
-.directive('post', function() {
+.directive('posts', function() {
 	return {
 		restrict : 'E',
-		templateUrl : 'partials/post.html',
-		replace : true
+		templateUrl : 'partials/posts.html',
+		replace : true,
+		controller: 'PostsController'
 	};
 })
 
@@ -32,6 +33,7 @@ angular.module('myApp.directives', [])
 	return {
 		restrict : 'E',
 		templateUrl : 'partials/comments.html',
-		replace : true
+		replace : true,
+		controller: 'CommentsController'
 	};
 });

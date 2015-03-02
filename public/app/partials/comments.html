@@ -8,7 +8,7 @@
         </div>
         <div class="col-xs-10">
           <div>
-            <a href="/#/user/{{comment.author.displayName}}"><strong>{{comment.author.displayName}}</strong></a>
+            <a href="/#/@{{comment.author.loginName}}"><strong>{{comment.author.displayName}}</strong></a>
             <span class="post-date">{{ comment.creationTimestamp | timeDistance : locale }}</span>
           </div>
           <div ng-bind-html="comment.content | hashtagger"></div>

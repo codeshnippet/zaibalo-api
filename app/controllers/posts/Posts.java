@@ -108,7 +108,8 @@ public class Posts extends Controller {
 		renderJSON(responseList);
 	}
 
-	private static void renderCountJson(long count) {
+	@Util
+	public static void renderCountJson(long count) {
 		renderJSON("{\"count\":" + count +"}");
 	}
 }

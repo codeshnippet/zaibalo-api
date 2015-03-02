@@ -8,20 +8,20 @@ angular.module('myApp.controllers', []);
 app.config(['$routeProvider', function($routeProvider) {
     $routeProvider
     .when('/', {
-      templateUrl: 'partials/posts.html',
-      controller: 'PostsController'
+      templateUrl: 'partials/index.html',
+      controller: 'IndexController'
       })
-    .when('/tag/:tag', {
-      templateUrl: 'partials/posts.html',
-      controller: 'PostsController'
-      })
-    .when('/user/:displayName', {
-      templateUrl: 'partials/user.html',
-      controller: 'UserController'
+    .when('/#:tag', {
+      templateUrl: 'partials/index.html',
+      controller: 'IndexController'
       })
     .when('/post/:postId', {
       templateUrl: 'partials/posts.html',
       controller: 'PostsController'
+      })
+    .when('/@:login', {
+      templateUrl: 'partials/user.html',
+      controller: 'UserController'
       })
     .otherwise({redirectTo: '/'});
 }]);
