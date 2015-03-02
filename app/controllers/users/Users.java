@@ -66,7 +66,7 @@ public class Users extends Controller {
 		if (user == null) {
 			notFound();
 		}
-		Posts.renderPostsListJson(sort, from, limit, "byAuthor", user);
+		Posts.renderPostsListJson(sort, from, limit, "author = ?", user);
 	}
 	
 	public static void getUserPostsCount(String loginName){
