@@ -11,7 +11,7 @@ app.config(['$routeProvider', function($routeProvider) {
       templateUrl: 'partials/index.html',
       controller: 'IndexController'
       })
-    .when('/#:tag', {
+    .when('/:tag', {
       templateUrl: 'partials/index.html',
       controller: 'IndexController'
       })
