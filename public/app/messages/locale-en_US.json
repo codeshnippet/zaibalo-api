@@ -5,7 +5,10 @@
   "sign.in" : "Sign in",
   "latest.posts" : "Latest posts",
   "login" : "Login",
+  "signup" : "Signup",
   "username" : "Username",
+  "email" : "E-mail",
+  "display.name" : "Display name",
   "password" : "Password",
   "text" : "Text",
   "author.colon.space" : "Author:&nbsp;",
@@ -20,5 +23,7 @@
   "comments2" : " {{value}} comments",
   "comments5" : " {{value}} comments",
   "view.post.page" : "View post page",
-  "delete.post" : "Delete post"
+  "delete.post" : "Delete post",
+  "join.zaibalo.today" : "Join Zaibalo today!",
+  "join" : "Sign up"
 }

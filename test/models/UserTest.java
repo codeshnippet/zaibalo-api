@@ -1,8 +1,5 @@
 package models;
 
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertNotNull;
-
 import javax.persistence.PersistenceException;
 
 import org.junit.Before;
@@ -86,5 +83,39 @@ public class UserTest extends UnitTest{
     	otherUserWithSameEmail.setPassword("password");
     	otherUserWithSameEmail.displayName = "TestName@";
     	otherUserWithSameEmail.save();
+    }
+    
+    @Test(expected = javax.validation.ConstraintViolationException.class)
+    public void testLoginNameIsRequired(){
+    	User user = new User();
+    	user.email = "email123@test.com";
+    	user.setPassword("password");
+    	user.displayName = "TestName!";
+
+    	user.loginName = null;
+
+    	user.save();
+    }
+    
+    @Test(expected = javax.validation.ConstraintViolationException.class)
+    public void testPasswordIsRequired(){
+    	User user = new User();
+    	user.loginName = "login";
+    	user.email = "email123@test.com";
+    	user.displayName = "TestName!";
+
+    	user.password = null;
+
+    	user.save();
+    }
+    
+    @Test
+    public void testSaveUserWithNullOptionalFields(){
+    	User user = new User();
+    	user.loginName = "login";
+    	user.setPassword("password");
+    	user.email =  null;
+    	user.displayName = null;
+    	user.save();
     }
 }

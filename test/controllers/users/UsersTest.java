@@ -68,6 +68,21 @@ public class UsersTest extends BasicFunctionalTest {
 		
 		assertHeaderEquals("Location", newRequest().host + "/users/" + user.id, response);
 	}
+
+	@Test
+	public void testUserCreationWithMinimalFields() {
+		Response response = POST("/users", APPLICATION_JSON, new Gson().toJson(createUserRequest("johny", "pass")));
+		assertStatus(201, response);
+		assertContentType(APPLICATION_JSON, response);
+
+		User user = User.findByLoginName("johny");
+		assertNotNull(user);
+		assertEquals(PASS_HASHED, user.getPassword());
+		assertEquals("johny", user.displayName);
+		assertEquals(null, user.email);
+		
+		assertHeaderEquals("Location", newRequest().host + "/users/" + user.id, response);
+	}
 	
 	@Test
 	public void testUserCreationWithOtherParameters() {
@@ -165,6 +180,11 @@ public class UsersTest extends BasicFunctionalTest {
 
 		assertEquals("{\"count\":2}", response.out.toString());
 	}
+	
+	private UserRequest createUserRequest(String login, String pass){
+		return createUserRequest(login, pass, null, null);
+	}
+	
 	
 	private UserRequest createUserRequest(String login, String pass, String displayName, String email) {
 		UserRequest userRequest = new UserRequest();

@@ -14,7 +14,11 @@ public class UserRequest {
 	public static void populateUserFromUserRequest(UserRequest userRequest, User user) {
 		user.loginName = userRequest.loginName;
 		user.setPassword(userRequest.password);
-		user.displayName = userRequest.displayName;
+		if(userRequest.displayName != null){
+			user.displayName = userRequest.displayName;
+		} else {
+			user.displayName = userRequest.loginName;
+		}
 		user.email = userRequest.email;
 		user.photo = userRequest.photo;
 	}

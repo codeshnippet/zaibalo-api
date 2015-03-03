@@ -1,13 +1,13 @@
 package models;
 
 import java.util.Date;
-import java.util.UUID;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.Table;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
+import javax.validation.constraints.NotNull;
 
 import org.apache.commons.codec.digest.DigestUtils;
 
@@ -17,10 +17,13 @@ import play.db.jpa.Model;
 @Table(name = "users")
 public class User extends Model {
 	
-	@Column(unique=true)
+	@NotNull
+	@Column(unique = true, nullable = false)
 	public String loginName;
 	
-	private String password;
+	@NotNull
+	@Column(nullable = false)
+	public String password;
 	
 	@Column(unique=true)
 	public String email;
@@ -42,7 +45,7 @@ public class User extends Model {
 	}
 
 	public void setPassword(String password) {
-		this.password = hashPassword(password);
+		this.password = password == null ? null : hashPassword(password);
 	}
 
 	public static User findByAuthToken(String authToken) {

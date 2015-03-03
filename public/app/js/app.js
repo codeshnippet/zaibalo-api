@@ -23,6 +23,10 @@ app.config(['$routeProvider', function($routeProvider) {
       templateUrl: 'partials/user.html',
       controller: 'UserController'
       })
+    .when('/signup', {
+      templateUrl: 'partials/signup.html',
+      controller: 'SignupController'
+      })
     .otherwise({redirectTo: '/'});
 }]);
 
