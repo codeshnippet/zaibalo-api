@@ -3,5 +3,13 @@
 angular.module('myApp.controllers')
 
 .controller('SignupController', ['$scope', function($scope) {
-  $scope.locale = "test";
+  $scope.user = {};
+
+  $scope.registerUser = function(user){
+    var json = JSON.stringify(user);
+    $.post('/users', json, function(data) {
+        alert('Success');
+      }, 'json');
+      $scope.user = {};
+    };
 }]);

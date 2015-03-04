@@ -71,17 +71,14 @@ public class UsersTest extends BasicFunctionalTest {
 
 	@Test
 	public void testUserCreationWithMinimalFields() {
-		Response response = POST("/users", APPLICATION_JSON, new Gson().toJson(createUserRequest("johny", "pass")));
-		assertStatus(201, response);
-		assertContentType(APPLICATION_JSON, response);
+		POST("/users", APPLICATION_JSON, new Gson().toJson(createUserRequest("johny", "pass")));
 
 		User user = User.findByLoginName("johny");
 		assertNotNull(user);
 		assertEquals(PASS_HASHED, user.getPassword());
 		assertEquals("johny", user.displayName);
 		assertEquals(null, user.email);
-		
-		assertHeaderEquals("Location", newRequest().host + "/users/" + user.id, response);
+		assertEquals("http://avatars.io/16XTmzfwia", user.photo);
 	}
 	
 	@Test

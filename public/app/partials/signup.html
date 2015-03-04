@@ -1,29 +1,37 @@
 <div class="panel panel-default">
 	<div class="panel-heading">
   	<h3 class="panel-title">{{ 'join.zaibalo.today' | translate }}</h3>
-	  </div>
+	</div>
 	<div class="panel-body">
-  	<form accept-charset="UTF-8" role="form">
-      <fieldset>
-    	  <div class="form-group">
-    		  <input class="form-control" placeholder="{{ 'username' | translate }}" name="login" type="text">
-    		</div>
-    		<div class="form-group">
-    		  <input class="form-control" placeholder="{{ 'password' | translate }}" name="password" type="password" value="">
-    		</div>
-        <div class="form-group">
-    		    <input class="btn btn-md btn-success btn-block" type="submit" value="{{ 'signup' | translate }}">
-        </div>
-        <div class="form-group">
-          <input class="form-control" placeholder="{{ 'display.name' | translate }}" name="display-name" type="text" value="">
-        </div>
-        <div class="form-group">
-          <div class="input-group">
-            <span class="input-group-addon">@</span>
-            <input class="form-control" placeholder="{{ 'email' | translate }}" name="email" type="email">
-          </div>
-        </div>
-  	  </fieldset>
-    </form>
+    <div class="row">
+      <div class="col-xs-5">
+        <span>{{ 'safe.some.typing' | translate }}</span>
+        <button class="btn btn-md btn-success btn-block">Facebook</button>
+        <button class="btn btn-md btn-success btn-block">Twitter</button>
+        <span>{{ 'we.hate.spam.in.social' | translate }}</span>
+      </div>
+      <div class="col-md-offset-2 col-xs-5">
+      	<form accept-charset="UTF-8" role="form">
+          <fieldset>
+        	  <div class="form-group">
+        		  <input ng-model="user.loginName" class="form-control" placeholder="{{ 'username' | translate }}" name="login" type="text" aria-describedby="helpBlock">
+              <span id="helpBlock" class="help-block">{{ 'used.for.login' | translate }}</span>
+        		</div>
+        		<div class="form-group">
+        		  <input ng-hide="unhidePassword" ng-model="user.password" class="form-control" placeholder="{{ 'password' | translate }}" name="password" type="password" value="">
+              <input ng-show="unhidePassword" ng-model="user.password" class="form-control" placeholder="{{ 'password' | translate }}" name="password-unhidden" type="text" value="">
+        		</div>
+            <div class="checkbox">
+              <label>
+                <input ng-model="unhidePassword" type="checkbox" name="unhide-password">{{ 'unhide.password' | translate}}
+              </label>
+            </div>
+            <div class="form-group">
+        		  <input ng-click="registerUser(user)" class="btn btn-md btn-success btn-block" type="submit" value="{{ 'signup' | translate }}">
+            </div>
+      	  </fieldset>
+        </form>
+      </div>
+    </div>
   </div>
 </div>
