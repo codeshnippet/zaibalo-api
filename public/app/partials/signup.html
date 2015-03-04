@@ -18,12 +18,12 @@
               <span id="helpBlock" class="help-block">{{ 'used.for.login' | translate }}</span>
         		</div>
         		<div class="form-group">
-        		  <input ng-hide="unhidePassword" ng-model="user.password" class="form-control" placeholder="{{ 'password' | translate }}" name="password" type="password" value="">
-              <input ng-show="unhidePassword" ng-model="user.password" class="form-control" placeholder="{{ 'password' | translate }}" name="password-unhidden" type="text" value="">
+        		  <input ng-hide="showPassword" ng-model="user.password" class="form-control" placeholder="{{ 'password' | translate }}" name="password" type="password" value="">
+              <input ng-show="showPassword" ng-model="user.password" class="form-control" placeholder="{{ 'password' | translate }}" name="password-unhidden" type="text" value="">
         		</div>
             <div class="checkbox">
               <label>
-                <input ng-model="unhidePassword" type="checkbox" name="unhide-password">{{ 'unhide.password' | translate}}
+                <input ng-model="showPassword" type="checkbox" name="unhide-password">{{ 'unhide.password' | translate}}
               </label>
             </div>
             <div class="form-group">
