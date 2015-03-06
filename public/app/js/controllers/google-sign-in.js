@@ -49,13 +49,9 @@ function GoogleSignInController($scope) {
     // Process user info.
     // userInfo is a JSON object.
     $scope.processUserInfo = function(userInfo) {
-        // You can check user info for domain.
-        if(userInfo['domain'] == 'mycompanydomain.com') {
-            // Hello colleague!
-        }
-
-        // Or use his email address to send e-mails to his primary e-mail address.
-        sendEMail(userInfo['emails'][0]['value']);
+        console.log('email: ' + userInfo['emails'][0]['value']);
+        console.log('display name: ' + userInfo.displayName);
+        console.log('image: ' + userInfo.image.url);
     }
 
     // When callback is received, process user info.
