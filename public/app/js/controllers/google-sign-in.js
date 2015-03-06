@@ -10,9 +10,8 @@ function GoogleSignInController($scope) {
             // Successful sign in.
             $scope.signedIn = true;
 
-            //     ...
-            // Do some work [1].
-            //     ...
+            $scope.getUserInfo();
+
         } else if(authResult['error']) {
             // Error while signing in.
             $scope.signedIn = false;
