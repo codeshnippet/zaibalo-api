@@ -47,6 +47,36 @@ function GoogleSignInController($scope) {
         $scope.renderSignInButton();
     };
 
+    // Process user info.
+    // userInfo is a JSON object.
+    $scope.processUserInfo = function(userInfo) {
+        // You can check user info for domain.
+        if(userInfo['domain'] == 'mycompanydomain.com') {
+            // Hello colleague!
+        }
+
+        // Or use his email address to send e-mails to his primary e-mail address.
+        sendEMail(userInfo['emails'][0]['value']);
+    }
+
+    // When callback is received, process user info.
+    $scope.userInfoCallback = function(userInfo) {
+        $scope.$apply(function() {
+            $scope.processUserInfo(userInfo);
+        });
+    };
+
+    // Request user info.
+    $scope.getUserInfo = function() {
+        gapi.client.request(
+            {
+                'path':'/plus/v1/people/me',
+                'method':'GET',
+                'callback': $scope.userInfoCallback
+            }
+        );
+    };
+
     // Call start function on load.
     $scope.start();
 }
