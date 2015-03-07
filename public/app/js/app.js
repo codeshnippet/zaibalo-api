@@ -27,10 +27,6 @@ app.config(['$routeProvider', function($routeProvider) {
       templateUrl: 'partials/signup.html',
       controller: 'SignupController'
       })
-    .when('/googleplus', {
-        templateUrl: 'partials/googleplus.html',
-        controller: 'GoogleSignInController'
-      })
     .otherwise({redirectTo: '/'});
 }]);
 

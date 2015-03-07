@@ -36,4 +36,13 @@ angular.module('myApp.directives', [])
 		replace : true,
 		controller: 'CommentsController'
 	};
+})
+
+.directive('googleSignIn', function() {
+	return {
+		restrict : 'E',
+		templateUrl : 'partials/google-sign-in.html',
+		replace : true,
+		controller: 'GoogleSignInController'
+	};
 });
