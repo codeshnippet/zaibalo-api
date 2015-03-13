@@ -32,6 +32,7 @@ public class Users extends Controller {
 		response.headers.put("Location", new Header("Location", location));
 		
 		response.status = 201;
+        renderJSON(UserResponse.convertToJson(user));
 	}
 	
 	public static void getUserByLogin(String loginName) {

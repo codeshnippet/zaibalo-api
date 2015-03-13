@@ -8,7 +8,7 @@ angular.module('myApp.controllers')
   $scope.registerUser = function(user){
     var json = JSON.stringify(user);
     $.post('/users', json, function(data) {
-        alert('Success');
+      alert('Success:'+JSON.stringify(data));
       }, 'json');
       $scope.user = {};
     };
