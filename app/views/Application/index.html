@@ -7,6 +7,8 @@
         <title>Заїбало...</title>
         <link rel="stylesheet" type="text/css" href="@{'/public/app/lib/bootstrap-3.3.2/css/bootstrap.min.css'}">
         <link rel="stylesheet" media="screen" href="@{'/public/app/css/app.css'}">
+
+		<script src="https://apis.google.com/js/client:platform.js" async defer></script>
     </head>
 
     <body>
@@ -46,8 +48,6 @@
         <script src="@{'/public/app/lib/jquery/jquery.cookie.js'}"></script>
         <script src="@{'/public/app/lib/avatars.io/avatars.io.min.js'}"></script>
 
-        <script src="@{'/public/app/lib/google/client.js'}"></script>
-
         <script src="@{'/public/app/js/app.js'}"></script>
         <script src="@{'/public/app/js/services.js'}"></script>
         <script src="@{'/public/app/js/controllers/navigation.js'}"></script>
@@ -61,16 +61,6 @@
         <script src="@{'/public/app/js/directives.js'}"></script>
         <script src="@{'/public/app/js/security-shared.js'}"></script>
         <script src="@{'/public/app/js/login-popup.js'}"></script>
-
-         <script>
-         // <![CDATA[
-        (function() {
-            var po = document.createElement('script'); po.type = 'text/javascript'; po.async = true;
-            po.src = 'https://apis.google.com/js/client:plusone.js';
-            var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(po, s);
-        })();
-        // ]]>
-        </script>
 
     </body>
 </html>

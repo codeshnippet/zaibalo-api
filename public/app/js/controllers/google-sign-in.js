@@ -28,23 +28,23 @@ function GoogleSignInController($scope, $timeout) {
     };
 
     // Render the sign in button.
-    $scope.renderSignInButton = function() {
-        gapi.signin.render('signInButton',
-            {
-                'callback': $scope.signInCallback, // Function handling the callback.
-                'clientid': '357766608319-8sklovn68l82ir061h2deu2o28cnl42a.apps.googleusercontent.com', // CLIENT_ID from developer console which has been explained earlier.
-                'requestvisibleactions': 'http://schemas.google.com/AddActivity', // Visible actions, scope and cookie policy wont be described now,
-                                                                                  // as their explanation is available in Google+ API Documentation.
-                'scope': 'https://www.googleapis.com/auth/plus.login https://www.googleapis.com/auth/userinfo.email',
-                'cookiepolicy': 'single_host_origin'
-            }
-        );
-    }
+    // $scope.renderSignInButton = function() {
+    //     gapi.signin.render('signInButton',
+    //         {
+    //             'callback': $scope.signInCallback, // Function handling the callback.
+    //             'clientid': '357766608319-8sklovn68l82ir061h2deu2o28cnl42a.apps.googleusercontent.com', // CLIENT_ID from developer console which has been explained earlier.
+    //             'requestvisibleactions': 'http://schemas.google.com/AddActivity', // Visible actions, scope and cookie policy wont be described now,
+    //                                                                               // as their explanation is available in Google+ API Documentation.
+    //             'scope': 'profile email',
+    //             'cookiepolicy': 'single_host_origin'
+    //         }
+    //     );
+    // }
 
     // Start function in this example only renders the sign in button.
-    $scope.start = function() {
-        $scope.renderSignInButton();
-    };
+    // $scope.start = function() {
+    //     $scope.renderSignInButton();
+    // };
 
     // Process user info.
     // userInfo is a JSON object.
@@ -73,5 +73,5 @@ function GoogleSignInController($scope, $timeout) {
     };
 
     // Call start function on load.
-    $timeout(function(){ $scope.start(); }, 500);
+    // $scope.start();
 }
