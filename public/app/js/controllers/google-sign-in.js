@@ -41,11 +41,6 @@ function GoogleSignInController($scope, $timeout) {
         );
     }
 
-    // Start function in this example only renders the sign in button.
-    $scope.start = function() {
-        $scope.renderSignInButton();
-    };
-
     // Process user info.
     // userInfo is a JSON object.
     $scope.processUserInfo = function(userInfo) {
@@ -72,6 +67,22 @@ function GoogleSignInController($scope, $timeout) {
         );
     };
 
+    $scope.loadScript = function(sScriptSrc, oCallback) {
+      var oHead = document.getElementsByTagName('head')[0];
+      var oScript = document.createElement('script');
+      oScript.type = 'text/javascript';
+      oScript.src = sScriptSrc;
+      // most browsers
+      oScript.onload = oCallback;
+      // IE 6 & 7
+      oScript.onreadystatechange = function() {
+        if (this.readyState == 'complete') {
+          oCallback();
+        }
+      }
+      oHead.appendChild(oScript);
+    }
+
     // Call start function on load.
-    $timeout(function(){ $scope.start(); }, 500);
+    $scope.loadScript('https://apis.google.com/js/client:plusone.js', $scope.renderSignInButton);
 }
