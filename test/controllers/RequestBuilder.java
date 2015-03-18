@@ -18,6 +18,8 @@ import play.test.FunctionalTest;
 public class RequestBuilder {
 	
 	private static final String TIMESTAMP_HEADER_NAME = "x-utc-timestamp";
+	private static final String X_AUTH_USERNAME_HEADER_NAME = "x-auth-username";
+	private static final String X_AUTH_TOKEN_HEADER_NAME = "x-auth-token";
 	private static final String CONTENT_TYPE = "content-type";
 
 	private String path;
@@ -25,7 +27,7 @@ public class RequestBuilder {
 	private String body = StringUtils.EMPTY;
 	private HttpMethod httpMethod;
 	private String username = "franky";
-	private String password = "secret";
+	private String token = "secret_token_123";
 
 	@Util
 	public Response send() {
@@ -93,8 +95,8 @@ public class RequestBuilder {
 	}
 
 	@Util
-	public RequestBuilder withPassword(String password) {
-		this.password = password;
+	public RequestBuilder withToken(String token) {
+		this.token = token;
 		return this;
 	}
 	
@@ -105,8 +107,8 @@ public class RequestBuilder {
 		request.headers.put(CONTENT_TYPE, new Header(CONTENT_TYPE, contentType.getText()));
 		
 		String data = concatDataString(timestamp, path, contentType.getText(), DigestUtils.md5Hex(body), httpMethod.getText());
-		request.user = username;
-		request.password = sha1(data, DigestUtils.md5Hex(password));
+		request.headers.put(X_AUTH_USERNAME_HEADER_NAME, new Header(X_AUTH_USERNAME_HEADER_NAME, username));
+		request.headers.put(X_AUTH_TOKEN_HEADER_NAME, new Header(X_AUTH_TOKEN_HEADER_NAME, sha1(data, token)));
 		
 		return request;
 	}

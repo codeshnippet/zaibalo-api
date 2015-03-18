@@ -1,5 +1,7 @@
 package models;
 
+import java.math.BigInteger;
+import java.security.SecureRandom;
 import java.util.Date;
 
 import javax.persistence.Column;
@@ -35,9 +37,12 @@ public class User extends Model {
 	public Date registrationDate;
 	
 	public String photo;
+	
+	public String token;
 
 	public User(){
 		this.registrationDate = new Date();
+		this.token = new BigInteger(32, new SecureRandom()).toString(32);
 	}
 
 	public String getPassword() {
@@ -46,10 +51,6 @@ public class User extends Model {
 
 	public void setPassword(String password) {
 		this.password = password == null ? null : hashPassword(password);
-	}
-
-	public static User findByAuthToken(String authToken) {
-		return User.find("byAuthToken", authToken).first();
 	}
 
 	public static User findByLoginName(String loginName) {

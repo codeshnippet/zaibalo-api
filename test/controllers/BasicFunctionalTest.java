@@ -14,31 +14,26 @@ import play.test.FunctionalTest;
 
 public abstract class BasicFunctionalTest extends FunctionalTest {
 
-	protected static final String AUTHENTICATION_HEADER = "Authorization";
-	public static final String TIMESTAMP_HEADER_NAME = "x-utc-timestamp";
+	protected static final String USER_TOKEN = "secret_token_123";
+	protected static final String USER_NAME = "franky";
+	
+	private static final String TIMESTAMP_HEADER_NAME = "x-utc-timestamp";
+	private static final String X_AUTH_USERNAME_HEADER_NAME = "x-auth-username";
+	private static final String X_AUTH_TOKEN_HEADER_NAME = "x-auth-token";
+	
 	private static final String APPLICATION_JSON = "application/json";
 	private static final String CONTENT_TYPE = "content-type";
 
 	@Util
 	protected Request getAuthRequest(String url, String contentType, String body, String method) {
-		return getAuthRequest(url, contentType, body, method, "franky", "secret");
+		return getAuthRequest(url, contentType, body, method, USER_NAME, USER_TOKEN);
 	}
-	
+
 	@Util
-	protected Request getAuthRequestForDefaultUser(String url, String method) {
-		return getAuthRequest(url, "text/html", "", method, "franky", "secret");
-	}
-	
-	@Util
-	protected Request getAuthRequestForUser(String url, String method, String username, String password) {
-		return getAuthRequest(url, "text/html", "", method, username, password);
-	}
-	
-	@Util
-	protected Request getAuthRequest(String path, String contentType, String body, String method, String username, String password) {
+	protected Request getAuthRequest(String path, String contentType, String body, String method, String username, String token) {
 		String timestamp = String.valueOf(System.currentTimeMillis());
 		String data = concatDataString(timestamp, path, contentType, DigestUtils.md5Hex(body), method);
-		return createAuthRequest(timestamp, data, username, password, APPLICATION_JSON);
+		return createAuthRequest(timestamp, data, username, token, APPLICATION_JSON);
 	}
 	
 	@Util
@@ -56,14 +51,15 @@ public abstract class BasicFunctionalTest extends FunctionalTest {
 	}
 
 	@Util
-	protected Request createAuthRequest(String timestamp, String data, String username, String password, String contentType) {
+	protected Request createAuthRequest(String timestamp, String data, String username, String token, String contentType) {
 		Request request = newRequest();
-		request.user = username;
+		request.headers.put(X_AUTH_USERNAME_HEADER_NAME, new Header(X_AUTH_USERNAME_HEADER_NAME, username));
 		request.headers.put(TIMESTAMP_HEADER_NAME, new Header(TIMESTAMP_HEADER_NAME, timestamp));
 		if(contentType != null){
 			request.headers.put(CONTENT_TYPE, new Header(CONTENT_TYPE, contentType));
 		}
-		request.password = sha1(data, DigestUtils.md5Hex(password));
+		String authToken = sha1(data, token);
+		request.headers.put(X_AUTH_TOKEN_HEADER_NAME, new Header(X_AUTH_TOKEN_HEADER_NAME, authToken));
 		return request;
 	}
 

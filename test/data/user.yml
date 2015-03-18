@@ -4,6 +4,7 @@ User(frank):
     registrationDate: 2009-03-26
     loginName:        franky
     password:         secret
+    token:            secret_token_123
 
 User(bill):
     displayName:      Drunk
@@ -11,3 +12,4 @@ User(bill):
     registrationDate: 2009-03-27
     loginName:        billy
     password:         secret
+    token:            secret_token_321

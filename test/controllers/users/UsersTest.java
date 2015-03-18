@@ -25,8 +25,13 @@ public class UsersTest extends BasicFunctionalTest {
 	private static final String EHE_HASHED = "c314409d89dea3fb1d2fc4b63e88b7fc";
 	private static final String SECRET_HASHED = "5ebe2294ecd0e0f08eab7690d2a6ee69";
 	private static final String PASS_HASHED = "1a1dc91c907325c69271ddf0c944bc72";
+	
 	public static final String FRANKY_LOGIN_NAME = "franky";
+	private static final String FRANKY_SECRET_TOKEN = "secret_token_123";
+	
 	public static final String BILLY_LOGIN_NAME = "billy";
+	private static final String BILLY_SECRET_TOKEN = "secret_token_321";
+	
 	private static final String WRONG_DISPLAY_NAME = "NOT_EXISTING_USER";
 
 	@Before
@@ -101,7 +106,7 @@ public class UsersTest extends BasicFunctionalTest {
 		String bodyJson = new Gson().toJson(createUserRequest("Mike", "ehe", "Jackson", "moondance@gmail.com"));
 		String url = "/users/" + user.id;
 		
-		Request request = getAuthRequest(url, APPLICATION_JSON, bodyJson, "PUT", FRANKY_LOGIN_NAME, "secret");
+		Request request = getAuthRequest(url, APPLICATION_JSON, bodyJson, "PUT", FRANKY_LOGIN_NAME, FRANKY_SECRET_TOKEN);
 		Response response = PUT(request, url, APPLICATION_JSON, bodyJson);
 		assertIsOk(response);
 		assertContentType(APPLICATION_JSON, response);
@@ -134,7 +139,7 @@ public class UsersTest extends BasicFunctionalTest {
 		String bodyJson = new Gson().toJson(createUserRequest("Mike", "ehe", "Jackson", "moondance@gmail.com"));
 		String url = "/users/" + user.id;
 		
-		Request request = getAuthRequest(url, APPLICATION_JSON, bodyJson, "PUT", BILLY_LOGIN_NAME, "secret");
+		Request request = getAuthRequest(url, APPLICATION_JSON, bodyJson, "PUT", BILLY_LOGIN_NAME, BILLY_SECRET_TOKEN);
 		Response response = PUT(request, url, APPLICATION_JSON, bodyJson);
 		
 		assertStatus(403, response);
@@ -147,7 +152,7 @@ public class UsersTest extends BasicFunctionalTest {
 		String bodyJson = new Gson().toJson(createUserRequest("Mike", "p", "d", "e@e.e"));
 		String url = "/users/" + WRONG_DISPLAY_NAME;
 		
-		Request request = getAuthRequest(url, APPLICATION_JSON, bodyJson, "PUT", BILLY_LOGIN_NAME, "secret");
+		Request request = getAuthRequest(url, APPLICATION_JSON, bodyJson, "PUT", BILLY_LOGIN_NAME, BILLY_SECRET_TOKEN);
 		Response response = PUT(request, "/users/" + WRONG_DISPLAY_NAME, APPLICATION_JSON, bodyJson);
 		assertIsNotFound(response);
 	}

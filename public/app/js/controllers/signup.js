@@ -8,8 +8,16 @@ angular.module('myApp.controllers')
   $scope.registerUser = function(user){
     var json = JSON.stringify(user);
     $.post('/users', json, function(data) {
-      alert('Success:'+JSON.stringify(data));
+      saveAuthValues(data.user.loginName, data.token);
       }, 'json');
       $scope.user = {};
     };
+
+  $scope.login = function(user){
+    var json = JSON.stringify(user);
+    $.post('/login', json, function(data) {
+      saveAuthValues(data.user.loginName, data.token);
+      }, 'json');
+      $scope.user = {};
+  };
 }]);

@@ -57,6 +57,9 @@ GET        /comment-ratings/{id}                   CommentsRatings.getCommentRat
 PUT        /comment-ratings/{id}                   CommentsRatings.updateCommentRating
 DELETE     /comment-ratings/{id}                   CommentsRatings.deleteCommentRating
 
+# Secure controllers
+POST       /login                                  security.Login.login
+
 # Ignore favicon requests
 GET     /favicon.ico                               404
 

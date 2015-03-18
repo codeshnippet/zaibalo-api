@@ -1,9 +1,6 @@
 package controllers.users;
 
 import java.io.InputStreamReader;
-import java.util.List;
-
-import org.apache.commons.lang.StringUtils;
 
 import models.Post;
 import models.User;
@@ -14,6 +11,7 @@ import play.mvc.With;
 import com.google.gson.GsonBuilder;
 
 import controllers.posts.Posts;
+import controllers.security.LoginResponse;
 import controllers.security.Secured;
 import controllers.security.Security;
 
@@ -32,7 +30,7 @@ public class Users extends Controller {
 		response.headers.put("Location", new Header("Location", location));
 		
 		response.status = 201;
-        renderJSON(UserResponse.convertToJson(user));
+        renderJSON(LoginResponse.convertToJson(user));
 	}
 	
 	public static void getUserByLogin(String loginName) {

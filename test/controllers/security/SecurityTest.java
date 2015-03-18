@@ -14,9 +14,6 @@ public class SecurityTest extends BasicFunctionalTest {
 
 	private static final String DEFAULT_PATH = "/controllers.SecurityTestController/secureAction";
 	
-	private static final String USER_PASSWORD = "secret";
-	private static final String USER_NAME = "franky";
-	
 	private static final String POST = "POST";
 	private static final String DEFAULT_BODY = "testbody";
 	private static final String DEFAULT_BODY_MD5 = DigestUtils.md5Hex(DEFAULT_BODY);
@@ -25,6 +22,7 @@ public class SecurityTest extends BasicFunctionalTest {
 	@Before
 	public void beforeTest() {
 		Fixtures.deleteAllModels();
+		Fixtures.loadModels("data/user.yml");
 	}
 
 	@Test
@@ -35,8 +33,6 @@ public class SecurityTest extends BasicFunctionalTest {
 
 	@Test
 	public void testSecureActionSuccess() {
-		Fixtures.loadModels("data/user.yml");
-
 		String currentTimeMillis = String.valueOf(System.currentTimeMillis());
 		Request request = createAuthRequestForTimestamp(currentTimeMillis);
 
@@ -47,8 +43,6 @@ public class SecurityTest extends BasicFunctionalTest {
 
 	@Test
 	public void testSecureActionFailsWithWrongUsername() {
-		Fixtures.loadModels("data/user.yml");
-
 		Request request = createAuthRequestForUsername("wrong_username");
 
 		Response response = POST(request, DEFAULT_PATH, APPLICATION_JSON, DEFAULT_BODY);
@@ -56,10 +50,8 @@ public class SecurityTest extends BasicFunctionalTest {
 	}
 
 	@Test
-	public void testSecureActionFailsWithWrongPassword() {
-		Fixtures.loadModels("data/user.yml");
-
-		Request request = createAuthRequestForPassword("wrong_password");
+	public void testSecureActionFailsWithWrongToken() {
+		Request request = createAuthRequestForToken("wrong_token");
 
 		Response response = POST(request, DEFAULT_PATH, APPLICATION_JSON, DEFAULT_BODY);
 		assertStatus(401, response);
@@ -67,8 +59,6 @@ public class SecurityTest extends BasicFunctionalTest {
 
 	@Test
 	public void testSecureActionFailsWithElevenMinutesOldTimestamp() {
-		Fixtures.loadModels("data/user.yml");
-
 		String currentTimeMillis = String.valueOf(System.currentTimeMillis() - 11 * 60 * 1000);
 		Request request = createAuthRequestForTimestamp(currentTimeMillis);
 
@@ -78,8 +68,6 @@ public class SecurityTest extends BasicFunctionalTest {
 
 	@Test
 	public void testSecureActionSuccessWithNineMinutesOldTimestamp() {
-		Fixtures.loadModels("data/user.yml");
-
 		String currentTimeMillis = String.valueOf(System.currentTimeMillis() - 9 * 60 * 1000);
 		Request request = createAuthRequestForTimestamp(currentTimeMillis);
 
@@ -90,8 +78,6 @@ public class SecurityTest extends BasicFunctionalTest {
 
 	@Test
 	public void testSecureActionFailsWithDifferentContentType() {
-		Fixtures.loadModels("data/user.yml");
-
 		Request request = createAuthRequestForContentType(APPLICATION_JSON);
 		
 		request.headers.put("content-type", new Header("content-type", "application/xml"));
@@ -101,8 +87,6 @@ public class SecurityTest extends BasicFunctionalTest {
 
 	@Test
 	public void testSecureActionFailsWithDifferentMethod() {
-		Fixtures.loadModels("data/user.yml");
-
 		Request request = createAuthRequestForMethod(POST);
 
 		Response response = PUT(request, DEFAULT_PATH, APPLICATION_JSON, DEFAULT_BODY);
@@ -111,8 +95,6 @@ public class SecurityTest extends BasicFunctionalTest {
 
 	@Test
 	public void testSecureActionFailsWithDifferentBody() {
-		Fixtures.loadModels("data/user.yml");
-
 		Request request = createAuthRequestForBody(DEFAULT_BODY);
 
 		Response response = POST(request, DEFAULT_PATH, APPLICATION_JSON, "OtherBody");
@@ -121,8 +103,6 @@ public class SecurityTest extends BasicFunctionalTest {
 
 	@Test
 	public void testSecureActionFailsWithDifferentPath() {
-		Fixtures.loadModels("data/user.yml");
-
 		Request request = createAuthRequestForPath(DEFAULT_PATH);
 
 		Response response = POST(request, "/controllers.SecurityTestController/otherSecureAction", APPLICATION_JSON, DEFAULT_BODY);
@@ -132,13 +112,13 @@ public class SecurityTest extends BasicFunctionalTest {
 	private Request createAuthRequestForUsername(String username) {
 		String timestamp = String.valueOf(System.currentTimeMillis());
 		String data = createDataString(timestamp, null, null, null, null);
-		return createAuthRequest(timestamp, data, username, USER_PASSWORD, APPLICATION_JSON);
+		return createAuthRequest(timestamp, data, username, USER_TOKEN, APPLICATION_JSON);
 	}
 	
-	private Request createAuthRequestForPassword(String passord) {
+	private Request createAuthRequestForToken(String token) {
 		String timestamp = String.valueOf(System.currentTimeMillis());
 		String data = createDataString(timestamp, null, null, null, null);
-		return createAuthRequest(timestamp, data, USER_NAME, passord, APPLICATION_JSON);
+		return createAuthRequest(timestamp, data, USER_NAME, token, APPLICATION_JSON);
 	}
 
 	private Request createAuthRequestForBody(String body) {
@@ -179,7 +159,7 @@ public class SecurityTest extends BasicFunctionalTest {
 	}
 
 	private Request createAuthRequest(String timestamp, String data, String contentType) {
-		return createAuthRequest(timestamp, data, USER_NAME, USER_PASSWORD, contentType);
+		return createAuthRequest(timestamp, data, USER_NAME, USER_TOKEN, contentType);
 	}
 	
 	private Request createAuthRequest(String timestamp, String data) {

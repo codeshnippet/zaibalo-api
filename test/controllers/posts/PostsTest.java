@@ -24,6 +24,8 @@ import controllers.RequestBuilder;
 
 public class PostsTest extends BasicFunctionalTest {
 
+	private static final String BILLY_SECRET_TOKEN = "secret_token_321";
+	private static final String BILLY_USERNAME = "billy";
 	private static final int NOT_EXISTING_POST_ID = 133454552;
 
 	@Before
@@ -162,8 +164,8 @@ public class PostsTest extends BasicFunctionalTest {
 			.withHttpMethod(HttpMethod.PUT)
 			.withContentType(ContentType.APPLICATION_JSON)
 			.withBody(bodyJson)
-			.withUsername("billy")
-			.withPassword("secret")
+			.withUsername(BILLY_USERNAME)
+			.withToken(BILLY_SECRET_TOKEN)
 			.send();
 		
 		assertStatus(403, response);
@@ -214,8 +216,8 @@ public class PostsTest extends BasicFunctionalTest {
 		Response response = new RequestBuilder()
 			.withPath("/posts/" + post.id)
 			.withHttpMethod(HttpMethod.DELETE)
-			.withUsername("billy")
-			.withPassword("secret")
+			.withUsername(BILLY_USERNAME)
+			.withToken(BILLY_SECRET_TOKEN)
 			.send();
 		
 		assertStatus(403, response);

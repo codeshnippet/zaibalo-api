@@ -45,15 +45,20 @@ public class Security extends Controller {
 				unauthorized();
 			}
 			
-			String token = null;
+			String hmacToken = null;
 			try {
-				token = createHmac1Token(user.getPassword(), timestampHeader.value());
+				hmacToken = createHmac1Token(user.token, timestampHeader.value());
 			} catch (Exception e) {
 				e.printStackTrace();
 				error("Unable to verify auth token.");
 			}
 			
-			if(!token.equals(request.password)){
+			Header authTokenHeader = request.headers.get("x-auth-token");
+			if(authTokenHeader == null){
+				unauthorized();
+			}
+			
+			if(!hmacToken.equals(authTokenHeader.value())){
 				unauthorized();
 			}
 		}
@@ -67,18 +72,22 @@ public class Security extends Controller {
 	}
 	
 	@Util
-	private static String createHmac1Token(String passwordHash, String timestampValue) throws IOException, UnsupportedEncodingException, NoSuchAlgorithmException, InvalidKeyException {
+	private static String createHmac1Token(String token, String timestampValue) throws IOException, UnsupportedEncodingException, NoSuchAlgorithmException, InvalidKeyException {
 		String data = request.method + "\n" +
 				DigestUtils.md5Hex(readRequestBody()) + "\n" +
 				request.headers.get(CONTENT_TYPE).value() + "\n" +
 				timestampValue + "\n" +
 				request.path + request.querystring;
-		return sha1(passwordHash, data.toLowerCase());
+		return sha1(token, data.toLowerCase());
 	}
 
 	@Util
 	public static User getAuthenticatedUser() {
-		return User.findByLoginName(request.user);
+		Header usernameHeader = request.headers.get("x-auth-username");
+		if(usernameHeader == null){
+			return null;
+		}
+		return User.findByLoginName(usernameHeader.value());
 	}
 
 	@Util

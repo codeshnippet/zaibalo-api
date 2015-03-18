@@ -4,6 +4,7 @@ User(frank):
     registrationDate: 2009-03-26
     loginName:        franky
     password:         secret
+    token:            secret_token_123
 
 Post(postOne):
     content:      "#tagged test content 1"
