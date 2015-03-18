@@ -79,7 +79,7 @@ angular.module('bd.timedistance', [])
           out = locale.NUMBER_OF_UNITS.fillWith([days, locale.DAY[locale.getTranslationIndex(days)]]);
         } else if (distanceInMinutes > 43201 && distanceInMinutes <= 86400) {
           var aboutMonths = Math.max(Math.round(distanceInMinutes/43200.0),1);
-          out = locale.ABOUT_NUMBER_OF_UNITS([aboutMonths, locale.MONTH[locale.getTranslationIndex(aboutMonths)]]);
+          out = locale.ABOUT_NUMBER_OF_UNITS.fillWith([aboutMonths, locale.MONTH[locale.getTranslationIndex(aboutMonths)]]);
         } else if (distanceInMinutes > 86401 && distanceInMinutes <= 525600) {
           var months = Math.max(Math.round(distanceInMinutes/43200.0),1);
           out = locale.NUMBER_OF_UNITS.fillWith([months, locale.MONTH[locale.getTranslationIndex(months)]]);
