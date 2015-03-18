@@ -1,4 +1,4 @@
-package controllers.security;
+package controllers.authentication;
 
 import models.User;
 import controllers.users.UserResponse;

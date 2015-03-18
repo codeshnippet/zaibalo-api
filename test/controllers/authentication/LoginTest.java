@@ -1,4 +1,4 @@
-package controllers.security;
+package controllers.authentication;
 
 import org.junit.Before;
 import org.junit.Test;
@@ -54,6 +54,7 @@ public class LoginTest extends FunctionalTest {
 		Response response = POST("/login", "application/json", toJson(new LoginRequest("", "")));
 		assertStatus(400, response);
 	}
+
 	private String toJson(Object object){
 		return new Gson().toJson(object);
 	}

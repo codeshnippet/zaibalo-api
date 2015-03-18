@@ -1,4 +1,4 @@
-package controllers.security;
+package controllers.authentication;
 
 import org.apache.commons.lang.StringUtils;
 

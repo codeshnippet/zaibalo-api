@@ -10,8 +10,8 @@ import play.mvc.With;
 
 import com.google.gson.GsonBuilder;
 
+import controllers.authentication.LoginResponse;
 import controllers.posts.Posts;
-import controllers.security.LoginResponse;
 import controllers.security.Secured;
 import controllers.security.Security;
 

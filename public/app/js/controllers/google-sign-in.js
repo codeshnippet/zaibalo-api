@@ -44,9 +44,18 @@ function GoogleSignInController($scope, $timeout) {
     // Process user info.
     // userInfo is a JSON object.
     $scope.processUserInfo = function(userInfo) {
-        console.log('email: ' + userInfo['emails'][0]['value']);
-        console.log('display name: ' + userInfo.displayName);
-        console.log('image: ' + userInfo.image.url);
+        var user = {
+          clientId: userInfo.id,
+          provider: 'GOOGLE_PLUS',
+          displayName: userInfo.displayName,
+          email: userInfo['emails'][0]['value'],
+          photo: userInfo.image.url
+        };
+
+        var json = JSON.stringify(user);
+        $.post('/oauth-login', json, function(data) {
+            saveAuthValues(data.user.loginName, data.token);
+        }, 'json');
     }
 
     // When callback is received, process user info.

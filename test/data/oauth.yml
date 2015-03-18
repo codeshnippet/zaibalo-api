@@ -1,0 +1,12 @@
+User(frank):
+    displayName:      Superman
+    email:            superman@mail.com
+    registrationDate: 2009-03-26
+    loginName:        franky
+    password:         secret
+    token:            secret_token_123
+
+Oauth(frankOauth):
+    clientId:         frankOauthClientId123
+    user:             frank
+    provider:         GOOGLE_PLUS

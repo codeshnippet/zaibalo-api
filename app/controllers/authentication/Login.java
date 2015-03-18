@@ -1,4 +1,4 @@
-package controllers.security;
+package controllers.authentication;
 
 import java.io.InputStreamReader;
 
@@ -30,7 +30,7 @@ public class Login extends Controller {
 		
 		success(user);
 	}
-
+	
 	private static void success(User user) {
 		renderJSON(LoginResponse.convertToJson(user));
 	}

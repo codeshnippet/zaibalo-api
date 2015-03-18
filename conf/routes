@@ -58,7 +58,8 @@ PUT        /comment-ratings/{id}                   CommentsRatings.updateComment
 DELETE     /comment-ratings/{id}                   CommentsRatings.deleteCommentRating
 
 # Secure controllers
-POST       /login                                  security.Login.login
+POST       /login                                  authentication.Login.login
+POST       /oauth-login                            oauth.Oauths.login
 
 # Ignore favicon requests
 GET     /favicon.ico                               404
