@@ -8,10 +8,10 @@ import org.apache.commons.codec.binary.Base64;
 import org.apache.commons.codec.digest.DigestUtils;
 import org.apache.commons.lang.StringUtils;
 
-import play.mvc.Util;
 import play.mvc.Http.Header;
 import play.mvc.Http.Request;
 import play.mvc.Http.Response;
+import play.mvc.Util;
 import play.test.FunctionalTest;
 
 
@@ -28,6 +28,7 @@ public class RequestBuilder {
 	private HttpMethod httpMethod;
 	private String username = "franky";
 	private String token = "secret_token_123";
+	private long timestamp = System.currentTimeMillis();
 
 	@Util
 	public Response send() {
@@ -42,7 +43,7 @@ public class RequestBuilder {
 		}
 		throw new RuntimeException("Should never happen");
 	}
-
+	
 	private Response sendDelete() {
 		return FunctionalTest.DELETE(createAuthRequest(), path);
 	}
@@ -100,13 +101,18 @@ public class RequestBuilder {
 		return this;
 	}
 	
+	@Util
+	public RequestBuilder withTimestamp(long timestamp){
+		this.timestamp = timestamp;
+		return this;
+	}
+	
 	private Request createAuthRequest() {
 		Request request = FunctionalTest.newRequest();
-		String timestamp = String.valueOf(System.currentTimeMillis());
-		request.headers.put(TIMESTAMP_HEADER_NAME, new Header(TIMESTAMP_HEADER_NAME, timestamp));
+		request.headers.put(TIMESTAMP_HEADER_NAME, new Header(TIMESTAMP_HEADER_NAME, String.valueOf(timestamp)));
 		request.headers.put(CONTENT_TYPE, new Header(CONTENT_TYPE, contentType.getText()));
 		
-		String data = concatDataString(timestamp, path, contentType.getText(), DigestUtils.md5Hex(body), httpMethod.getText());
+		String data = concatDataString(String.valueOf(timestamp), path, contentType.getText(), DigestUtils.md5Hex(body), httpMethod.getText());
 		request.headers.put(X_AUTH_USERNAME_HEADER_NAME, new Header(X_AUTH_USERNAME_HEADER_NAME, username));
 		request.headers.put(X_AUTH_TOKEN_HEADER_NAME, new Header(X_AUTH_TOKEN_HEADER_NAME, sha1(data, token)));
 		

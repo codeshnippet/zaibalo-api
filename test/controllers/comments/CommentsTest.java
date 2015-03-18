@@ -6,12 +6,14 @@ import models.Post;
 import org.junit.Before;
 import org.junit.Test;
 
-import play.mvc.Http.Request;
 import play.mvc.Http.Response;
 import play.test.Fixtures;
-import controllers.BasicFunctionalTest;
+import play.test.FunctionalTest;
+import controllers.ContentType;
+import controllers.HttpMethod;
+import controllers.RequestBuilder;
 
-public class CommentsTest extends BasicFunctionalTest{
+public class CommentsTest extends FunctionalTest{
 
 	@Before
 	public void beforeTest() {
@@ -45,8 +47,13 @@ public class CommentsTest extends BasicFunctionalTest{
 		Fixtures.loadModels("data/posts.yml");
 		Post post = Post.find("byContent", "test content 1").first();
 		
-		Request authRequest = getAuthRequest("/posts/" + post.id + "/comments", "application/json", "{\"content\":\"test comment content 1\"}", "POST");
-		Response response = POST(authRequest, "/posts/" + post.id + "/comments", "application/json", "{\"content\":\"test comment content 1\"}");
+		Response response = new RequestBuilder()
+		.withPath("/posts/" + post.id + "/comments")
+		.withHttpMethod(HttpMethod.POST)
+		.withContentType(ContentType.APPLICATION_JSON)
+		.withBody("{\"content\":\"test comment content 1\"}")
+		.send();
+
 		assertStatus(201, response);
 		
 		post.refresh();
@@ -59,6 +66,6 @@ public class CommentsTest extends BasicFunctionalTest{
 		assertEquals("test content 1", comment.post.content);
 		assertNotNull(comment.creationDate);
 		
-		assertHeaderEquals("Location", authRequest.host + "/comments/" + comment.id, response);
+		assertHeaderEquals("Location", newRequest().host + "/comments/" + comment.id, response);
 	}
 }

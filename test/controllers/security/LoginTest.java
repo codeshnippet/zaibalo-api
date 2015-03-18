@@ -9,8 +9,6 @@ import play.test.FunctionalTest;
 
 import com.google.gson.Gson;
 
-import controllers.users.UserResponse;
-
 public class LoginTest extends FunctionalTest {
 	
 	@Before

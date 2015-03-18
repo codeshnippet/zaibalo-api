@@ -8,18 +8,19 @@ import models.User;
 import org.junit.Before;
 import org.junit.Test;
 
-import play.mvc.Http.Header;
-import play.mvc.Http.Request;
 import play.mvc.Http.Response;
 import play.test.Fixtures;
+import play.test.FunctionalTest;
 
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 import com.google.gson.reflect.TypeToken;
 
-import controllers.BasicFunctionalTest;
+import controllers.ContentType;
+import controllers.HttpMethod;
+import controllers.RequestBuilder;
 
-public class UsersTest extends BasicFunctionalTest {
+public class UsersTest extends FunctionalTest {
 
 	private static final String APPLICATION_JSON = "application/json";
 	private static final String EHE_HASHED = "c314409d89dea3fb1d2fc4b63e88b7fc";
@@ -27,7 +28,6 @@ public class UsersTest extends BasicFunctionalTest {
 	private static final String PASS_HASHED = "1a1dc91c907325c69271ddf0c944bc72";
 	
 	public static final String FRANKY_LOGIN_NAME = "franky";
-	private static final String FRANKY_SECRET_TOKEN = "secret_token_123";
 	
 	public static final String BILLY_LOGIN_NAME = "billy";
 	private static final String BILLY_SECRET_TOKEN = "secret_token_321";
@@ -106,8 +106,13 @@ public class UsersTest extends BasicFunctionalTest {
 		String bodyJson = new Gson().toJson(createUserRequest("Mike", "ehe", "Jackson", "moondance@gmail.com"));
 		String url = "/users/" + user.id;
 		
-		Request request = getAuthRequest(url, APPLICATION_JSON, bodyJson, "PUT", FRANKY_LOGIN_NAME, FRANKY_SECRET_TOKEN);
-		Response response = PUT(request, url, APPLICATION_JSON, bodyJson);
+		Response response = new RequestBuilder()
+		.withPath(url)
+		.withHttpMethod(HttpMethod.PUT)
+		.withContentType(ContentType.APPLICATION_JSON)
+		.withBody(bodyJson)
+		.send();
+
 		assertIsOk(response);
 		assertContentType(APPLICATION_JSON, response);
 		
@@ -139,8 +144,14 @@ public class UsersTest extends BasicFunctionalTest {
 		String bodyJson = new Gson().toJson(createUserRequest("Mike", "ehe", "Jackson", "moondance@gmail.com"));
 		String url = "/users/" + user.id;
 		
-		Request request = getAuthRequest(url, APPLICATION_JSON, bodyJson, "PUT", BILLY_LOGIN_NAME, BILLY_SECRET_TOKEN);
-		Response response = PUT(request, url, APPLICATION_JSON, bodyJson);
+		Response response = new RequestBuilder()
+		.withPath(url)
+		.withHttpMethod(HttpMethod.PUT)
+		.withContentType(ContentType.APPLICATION_JSON)
+		.withBody(bodyJson)
+		.withUsername(BILLY_LOGIN_NAME)
+		.withToken(BILLY_SECRET_TOKEN)
+		.send();
 		
 		assertStatus(403, response);
 	}
@@ -152,8 +163,15 @@ public class UsersTest extends BasicFunctionalTest {
 		String bodyJson = new Gson().toJson(createUserRequest("Mike", "p", "d", "e@e.e"));
 		String url = "/users/" + WRONG_DISPLAY_NAME;
 		
-		Request request = getAuthRequest(url, APPLICATION_JSON, bodyJson, "PUT", BILLY_LOGIN_NAME, BILLY_SECRET_TOKEN);
-		Response response = PUT(request, "/users/" + WRONG_DISPLAY_NAME, APPLICATION_JSON, bodyJson);
+		Response response = new RequestBuilder()
+		.withPath(url)
+		.withHttpMethod(HttpMethod.PUT)
+		.withContentType(ContentType.APPLICATION_JSON)
+		.withBody(bodyJson)
+		.withUsername(BILLY_LOGIN_NAME)
+		.withToken(BILLY_SECRET_TOKEN)
+		.send();
+		
 		assertIsNotFound(response);
 	}
 	

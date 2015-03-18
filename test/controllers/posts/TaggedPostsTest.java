@@ -3,26 +3,18 @@ package controllers.posts;
 import java.util.List;
 
 import models.Post;
-import models.User;
 
 import org.junit.Before;
 import org.junit.Test;
 
-import play.mvc.Http.Header;
-import play.mvc.Http.Request;
 import play.mvc.Http.Response;
 import play.test.Fixtures;
+import play.test.FunctionalTest;
 
 import com.google.gson.Gson;
-import com.google.gson.GsonBuilder;
 import com.google.gson.reflect.TypeToken;
 
-import controllers.BasicFunctionalTest;
-import controllers.ContentType;
-import controllers.HttpMethod;
-import controllers.RequestBuilder;
-
-public class TaggedPostsTest extends BasicFunctionalTest {
+public class TaggedPostsTest extends FunctionalTest {
 	
 	@Before
 	public void beforeTest() {
