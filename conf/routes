@@ -7,9 +7,7 @@ GET        /app/                                   staticDir:/public/app
 GET        /partials/                              staticDir:/public/app/partials
 
 # Home page
-GET        /                                       Application.index
-GET        /client                                 Application.client
-GET        /knockout                               Application.knockout
+GET        /                                       staticFile:/public/app/index.html
 GET        /avatar                                 Application.avatar
 
 # Users
