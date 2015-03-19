@@ -11,6 +11,8 @@ import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
 import javax.validation.constraints.NotNull;
 
+import org.apache.commons.lang.StringUtils;
+
 import org.apache.commons.codec.digest.DigestUtils;
 
 import play.db.jpa.Model;
@@ -49,6 +51,13 @@ public class User extends Model {
 		return password;
 	}
 
+	public String getToken() {
+		if(StringUtils.isBlank(this.token)){
+			this.token = new BigInteger(32, new SecureRandom()).toString(32);
+		}
+		return token;
+	}
+	
 	public void setPassword(String password) {
 		this.password = password == null ? null : hashPassword(password);
 	}
