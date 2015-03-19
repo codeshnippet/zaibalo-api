@@ -3,16 +3,13 @@ package controllers.oauth;
 import java.io.InputStreamReader;
 
 import models.Oauth;
-import models.Oauth.OauthProvider;
+import models.ServiceProvider;
 import models.User;
-
-import org.apache.commons.codec.digest.DigestUtils;
+import play.mvc.Controller;
 
 import com.google.gson.GsonBuilder;
 
-import controllers.authentication.LoginRequest;
 import controllers.authentication.LoginResponse;
-import play.mvc.Controller;
 
 public class Oauths extends Controller {
 
@@ -24,7 +21,7 @@ public class Oauths extends Controller {
 			badRequest();
 		}
 		
-		Oauth oauth = Oauth.findByClienIdAndProvider(oauthRequest.clientId, OauthProvider.valueOf(oauthRequest.provider));
+		Oauth oauth = Oauth.findByClienIdAndProvider(oauthRequest.clientId, ServiceProvider.valueOf(oauthRequest.provider));
 		if(oauth == null){
 			User user = new User();
 			OauthRequest.populateUserFromOauthRequest(oauthRequest, user);

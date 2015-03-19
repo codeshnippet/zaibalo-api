@@ -9,6 +9,7 @@ public class UserResponse {
 	public String displayName;
 	public String photo;
 	public String loginName;
+	public String photoProvider;
 	
 	public static UserResponse convertToJson(User user) {
 		UserResponse userResponse = new UserResponse();
@@ -16,6 +17,7 @@ public class UserResponse {
 		userResponse.displayName = user.displayName;
 		userResponse.photo = user.photo;
 		userResponse.loginName = user.loginName;
+		userResponse.photoProvider = user.photoProvider.toString();
 		return userResponse;
 	}
 }

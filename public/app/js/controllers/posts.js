@@ -2,8 +2,8 @@
 
 angular.module('myApp.controllers')
 
-.controller('PostsController', ['$http', '$scope', '$routeParams', '$translate',
-  function($http, $scope, $routeParams, $translate) {
+.controller('PostsController', ['$http', '$scope', '$routeParams', '$translate', 'Avatar',
+  function($http, $scope, $routeParams, $translate, Avatar) {
     var PAGE_SIZE = 10;
     $scope.fromIndex = 0;
     $scope.posts = [];
@@ -24,6 +24,10 @@ angular.module('myApp.controllers')
         success(function(data, status, headers, config) {
             $scope.postsCount = data.count;
         });
+    }
+
+    $scope.getAvatar = function(user, size){
+      return Avatar(user, size);
     }
 
     $scope.loadPosts = function(){

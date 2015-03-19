@@ -2,8 +2,8 @@
 
 angular.module('myApp.controllers')
 
-.controller('CommentsController', ['$http', '$scope', '$translate',
-  function($http, $scope, $translate) {
+.controller('CommentsController', ['$http', '$scope', '$translate', 'Avatar',
+  function($http, $scope, $translate, Avatar) {
 
     $scope.addComment = function(post){
       var json = JSON.stringify({ content : post.newComment });
@@ -14,6 +14,10 @@ angular.module('myApp.controllers')
       }, 'json');
 
       post.newComment = "";
+    }
+
+    $scope.getAvatar = function(user, size){
+      return Avatar(user, size);
     }
 
     $scope.toggleComments = function(event, target){

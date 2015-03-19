@@ -1,7 +1,7 @@
 package controllers.oauth;
 
 import models.Oauth;
-import models.Oauth.OauthProvider;
+import models.ServiceProvider;
 
 import org.junit.Before;
 import org.junit.Test;
@@ -22,7 +22,7 @@ public class OauthsTest extends FunctionalTest {
 
 	@Test
 	public void testOauthLoginSuccess() {
-		OauthRequest oauthRequest = new OauthRequest("frankOauthClientId123", OauthProvider.GOOGLE_PLUS, "Franky Sinatra", "a@a.com",
+		OauthRequest oauthRequest = new OauthRequest("frankOauthClientId123", ServiceProvider.GOOGLE_PLUS, "Franky Sinatra", "a@a.com",
 				"p.com/a.jpg");
 		Response response = POST("/oauth-login", "application/json", toJson(oauthRequest));
 		assertStatus(200, response);
@@ -33,7 +33,7 @@ public class OauthsTest extends FunctionalTest {
 	@Test
 	public void testOauthLoginNotExistingClientId() {
 		assertEquals(1, Oauth.count());
-		OauthRequest oauthRequest = new OauthRequest("frankOauthClientId321", OauthProvider.GOOGLE_PLUS, "Bob Tiger", "a1@a.com",
+		OauthRequest oauthRequest = new OauthRequest("frankOauthClientId321", ServiceProvider.GOOGLE_PLUS, "Bob Tiger", "a1@a.com",
 				"p.com/a.jpg");
 		Response response = POST("/oauth-login", "application/json", toJson(oauthRequest));
 		assertStatus(200, response);

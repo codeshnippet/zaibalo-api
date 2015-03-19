@@ -49,7 +49,7 @@ function GoogleSignInController($scope, $timeout) {
           provider: 'GOOGLE_PLUS',
           displayName: userInfo.displayName,
           email: userInfo['emails'][0]['value'],
-          photo: userInfo.image.url.split("?")[0];
+          photo: userInfo.image.url.split("?")[0]
         };
 
         var json = JSON.stringify(user);

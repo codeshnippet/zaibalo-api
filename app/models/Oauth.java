@@ -18,24 +18,12 @@ public class Oauth extends Model{
 	public String clientId;
 	
 	@Enumerated(EnumType.STRING)
-	public OauthProvider provider;
+	public ServiceProvider provider;
 	
 	@OneToOne(fetch=FetchType.EAGER)
 	public User user;
 	
-	public enum OauthProvider {
-		GOOGLE_PLUS;
-
-		static public boolean contains(String aName) {
-			OauthProvider[] providers = OauthProvider.values();
-			for (OauthProvider provider : providers)
-				if (provider.toString().equals(aName))
-					return true;
-			return false;
-		}
-	}
-	
-	public static Oauth findByClienIdAndProvider(String clientId, OauthProvider provider) {
+	public static Oauth findByClienIdAndProvider(String clientId, ServiceProvider provider) {
 		return Oauth.find("byClientIdAndProvider", clientId, provider).first();
 	}
 }

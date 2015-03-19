@@ -2,8 +2,12 @@
 
 angular.module('myApp.controllers')
 
-.controller('UserController', ['$scope', '$http', '$routeParams', function($scope, $http, $routeParams) {
+.controller('UserController', ['$scope', '$http', '$routeParams', 'Avatar', function($scope, $http, $routeParams, Avatar) {
   $scope.user;
+
+  $scope.getAvatar = function(aUser, size){
+    return Avatar(aUser, size);
+  }
 
   $http({
       method: 'GET',

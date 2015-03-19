@@ -12,7 +12,7 @@
           </div>
         </div>
         <div>
-          <img ng-src="{{post.author.photo}}" class="img-circle" width="32px" height="32px">
+          <img ng-src="{{ getAvatar(post.author, 'S') }}" class="img-circle" width="32px" height="32px">
           <a href="/#/@{{post.author.loginName}}"><strong>{{post.author.displayName}}</strong></a>
           <span class="post-date">{{ post.creationTimestamp | timeDistance : locale }}</span>
         </div>
