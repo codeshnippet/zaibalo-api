@@ -54,6 +54,7 @@ public class User extends Model {
 	public String getToken() {
 		if(StringUtils.isBlank(this.token)){
 			this.token = new BigInteger(32, new SecureRandom()).toString(32);
+			this.save();
 		}
 		return token;
 	}
