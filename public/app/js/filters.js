@@ -2,6 +2,10 @@
 
 /* Filters */
 
+'use strict';
+
+/* Filters */
+
 angular.module('myApp.filters', []).
   filter('hashtagger',['$filter',
       function($filter) {
