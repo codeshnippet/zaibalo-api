@@ -30,6 +30,10 @@ public class InstagramsPullJob extends Job {
 		while(iterator.hasNext()){
 			JsonObject postJson = iterator.next().getAsJsonObject();
 
+			if(!isMediaTypeSupported(postJson)){
+				continue;
+			}
+			
 			long userId = getUserId(postJson);
 			String userPhoto = getUserPhoto(postJson);
 			String displayName = getDisplayName(postJson);
@@ -42,6 +46,11 @@ public class InstagramsPullJob extends Job {
 			createPostIfNotExists(user, creationDate, content);
 		}
     }
+
+	private boolean isMediaTypeSupported(JsonObject postJson) {
+		String type = postJson.getAsJsonPrimitive("type").getAsString();
+		return type.equals("image");
+	}
 
 	private Date getCreationDate(JsonObject postJson) {
 		long creationDateLong = postJson.getAsJsonPrimitive("created_time").getAsLong() * 1000;
@@ -65,20 +74,8 @@ public class InstagramsPullJob extends Job {
 
 	private String buildContent(JsonObject postJson) {
 		String caption = postJson.getAsJsonObject("caption").getAsJsonPrimitive("text").getAsString();
-		
-		String content = "";
-		
-		String type = postJson.getAsJsonPrimitive("type").getAsString(); //image or video
-		if(type.equals("image")){
-			String imageUrl = postJson.getAsJsonObject("images").getAsJsonObject("standard_resolution").getAsJsonPrimitive("url").getAsString();
-			content = "<img src=\"" + imageUrl + "\" class=\"center\" /><br>" + caption;
-		} else if(type.equals("Video")){
-			String videoUrl = postJson.getAsJsonObject("videos").getAsJsonObject("standard_resolution").getAsJsonPrimitive("url").getAsString();
-			int width = postJson.getAsJsonObject("videos").getAsJsonObject("standard_resolution").getAsJsonPrimitive("width").getAsInt();
-			int height = postJson.getAsJsonObject("videos").getAsJsonObject("standard_resolution").getAsJsonPrimitive("height").getAsInt();
-			content = "<video width=\"" + width + "\" height=\"" + height + "\" controls><source src=\"" + videoUrl + "\" type=\"video/mp4\"></video><br>" + caption;
-		}
-		return content;
+		String imageUrl = postJson.getAsJsonObject("images").getAsJsonObject("standard_resolution").getAsJsonPrimitive("url").getAsString();
+		return "<img src=\"" + imageUrl + "\" class=\"center\" /><br>" + caption;
 	}
 
 	private void createPostIfNotExists(User user, Date creationDate, String content) {
