@@ -64,29 +64,31 @@ app.run(['$rootScope', '$window',
 
         FB.api(
             "/me",
-            function (response) {
+            function (res) {
               if (res && !res.error) {
                 user.clientId = res.id;
                 user.displayName = res.name;
                 user.email = res.email;
               }
+              /* make the API call */
+              FB.api(
+                  "/me/picture",
+                  function (res) {
+                    if (res && !res.error) {
+                      user.photo = res.data.url;
+                    }
+                    var json = JSON.stringify(user);
+                    $.post('/oauth-login', json, function(data) {
+                        saveAuthValues(data.user.loginName, data.token);
+                    }, 'json');
+                  }
+              );
             }
         );
 
-        /* make the API call */
-        FB.api(
-            "/me/picture",
-            function (response) {
-              if (res && !res.error) {
-                user.photo = res.data.url;
-              }
-            }
-        );
 
-        var json = JSON.stringify(user);
-        $.post('/oauth-login', json, function(data) {
-            saveAuthValues(data.user.loginName, data.token);
-        }, 'json');
+
+
 
       }
       else {
