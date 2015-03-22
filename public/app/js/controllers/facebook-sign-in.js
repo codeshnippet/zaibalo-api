@@ -1,5 +1,11 @@
 function FacebookSignInController($scope) {
-  $scope.showUserInfo = function(data){
-    alert(data);
+
+  $scope.getUserInfo = function() {
+    FB.api('/me', function(res) {
+      $rootScope.$apply(function() {
+        alert(res);
+      });
+    });
   }
+
 }
