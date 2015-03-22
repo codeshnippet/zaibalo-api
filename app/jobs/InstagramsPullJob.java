@@ -3,6 +3,8 @@ package jobs;
 import java.util.Date;
 import java.util.Iterator;
 
+import org.apache.commons.lang.StringUtils;
+
 import models.Post;
 import models.ServiceProvider;
 import models.User;
@@ -16,7 +18,7 @@ import com.google.gson.JsonArray;
 import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;
 
-@Every("60s")
+@Every("5s")
 public class InstagramsPullJob extends Job {
 	public void doJob() {
 		
@@ -30,15 +32,16 @@ public class InstagramsPullJob extends Job {
 		while(iterator.hasNext()){
 			JsonObject postJson = iterator.next().getAsJsonObject();
 			
+			long userId = postJson.getAsJsonObject("user").getAsJsonPrimitive("id").getAsLong();
 			String userPhoto = postJson.getAsJsonObject("user").getAsJsonPrimitive("profile_picture").getAsString();
 			//String loginName = post.getAsJsonObject("user").getAsJsonPrimitive("username").getAsString();
 			String displayName = postJson.getAsJsonObject("user").getAsJsonPrimitive("full_name").getAsString();
-			long userId = postJson.getAsJsonObject("user").getAsJsonPrimitive("id").getAsLong();
+			displayName = StringUtils.isEmpty(displayName) ? String.valueOf(userId) : displayName;
 			
 			User user = User.findByLoginName(String.valueOf(userId));
 			if(user == null){
 				user = new User();
-				user.displayName = displayName;
+				user.setDisplayName(displayName);
 				user.loginName = String.valueOf(userId);
 				user.photo = userPhoto;
 				user.photoProvider = ServiceProvider.INSTAGRAM;

@@ -27,7 +27,7 @@ public class UserTest extends UnitTest{
 	    User user = User.find("byEmail", "superman@mail.com").first();
 
 	    assertNotNull(user);
-	    assertEquals("Superman", user.displayName);
+	    assertEquals("Superman", user.getDisplayName());
 	    assertEquals("superman@mail.com", user.email);
 	    assertEquals("franky", user.loginName);
 	    assertEquals(SECRET_HASHED, user.getPassword());
@@ -39,14 +39,14 @@ public class UserTest extends UnitTest{
     	user.email = "email1@test.com";
     	user.loginName = "login";
     	user.setPassword("password");
-    	user.displayName = "TestName";
+    	user.setDisplayName("TestName");
     	user.save();
     	
     	User otherUserWithSameDisplayName = new User();
     	otherUserWithSameDisplayName.email = "email2@test.com";
     	otherUserWithSameDisplayName.loginName = "login";
     	otherUserWithSameDisplayName.setPassword("password");
-    	otherUserWithSameDisplayName.displayName = "TestName";
+    	otherUserWithSameDisplayName.setDisplayName("TestName");
     	
     	otherUserWithSameDisplayName.save();
     }
@@ -57,14 +57,14 @@ public class UserTest extends UnitTest{
     	user.email = "email@test.com";
     	user.loginName = "login";
     	user.setPassword("password");
-    	user.displayName = "TestName!";
+    	user.setDisplayName("TestName!");
     	user.save();
     	
     	User otherUserWithSameEmail = new User();
     	otherUserWithSameEmail.email = "email@test.com";
     	otherUserWithSameEmail.loginName = "login2";
     	otherUserWithSameEmail.setPassword("password");
-    	otherUserWithSameEmail.displayName = "TestName@";
+    	otherUserWithSameEmail.setDisplayName("TestName@");
     	otherUserWithSameEmail.save();
     }
     
@@ -74,14 +74,14 @@ public class UserTest extends UnitTest{
     	user.email = "email123@test.com";
     	user.loginName = "login";
     	user.setPassword("password");
-    	user.displayName = "TestName!";
+    	user.setDisplayName("TestName!");
     	user.save();
     	
     	User otherUserWithSameEmail = new User();
     	otherUserWithSameEmail.email = "email@test.com";
     	otherUserWithSameEmail.loginName = "login";
     	otherUserWithSameEmail.setPassword("password");
-    	otherUserWithSameEmail.displayName = "TestName@";
+    	otherUserWithSameEmail.setDisplayName("TestName@");
     	otherUserWithSameEmail.save();
     }
     
@@ -90,7 +90,7 @@ public class UserTest extends UnitTest{
     	User user = new User();
     	user.email = "email123@test.com";
     	user.setPassword("password");
-    	user.displayName = "TestName!";
+    	user.setDisplayName("TestName!");
 
     	user.loginName = null;
 
@@ -102,7 +102,7 @@ public class UserTest extends UnitTest{
     	User user = new User();
     	user.loginName = "login";
     	user.email = "email123@test.com";
-    	user.displayName = "TestName!";
+    	user.setDisplayName("TestName!");
 
     	user.password = null;
 
@@ -115,7 +115,6 @@ public class UserTest extends UnitTest{
     	user.loginName = "login";
     	user.setPassword("password");
     	user.email =  null;
-    	user.displayName = null;
     	user.save();
     }
     
@@ -124,13 +123,13 @@ public class UserTest extends UnitTest{
     	User user = new User();
     	user.loginName = "login";
     	user.setPassword("password");
-    	user.displayName = "TestName!";
+    	user.setDisplayName("TestName!");
     	user.save();
     	
     	user = new User();
     	user.loginName = "login2";
     	user.setPassword("password");
-    	user.displayName = "TestName!2";
+    	user.setDisplayName("TestName!2");
     	user.save();
     	
     	assertEquals(2, User.count());

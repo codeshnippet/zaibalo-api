@@ -120,7 +120,7 @@ public class PostsTest extends FunctionalTest {
 		assertEquals(post.getId().longValue(), json.id);
 		assertEquals("test content 1", json.content);
 		assertEquals(post.author.id.longValue(), json.author.id);
-		assertEquals(post.author.displayName, json.author.displayName);
+		assertEquals(post.author.getDisplayName(), json.author.displayName);
 		assertEquals(1238025600000l, json.creationTimestamp);
 		assertEquals(0, json.comments.size());
 	}

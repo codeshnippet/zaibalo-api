@@ -14,7 +14,7 @@ public class UserResponse {
 	public static UserResponse convertToJson(User user) {
 		UserResponse userResponse = new UserResponse();
 		userResponse.id = user.id;
-		userResponse.displayName = user.displayName;
+		userResponse.displayName = user.getDisplayName();
 		userResponse.photo = user.photo;
 		userResponse.loginName = user.loginName;
 		userResponse.photoProvider = user.photoProvider.toString();

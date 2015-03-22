@@ -68,7 +68,7 @@ public class UsersTest extends FunctionalTest {
 		User user = User.findByLoginName("johny");
 		assertNotNull(user);
 		assertEquals(PASS_HASHED, user.getPassword());
-		assertEquals("Boy", user.displayName);
+		assertEquals("Boy", user.getDisplayName());
 		assertEquals("johny@gmail.com", user.email);
 		
 		assertHeaderEquals("Location", newRequest().host + "/users/" + user.id, response);
@@ -81,7 +81,7 @@ public class UsersTest extends FunctionalTest {
 		User user = User.findByLoginName("johny");
 		assertNotNull(user);
 		assertEquals(PASS_HASHED, user.getPassword());
-		assertEquals("johny", user.displayName);
+		assertEquals("johny", user.getDisplayName());
 		assertEquals(null, user.email);
 		assertEquals("http://avatars.io/16XTmzfwia", user.photo);
 	}
@@ -94,7 +94,7 @@ public class UsersTest extends FunctionalTest {
 		assertNotNull(user.id);
 		assertNotNull(user.registrationDate);
 		assertEquals(SECRET_HASHED, user.getPassword());
-		assertEquals("Cosby", user.displayName);
+		assertEquals("Cosby", user.getDisplayName());
 		assertEquals("billc@gmail.com", user.email);
 	}
 	
@@ -117,7 +117,7 @@ public class UsersTest extends FunctionalTest {
 		assertContentType(APPLICATION_JSON, response);
 		
 		user.refresh();
-		assertEquals("Jackson", user.displayName);
+		assertEquals("Jackson", user.getDisplayName());
 		assertEquals(EHE_HASHED, user.getPassword());
 		assertEquals("moondance@gmail.com", user.email);
 		assertEquals("Mike", user.loginName);

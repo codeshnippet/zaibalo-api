@@ -30,7 +30,7 @@ public class OauthRequest {
 	public static void populateUserFromOauthRequest(OauthRequest oauthRequest, User user) {
 		user.loginName = oauthRequest.clientId;
 		user.setPassword(oauthRequest.clientId);
-		user.displayName = oauthRequest.displayName;
+		user.setDisplayName(oauthRequest.displayName);
 		user.email = oauthRequest.email;
 		user.photo = oauthRequest.photo;
 		user.photoProvider = ServiceProvider.valueOf(oauthRequest.provider);

@@ -13,6 +13,8 @@ import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
 import javax.validation.constraints.NotNull;
 
+import junit.framework.Assert;
+
 import org.apache.commons.lang.StringUtils;
 import org.apache.commons.codec.digest.DigestUtils;
 
@@ -34,7 +36,7 @@ public class User extends Model {
 	public String email;
 	
 	@Column(unique=true)
-	public String displayName;
+	private String displayName;
 
 	@Temporal(TemporalType.TIMESTAMP)
 	public Date registrationDate;
@@ -74,6 +76,17 @@ public class User extends Model {
 	
 	public static String hashPassword(String password) {
 		return DigestUtils.md5Hex(password);
+	}
+
+	public void setDisplayName(String displayName) {
+		if(StringUtils.isEmpty(displayName)){
+			throw new IllegalArgumentException("Display name can not be empty.");
+		}
+		this.displayName = displayName;
+	}
+
+	public String getDisplayName() {
+		return this.displayName;
 	}
 
 }

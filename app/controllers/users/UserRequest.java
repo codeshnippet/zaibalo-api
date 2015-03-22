@@ -15,9 +15,9 @@ public class UserRequest {
 		user.loginName = userRequest.loginName;
 		user.setPassword(userRequest.password);
 		if (userRequest.displayName != null) {
-			user.displayName = userRequest.displayName;
+			user.setDisplayName(userRequest.displayName);
 		} else {
-			user.displayName = userRequest.loginName;
+			user.setDisplayName(userRequest.loginName);
 		}
 		user.email = userRequest.email;
 		if (user.photo != null) {
@@ -35,7 +35,7 @@ public class UserRequest {
 			user.setPassword(userRequest.password);
 		}
 		if (StringUtils.isNotBlank(userRequest.displayName)) {
-			user.displayName = userRequest.displayName;
+			user.setDisplayName(userRequest.displayName);
 		}
 		if (StringUtils.isNotBlank(userRequest.email)) {
 			user.email = userRequest.email;
