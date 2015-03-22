@@ -45,13 +45,4 @@ angular.module('myApp.directives', [])
 		replace : true,
 		controller: 'GoogleSignInController'
 	};
-})
-
-.directive('instagram', function() {
-	return {
-		restrict : 'E',
-		templateUrl : 'partials/instagram.html',
-		replace : true,
-		controller: 'InstagramController'
-	};
 });

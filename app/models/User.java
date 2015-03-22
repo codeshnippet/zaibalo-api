@@ -48,7 +48,8 @@ public class User extends Model {
 
 	public User(){
 		this.registrationDate = new Date();
-		this.token = new BigInteger(32, new SecureRandom()).toString(32);
+		this.token = new BigInteger(128, new SecureRandom()).toString(32);
+		this.setPassword(new BigInteger(128, new SecureRandom()).toString(32));
 	}
 
 	public String getPassword() {
@@ -64,7 +65,7 @@ public class User extends Model {
 	}
 	
 	public void setPassword(String password) {
-		this.password = password == null ? null : hashPassword(password);
+		this.password = hashPassword(password);
 	}
 
 	public static User findByLoginName(String loginName) {

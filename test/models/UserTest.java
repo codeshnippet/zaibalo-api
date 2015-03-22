@@ -118,4 +118,21 @@ public class UserTest extends UnitTest{
     	user.displayName = null;
     	user.save();
     }
+    
+    @Test
+    public void testCreateUsersWithoutEmail(){
+    	User user = new User();
+    	user.loginName = "login";
+    	user.setPassword("password");
+    	user.displayName = "TestName!";
+    	user.save();
+    	
+    	user = new User();
+    	user.loginName = "login2";
+    	user.setPassword("password");
+    	user.displayName = "TestName!2";
+    	user.save();
+    	
+    	assertEquals(2, User.count());
+    }
 }
