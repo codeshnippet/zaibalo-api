@@ -1,7 +1,7 @@
 package models;
 
 public enum ServiceProvider {
-	GOOGLE_PLUS, AVATARS_IO, INSTAGRAM;
+	GOOGLE_PLUS, AVATARS_IO, INSTAGRAM, FACEBOOK;
 	
 	static public boolean contains(String aName) {
 		ServiceProvider[] providers = ServiceProvider.values();
