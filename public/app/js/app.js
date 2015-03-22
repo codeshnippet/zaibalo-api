@@ -58,26 +58,35 @@ app.run(['$rootScope', '$window',
     FB.Event.subscribe('auth.authResponseChange', function(res) {
       if (res.status === 'connected') {
 
+        var user = {
+          provider: 'FACEBOOK'
+        }
+
+        FB.api(
+            "/me",
+            function (response) {
+              if (res && !res.error) {
+                user.clientId = res.id;
+                user.displayName = res.name;
+                user.email = res.email;
+              }
+            }
+        );
+
         /* make the API call */
         FB.api(
             "/me/picture",
             function (response) {
-              if (response && !response.error) {
-                var user = {
-                  clientId: res.id,
-                  provider: 'FACEBOOK',
-                  displayName: res.name,
-                  email: res.email,
-                  photo: res.url
-                };
-
-                var json = JSON.stringify(user);
-                $.post('/oauth-login', json, function(data) {
-                    saveAuthValues(data.user.loginName, data.token);
-                }, 'json');
+              if (res && !res.error) {
+                var user.photo = res.data.url;
               }
             }
         );
+
+        var json = JSON.stringify(user);
+        $.post('/oauth-login', json, function(data) {
+            saveAuthValues(data.user.loginName, data.token);
+        }, 'json');
 
       }
       else {
