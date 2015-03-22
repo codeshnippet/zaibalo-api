@@ -4,14 +4,6 @@
 
 angular.module('myApp.directives', [])
 
-.directive('loginPopup', function() {
-	return {
-		restrict : 'E',
-		templateUrl : 'partials/login-popup.html',
-		replace : true
-	};
-})
-
 .directive('navigationBar', function() {
 	return {
 		restrict : 'E',
@@ -44,14 +36,5 @@ angular.module('myApp.directives', [])
 		templateUrl : 'partials/google-sign-in.html',
 		replace : true,
 		controller: 'GoogleSignInController'
-	};
-})
-
-.directive('facebookSignIn', function() {
-	return {
-		restrict : 'E',
-		templateUrl : 'partials/facebook-sign-in.html',
-		replace : true,
-		controller: 'FacebookSignInController'
 	};
 });
