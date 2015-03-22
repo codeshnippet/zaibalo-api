@@ -23,8 +23,7 @@ public class Oauths extends Controller {
 		
 		Oauth oauth = Oauth.findByClienIdAndProvider(oauthRequest.clientId, ServiceProvider.valueOf(oauthRequest.provider));
 		if(oauth == null){
-			User user = new User();
-			OauthRequest.populateUserFromOauthRequest(oauthRequest, user);
+			User user = OauthRequest.transformOauthRequestToUser(oauthRequest);
 			user.save();
 			
 			oauth = OauthRequest.createFromOauthRequest(oauthRequest, user);

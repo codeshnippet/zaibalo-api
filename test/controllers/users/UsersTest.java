@@ -83,7 +83,7 @@ public class UsersTest extends FunctionalTest {
 		assertEquals(PASS_HASHED, user.getPassword());
 		assertEquals("johny", user.getDisplayName());
 		assertEquals(null, user.email);
-		assertEquals("http://avatars.io/16XTmzfwia", user.photo);
+		assertNotNull(user.getPhoto());
 	}
 	
 	@Test

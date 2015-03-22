@@ -97,22 +97,23 @@ public class UserTest extends UnitTest{
     	user.save();
     }
     
-    @Test(expected = javax.validation.ConstraintViolationException.class)
-    public void testPasswordIsRequired(){
+    @Test
+    public void testPasswordIsGeneratedIfNull(){
     	User user = new User();
     	user.loginName = "login";
     	user.email = "email123@test.com";
     	user.setDisplayName("TestName!");
-
-    	user.password = null;
+    	
+    	user.setPassword(null);
 
     	user.save();
+    	User updatedUser = User.find("byEmail", "email123@test.com").first();
+    	assertNotNull(updatedUser.getPassword());
     }
     
     @Test
     public void testSaveUserWithNullOptionalFields(){
-    	User user = new User();
-    	user.loginName = "login";
+    	User user = new User("login", null);
     	user.setPassword("password");
     	user.email =  null;
     	user.save();
@@ -120,18 +121,7 @@ public class UserTest extends UnitTest{
     
     @Test
     public void testCreateUsersWithoutEmail(){
-    	User user = new User();
-    	user.loginName = "login";
-    	user.setPassword("password");
-    	user.setDisplayName("TestName!");
+    	User user = new User("login222");
     	user.save();
-    	
-    	user = new User();
-    	user.loginName = "login2";
-    	user.setPassword("password");
-    	user.setDisplayName("TestName!2");
-    	user.save();
-    	
-    	assertEquals(2, User.count());
     }
 }

@@ -11,20 +11,12 @@ public class UserRequest {
 	public String displayName;
 	public String photo;
 
-	public static void populateUserFromUserRequest(UserRequest userRequest, User user) {
-		user.loginName = userRequest.loginName;
+	public static User transfromUserRequestToUser(UserRequest userRequest) {
+		User user = new User(userRequest.loginName, userRequest.displayName);
 		user.setPassword(userRequest.password);
-		if (userRequest.displayName != null) {
-			user.setDisplayName(userRequest.displayName);
-		} else {
-			user.setDisplayName(userRequest.loginName);
-		}
 		user.email = userRequest.email;
-		if (user.photo != null) {
-			user.photo = userRequest.photo;
-		} else {
-			user.photo = "http://avatars.io/16XTmzfwia";
-		}
+		user.setPhoto(userRequest.photo);
+		return user;
 	}
 
 	public static void updateUserFromUserRequest(UserRequest userRequest, User user) {
@@ -41,7 +33,7 @@ public class UserRequest {
 			user.email = userRequest.email;
 		}
 		if (StringUtils.isNotBlank(userRequest.photo)) {
-			user.photo = userRequest.photo;
+			user.setPhoto(userRequest.photo);
 		}
 	}
 }

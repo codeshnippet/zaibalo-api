@@ -27,13 +27,12 @@ public class OauthRequest {
 				&& StringUtils.isNotBlank(this.email) && StringUtils.isNotBlank(this.photo);
 	}
 
-	public static void populateUserFromOauthRequest(OauthRequest oauthRequest, User user) {
-		user.loginName = oauthRequest.clientId;
-		user.setPassword(oauthRequest.clientId);
-		user.setDisplayName(oauthRequest.displayName);
+	public static User transformOauthRequestToUser(OauthRequest oauthRequest) {
+		User user = new User(oauthRequest.clientId, oauthRequest.displayName);
 		user.email = oauthRequest.email;
-		user.photo = oauthRequest.photo;
+		user.setPhoto(oauthRequest.photo);
 		user.photoProvider = ServiceProvider.valueOf(oauthRequest.provider);
+		return user;
 	}
 	
 	public static Oauth createFromOauthRequest(OauthRequest oauthRequest, User user) {

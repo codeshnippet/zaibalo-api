@@ -13,11 +13,10 @@ import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
 import javax.validation.constraints.NotNull;
 
-import junit.framework.Assert;
-
-import org.apache.commons.lang.StringUtils;
 import org.apache.commons.codec.digest.DigestUtils;
+import org.apache.commons.lang.StringUtils;
 
+import play.Play;
 import play.db.jpa.Model;
 
 @Entity
@@ -30,28 +29,42 @@ public class User extends Model {
 	
 	@NotNull
 	@Column(nullable = false)
-	public String password;
+	private String password;
 	
 	@Column(unique=true)
 	public String email;
 	
+	@NotNull
 	@Column(unique=true)
 	private String displayName;
 
+	@NotNull
 	@Temporal(TemporalType.TIMESTAMP)
 	public Date registrationDate;
 	
-	public String photo;
+	private String photo = Play.configuration.getProperty("user.default.photo.url");
 	
 	@Enumerated(EnumType.STRING)
 	public ServiceProvider photoProvider = ServiceProvider.AVATARS_IO;
 	
 	public String token;
 
-	public User(){
+	protected User(){
 		this.registrationDate = new Date();
 		this.token = new BigInteger(128, new SecureRandom()).toString(32);
 		this.setPassword(new BigInteger(128, new SecureRandom()).toString(32));
+	}
+	
+	public User(String loginName, String displayName){
+		this();
+		this.loginName = loginName;
+		this.setDisplayName(displayName);
+	}
+
+	public User(String loginName) {
+		this();
+		this.loginName = loginName;
+		this.setDisplayName(displayName);
 	}
 
 	public String getPassword() {
@@ -60,13 +73,16 @@ public class User extends Model {
 
 	public String getToken() {
 		if(StringUtils.isBlank(this.token)){
-			this.token = new BigInteger(32, new SecureRandom()).toString(32);
+			this.token = new BigInteger(128, new SecureRandom()).toString(32);
 			this.save();
 		}
 		return token;
 	}
 	
 	public void setPassword(String password) {
+		if(StringUtils.isBlank(password)){
+			password = new BigInteger(128, new SecureRandom()).toString(32);
+		}
 		this.password = hashPassword(password);
 	}
 
@@ -80,13 +96,24 @@ public class User extends Model {
 
 	public void setDisplayName(String displayName) {
 		if(StringUtils.isEmpty(displayName)){
-			throw new IllegalArgumentException("Display name can not be empty.");
+			this.displayName = loginName;
+		} else {
+			this.displayName = displayName;
 		}
-		this.displayName = displayName;
 	}
 
 	public String getDisplayName() {
 		return this.displayName;
+	}
+
+	public String getPhoto() {
+		return photo;
+	}
+
+	public void setPhoto(String photo) {
+		if(!StringUtils.isEmpty(photo)){
+			this.photo = photo;			
+		}
 	}
 
 }

@@ -21,8 +21,7 @@ public class Users extends Controller {
 	public static void createUser() {
 		UserRequest userRequest = new GsonBuilder().create().fromJson(new InputStreamReader(request.body), UserRequest.class);
 
-		User user = new User();
-		UserRequest.populateUserFromUserRequest(userRequest, user);
+		User user = UserRequest.transfromUserRequestToUser(userRequest);
 		user.save();
 
 		response.setContentTypeIfNotSet("application/json");

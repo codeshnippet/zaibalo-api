@@ -30,7 +30,7 @@ public class CommentsTest extends FunctionalTest{
 		assertIsOk(response);
 		assertContentType("application/json", response);
 		
-		assertContentEquals("[{\"id\":"+comment.id+",\"content\":\"Funny comment!\",\"author\":{\"id\":" + comment.author.id + ",\"displayName\":\"Superman\",\"loginName\":\"franky\",\"photoProvider\":\"AVATARS_IO\"},\"creationTimestamp\":1238025600000}]", response);
+		assertContentEquals("[{\"id\":"+comment.id+",\"content\":\"Funny comment!\",\"author\":{\"id\":" + comment.author.id + ",\"displayName\":\"Superman\",\"photo\":\"http://avatars.io/18xnkPlshw\",\"loginName\":\"franky\",\"photoProvider\":\"AVATARS_IO\"},\"creationTimestamp\":1238025600000}]", response);
 	}
 	
 	@Test

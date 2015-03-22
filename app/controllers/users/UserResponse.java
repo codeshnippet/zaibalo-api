@@ -15,7 +15,7 @@ public class UserResponse {
 		UserResponse userResponse = new UserResponse();
 		userResponse.id = user.id;
 		userResponse.displayName = user.getDisplayName();
-		userResponse.photo = user.photo;
+		userResponse.photo = user.getPhoto();
 		userResponse.loginName = user.loginName;
 		userResponse.photoProvider = user.photoProvider.toString();
 		return userResponse;
