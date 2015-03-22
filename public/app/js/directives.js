@@ -45,4 +45,13 @@ angular.module('myApp.directives', [])
 		replace : true,
 		controller: 'GoogleSignInController'
 	};
+})
+
+.directive('facebookSignIn', function() {
+	return {
+		restrict : 'E',
+		templateUrl : 'partials/facebook-sign-in.html',
+		replace : true,
+		controller: 'FacebookSignInController'
+	};
 });

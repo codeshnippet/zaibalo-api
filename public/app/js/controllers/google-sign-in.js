@@ -1,4 +1,4 @@
-function GoogleSignInController($scope, $timeout) {
+function GoogleSignInController($scope) {
     // This flag we use to show or hide the button in our HTML.
     $scope.signedIn = false;
 
