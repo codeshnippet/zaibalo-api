@@ -78,7 +78,7 @@ app.run(['$rootScope', '$window',
             "/me/picture",
             function (response) {
               if (res && !res.error) {
-                var user.photo = res.data.url;
+                user.photo = res.data.url;
               }
             }
         );
