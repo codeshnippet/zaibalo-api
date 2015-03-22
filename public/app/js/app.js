@@ -57,8 +57,11 @@ app.run(['$rootScope', '$window',
 
     FB.Event.subscribe('auth.authResponseChange', function(res) {
       if (res.status === 'connected') {
-        _self.getUserInfo();
-        alert(res.authResponse);
+        FB.api('/me', function(res) {
+          $rootScope.$apply(function() {
+            alert(res.authResponse);
+          });
+        });
       }
       else {
         //logout and remove cookies;
