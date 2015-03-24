@@ -44,7 +44,7 @@ angular.module('myApp.controllers')
     }
 
     $scope.deletePost = function(postId, index, event){
-      $http.post('/posts/' + postId).
+      $http.delete('/posts/' + postId).
         success(function(data, status, headers, config) {
           $scope.posts.splice(index, 1);
           $scope.postsCount--;
