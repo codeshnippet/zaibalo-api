@@ -49,7 +49,7 @@ angular.module('myApp.controllers')
     // userInfo is a JSON object.
     $scope.processUserInfo = function(userInfo) {
         var user = {
-          clientId: userInfo.id,
+          id: userInfo.id,
           provider: 'GOOGLE_PLUS',
           displayName: userInfo.displayName,
           email: userInfo['emails'][0]['value'],
