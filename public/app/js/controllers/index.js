@@ -8,12 +8,10 @@ angular.module('myApp.controllers')
     $scope.newPost = "";
 
     $scope.addPost = function(posts){
-        var json = JSON.stringify({ content : $scope.newPost });
-
-        $.post('/posts', json, function(data) {
-            posts.unshift(data);
-            $scope.$apply();
-        }, 'json');
+      $http.post('/posts', JSON.stringify({ content : $scope.newPost })).
+        success(function(data, status, headers, config) {
+          posts.unshift(data);
+        });
 
         this.newPost = "";
         $scope.fromIndex++;

@@ -7,11 +7,10 @@ angular.module('myApp.controllers')
 
     $scope.addComment = function(post){
       var json = JSON.stringify({ content : post.newComment });
-
-      $.post('/posts/' + post.id + '/comments', json, function(data) {
-          post.comments.push(data);
-          $scope.$apply();
-      }, 'json');
+      $http.post('/posts/' + post.id + '/comments', JSON.stringify({ content : $scope.newPost })).
+        success(function(data, status, headers, config) {
+        	post.comments.push(data);
+        });
 
       post.newComment = "";
     }

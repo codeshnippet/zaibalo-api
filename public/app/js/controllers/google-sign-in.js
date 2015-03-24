@@ -1,4 +1,8 @@
-function GoogleSignInController($scope) {
+'use strict';
+
+angular.module('myApp.controllers')
+
+.controller('GoogleSignInController', ['$scope', 'UserService', function($scope, UserService) {
     // This flag we use to show or hide the button in our HTML.
     $scope.signedIn = false;
 
@@ -52,10 +56,7 @@ function GoogleSignInController($scope) {
           photo: userInfo.image.url.split("?")[0]
         };
 
-        var json = JSON.stringify(user);
-        $.post('/oauth-login', json, function(data) {
-            saveAuthValues(data.user.loginName, data.token);
-        }, 'json');
+        UserService.loginSocial(user.id, user.provider, user.displayName, user.email, user.photo);
     }
 
     // When callback is received, process user info.
@@ -94,4 +95,4 @@ function GoogleSignInController($scope) {
 
     // Call start function on load.
     $scope.loadScript('https://apis.google.com/js/client:plusone.js', $scope.renderSignInButton);
-}
+}]);

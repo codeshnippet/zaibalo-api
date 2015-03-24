@@ -43,24 +43,12 @@ angular.module('myApp.controllers')
         });
     }
 
-    $scope.loadInstagramPosts = function(){
-      var endPoint = "https://api.instagram.com/v1/tags/zaibalo/media/recent?client_id=e3c2ae0fb7904532bfa625cb0f272e99&callback=JSON_CALLBACK&min_tag_id=1424964418148688";
-  		$http.jsonp(endPoint).success(function(response) {
-  			for(var i=0; i<response.data.length; i++) {
-  				if (typeof $scope.have[response.data[i].id]==="undefined") {
-  					$scope.pics.push(response.data[i]) ;
-  					$scope.have[response.data[i].id] = "1";
-  				}
-  			}
-         });
-    };
-
     $scope.deletePost = function(postId, index, event){
-      $.delete('/posts/' + postId, '', function(data) {
-        $scope.posts.splice(index, 1);
-        $scope.postsCount--;
-        $scope.$apply();
-      }, 'json');
+      $http.post('/posts/' + postId).
+        success(function(data, status, headers, config) {
+          $scope.posts.splice(index, 1);
+          $scope.postsCount--;
+        });
 
       event.preventDefault();
     }

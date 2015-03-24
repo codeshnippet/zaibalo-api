@@ -2,22 +2,16 @@
 
 angular.module('myApp.controllers')
 
-.controller('SignupController', ['$scope', function($scope) {
+.controller('SignupController', ['$scope', 'UserService', function($scope, UserService) {
   $scope.user = {};
 
   $scope.registerUser = function(user){
-    var json = JSON.stringify(user);
-    $.post('/users', json, function(data) {
-      saveAuthValues(data.user.loginName, data.token);
-      }, 'json');
-      $scope.user = {};
-    };
+    UserService.registerUser(user.loginName, user.password);
+    $scope.user = {};
+  };
 
   $scope.login = function(user){
-    var json = JSON.stringify(user);
-    $.post('/login', json, function(data) {
-      saveAuthValues(data.user.loginName, data.token);
-      }, 'json');
-      $scope.user = {};
+    UserService.login(user.loginName, user.password);
+    $scope.user = {};
   };
 }]);
