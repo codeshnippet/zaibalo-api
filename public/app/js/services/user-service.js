@@ -6,8 +6,6 @@ angular.module('myApp.services')
 .service('UserService', ['$http', 'CookiesService', function($http, CookiesService){
   var self = this;
 
-  self.isLoggedIn = false;
-
   self.loginSocial = function(id, provider, name, email, photo){
     var request = {
       clientId : id,
@@ -36,9 +34,20 @@ angular.module('myApp.services')
   };
 
   self.authenticate = function(data){
-    self.isLoggedIn = true;
     CookiesService.saveAuthCookies(data.user.loginName, data.token);
   };
+
+  self.logout = function(){
+    CookiesService.removeAuthCookies();
+  }
+
+  self.isUserLoggedIn = function(){
+    return CookiesService.isUserLoggedIn();
+  }
+
+  self.getUsername = function(){
+    return CookiesService.getUsername();
+  }
 
   self.registerUser = function(loginName, password){
     var request = {

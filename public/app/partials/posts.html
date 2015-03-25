@@ -8,7 +8,7 @@
             </button>
             <ul class="dropdown-menu pull-right" role="menu">
               <li><a href="#/post/{{ post.id }}">{{ 'view.post.page' | translate }}</a></li>
-              <li><a href="#" ng-click="deletePost(post.id, $index, $event)" style="color: red;">{{ 'delete.post' | translate }}</a></li>
+              <li ng-show="isOwner(post)"><a href="#" ng-click="deletePost(post.id, $index, $event)" style="color: red;">{{ 'delete.post' | translate }}</a></li>
             </ul>
           </div>
         </div>

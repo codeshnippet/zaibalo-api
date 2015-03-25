@@ -16,11 +16,16 @@ module.factory('tokenInjector', ['CookiesService', function(CookiesService) {
     var tokenInjector = {
         request: function(config) {
             if (true) {
-							var contentType = config.headers['Content-Type'] ? config.headers['Content-Type'] : '';
+
               var timestamp = new Date().getTime();
-        			var authToken = getHMAC(config.method, config.url, contentType, config.data, timestamp, CookiesService.getToken());
+							var token = CookiesService.getToken() ? CookiesService.getToken() : '';
+							var username = CookiesService.getUsername() ? CookiesService.getUsername() : '';
+							var contentType = config.headers['Content-Type'] ? config.headers['Content-Type'] : '';
+
+        			var authToken = getHMAC(config.method, config.url, contentType, config.data, timestamp, token);
+
               config.headers['x-auth-token'] = authToken;
-              config.headers['x-auth-username'] = CookiesService.getUsername();
+              config.headers['x-auth-username'] = username;
               config.headers['x-utc-timestamp'] = timestamp;
             }
             return config;

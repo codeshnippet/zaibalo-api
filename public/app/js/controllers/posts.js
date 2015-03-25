@@ -2,8 +2,8 @@
 
 angular.module('myApp.controllers')
 
-.controller('PostsController', ['$http', '$scope', '$routeParams', '$translate', 'Avatar',
-  function($http, $scope, $routeParams, $translate, Avatar) {
+.controller('PostsController', ['$http', '$scope', '$routeParams', 'Avatar', 'UserService',
+  function($http, $scope, $routeParams, Avatar, UserService) {
     var PAGE_SIZE = 10;
     $scope.fromIndex = 0;
     $scope.posts = [];
@@ -24,6 +24,10 @@ angular.module('myApp.controllers')
         success(function(data, status, headers, config) {
             $scope.postsCount = data.count;
         });
+    }
+
+    $scope.isOwner = function(post){
+      return UserService.getUsername() == post.author.loginName;
     }
 
     $scope.getAvatar = function(user, size){

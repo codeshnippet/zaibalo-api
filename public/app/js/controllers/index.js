@@ -2,8 +2,8 @@
 
 angular.module('myApp.controllers')
 
-.controller('IndexController', ['$http', '$scope', '$routeParams', '$translate',
-  function($http, $scope, $routeParams, $translate) {
+.controller('IndexController', ['$http', '$scope',
+  function($http, $scope) {
 
     $scope.addPost = function(posts){
       $http.post('/posts', JSON.stringify({ content : $scope.newPost })).

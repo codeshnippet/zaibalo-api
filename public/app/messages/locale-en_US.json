@@ -29,5 +29,6 @@
   "we.hate.spam.in.social" : "We hate spam at social networks so we won't publish anything unless you ask us to.",
   "safe.some.typing" : "Safe youself some typing. Sign in with:",
   "unhide.password" : "Unhide password",
-  "used.for.login" : "Used for login"
+  "used.for.login" : "Used for login",
+  "logout" : "Logout"
 }

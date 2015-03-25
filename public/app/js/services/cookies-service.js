@@ -12,13 +12,15 @@ angular.module('myApp.services')
   }
 
   self.getToken = function(){
-    var token = $cookies.token;
-    return token ? token : '';
+    return $cookies.token;
   }
 
   self.getUsername = function(){
-    var username = $cookies.username;
-    return username ? username : '';
+    return $cookies.username;
+  }
+
+  self.isUserLoggedIn = function(){
+    return self.getUsername() && self.getToken();
   }
 
   self.removeAuthCookies = function(){
