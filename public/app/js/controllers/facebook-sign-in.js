@@ -6,15 +6,15 @@ angular.module('myApp.controllers')
 
   $rootScope.user = {};
 
-  $window.fbAsyncInit = function() {
+  FB.init({
+    appId: '1413679762278869',
+    channelUrl: 'partial/facebook-channel.html',
+    status: true,
+    cookie: true,
+    xfbml: true
+  });
 
-    FB.init({
-      appId: '1413679762278869',
-      channelUrl: 'partial/facebook-channel.html',
-      status: true,
-      cookie: true,
-      xfbml: true
-    });
+  $window.fbAsyncInit = function() {
 
     FB.Event.subscribe('auth.authResponseChange', function(res) {
       if (res.status === 'connected') {
