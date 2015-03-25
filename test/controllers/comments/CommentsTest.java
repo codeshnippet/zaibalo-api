@@ -68,4 +68,20 @@ public class CommentsTest extends FunctionalTest{
 		
 		assertHeaderEquals("Location", newRequest().host + "/comments/" + comment.id, response);
 	}
+	
+	@Test
+	public void testCrateEmptyCommentFails(){
+		Fixtures.loadModels("data/posts.yml");
+		Post post = Post.find("byContent", "test content 1").first();
+		
+		Response response = new RequestBuilder()
+		.withPath("/posts/" + post.id + "/comments")
+		.withHttpMethod(HttpMethod.POST)
+		.withContentType(ContentType.APPLICATION_JSON)
+		.withBody("{\"content\":\"\"}")
+		.send();
+
+		assertStatus(400, response);
+		
+	}
 }

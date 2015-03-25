@@ -238,4 +238,18 @@ public class PostsTest extends FunctionalTest {
 		count = Post.findAll().size();
 		assertEquals(1, count);
 	}
+	
+	@Test
+	public void testEmptyPostCreationFails() {
+		Fixtures.loadModels("data/user.yml");
+
+		Response response = new RequestBuilder()
+			.withPath("/posts")
+			.withHttpMethod(HttpMethod.POST)
+			.withContentType(ContentType.APPLICATION_JSON)
+			.withBody("{\"content\":\"\"}")
+			.send();
+
+		assertStatus(400, response);
+	}
 }

@@ -34,7 +34,7 @@ public class Comments extends Controller {
 				fromJson(new InputStreamReader(request.body), CommentRequest.class);
 		
 		if(!commentJSON.isValid()){
-			badRequest("Content can not be empty");
+			badRequest();
 		}
 		
 		Comment comment = new Comment();
