@@ -7,6 +7,7 @@
             <button type="button" class="btn btn-default dropdown-toggle post-menu-button" data-toggle="dropdown" aria-expanded="false">...
             </button>
             <ul class="dropdown-menu pull-right" role="menu">
+              <li><a href="#/post/{{ post.id }}">{{ 'view.post.page' | translate }}</a></li>
               <li><a href="#" ng-click="deletePost(post.id, $index, $event)" style="color: red;">{{ 'delete.post' | translate }}</a></li>
             </ul>
           </div>

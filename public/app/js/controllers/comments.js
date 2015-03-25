@@ -20,7 +20,7 @@ angular.module('myApp.controllers')
     }
 
     $scope.toggleComments = function(event){
-      $(event.target).prev().slideToggle(500);
+      $(event.target).parent().prev().slideToggle(500);
       event.preventDefault();
     }
 
