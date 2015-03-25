@@ -19,6 +19,7 @@ import org.apache.commons.io.IOUtils;
 import play.mvc.Before;
 import play.mvc.Controller;
 import play.mvc.Http.Header;
+import play.mvc.Http.Request;
 import play.mvc.Util;
 
 public class Security extends Controller {
@@ -73,9 +74,11 @@ public class Security extends Controller {
 	
 	@Util
 	private static String createHmac1Token(String token, String timestampValue) throws IOException, UnsupportedEncodingException, NoSuchAlgorithmException, InvalidKeyException {
+		Header contentType = request.headers.get(CONTENT_TYPE);
+		String contentTypeValue = contentType == null ? "" : contentType.value();
 		String data = request.method + "\n" +
 				DigestUtils.md5Hex(readRequestBody()) + "\n" +
-				request.headers.get(CONTENT_TYPE).value() + "\n" +
+				contentTypeValue + "\n" +
 				timestampValue + "\n" +
 				request.path + request.querystring;
 		return sha1(token, data.toLowerCase());

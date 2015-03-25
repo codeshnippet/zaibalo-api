@@ -43,6 +43,11 @@ public class Posts extends Controller {
 
 		PostRequest postJSON = new GsonBuilder().create().
 				fromJson(new InputStreamReader(request.body), PostRequest.class);
+		
+		if(!postJSON.isValid()){
+			badRequest();
+		}
+		
 		Post post = new Post();
 		post.content = postJSON.content;
 		post.author = connected;

@@ -12,10 +12,12 @@ import javax.persistence.OneToOne;
 import javax.persistence.Table;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
+import javax.validation.constraints.NotNull;
 
 import org.hibernate.annotations.Type;
 import org.hibernate.annotations.LazyCollection;
 import org.hibernate.annotations.LazyCollectionOption;
+import org.hibernate.validator.constraints.NotEmpty;
 
 import play.db.jpa.Model;
 
@@ -25,9 +27,11 @@ public class Post extends Model {
 
 	@Lob
 	@Type(type="org.hibernate.type.StringClobType")
+	@NotEmpty
 	public String content;
 	
 	@Temporal(TemporalType.TIMESTAMP)
+	@NotNull
 	public Date creationDate;
 	
 	@OneToOne(fetch=FetchType.EAGER)

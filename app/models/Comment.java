@@ -12,6 +12,7 @@ import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
 
 import org.hibernate.annotations.Type;
+import org.hibernate.validator.constraints.NotEmpty;
 
 import play.db.jpa.Model;
 
@@ -21,6 +22,7 @@ public class Comment extends Model{
 
 	@Lob
 	@Type(type="org.hibernate.type.StringClobType")
+	@NotEmpty
 	public String content;
 
 	@Temporal(TemporalType.TIMESTAMP)

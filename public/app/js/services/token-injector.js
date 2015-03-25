@@ -16,8 +16,9 @@ module.factory('tokenInjector', ['CookiesService', function(CookiesService) {
     var tokenInjector = {
         request: function(config) {
             if (true) {
+							var contentType = config.headers['Content-Type'] ? config.headers['Content-Type'] : '';
               var timestamp = new Date().getTime();
-        			var authToken = getHMAC(config.method, config.url, config.headers['Content-Type'], config.data, timestamp, CookiesService.getToken());
+        			var authToken = getHMAC(config.method, config.url, contentType, config.data, timestamp, CookiesService.getToken());
               config.headers['x-auth-token'] = authToken;
               config.headers['x-auth-username'] = CookiesService.getUsername();
               config.headers['x-utc-timestamp'] = timestamp;

@@ -7,7 +7,7 @@ angular.module('myApp.controllers')
 
     $scope.addComment = function(post){
       var json = JSON.stringify({ content : post.newComment });
-      $http.post('/posts/' + post.id + '/comments', JSON.stringify({ content : $scope.newPost })).
+      $http.post('/posts/' + post.id + '/comments', json).
         success(function(data, status, headers, config) {
         	post.comments.push(data);
         });
@@ -19,8 +19,8 @@ angular.module('myApp.controllers')
       return Avatar(user, size);
     }
 
-    $scope.toggleComments = function(event, target){
-      $(target).prev().slideToggle(500);
+    $scope.toggleComments = function(event){
+      $(event.target).prev().slideToggle(500);
       event.preventDefault();
     }
 

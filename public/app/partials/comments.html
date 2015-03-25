@@ -28,7 +28,7 @@
     </div>
   </div>
 
-  <a class="pull-left" ng-click="toggleComments($event, $event.currentTarget)" href="#">
+  <a class="pull-left" ng-click="toggleComments($event)" href="#">
      <span class="glyphicon glyphicon-comment" aria-hidden="true" style="vertical-align:middle"></span>{{ 'comments' + translationSufix(post.comments.length) | translate:'{value: post.comments.length}' }}
   </a>
 

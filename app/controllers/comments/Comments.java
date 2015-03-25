@@ -32,6 +32,11 @@ public class Comments extends Controller {
 
 		CommentRequest commentJSON = new GsonBuilder().create().
 				fromJson(new InputStreamReader(request.body), CommentRequest.class);
+		
+		if(!commentJSON.isValid()){
+			badRequest("Content can not be empty");
+		}
+		
 		Comment comment = new Comment();
 		comment.author = connected;
 		comment.content = commentJSON.content;
