@@ -2,7 +2,7 @@
 
 angular.module('myApp.controllers')
 
-.controller('SignupController', ['$scope', 'UserService', function($scope, UserService) {
+.controller('SignupController', ['$scope', '$location', 'UserService', function($scope, $location, UserService) {
   $scope.user = {};
 
   $scope.registerUser = function(user){
@@ -11,7 +11,18 @@ angular.module('myApp.controllers')
   };
 
   $scope.login = function(user){
-    UserService.login(user.loginName, user.password);
-    $scope.user = {};
+    var successCallback = function(){
+      var returnTo = $location.search().returnTo ? $location.search().returnTo : '/';
+      $location.search({});
+      $location.path(returnTo);
+      $scope.user = {};
+    };
+
+    var errorCallback = function(){
+      alert("Wrong username/password");
+    };
+
+    UserService.login(user.loginName, user.password, successCallback, errorCallback);
   };
+
 }]);

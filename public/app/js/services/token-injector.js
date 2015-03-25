@@ -12,7 +12,7 @@ function getHMAC(type, url, contentType, body, timestamp, token){
 
 var module = angular.module('myApp');
 
-module.factory('tokenInjector', ['CookiesService', function(CookiesService) {
+module.factory('tokenInjector', ['CookiesService', '$q','$location', function(CookiesService, $q, $location) {
     var tokenInjector = {
         request: function(config) {
             if (true) {

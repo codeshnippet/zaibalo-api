@@ -1,13 +1,9 @@
 'use strict';
 
 // Declare app level module which depends on filters, and services
-var app = angular.module('myApp', ['myApp.filters', 'myApp.services', 'myApp.directives', 'myApp.controllers', 'pascalprecht.translate', 'ngSanitize', 'bd.timedistance', 'ngRoute', 'ngCookies']);
+var app = angular.module('myApp', ['myApp.filters', 'myApp.services', 'myApp.directives', 'myApp.controllers', 'pascalprecht.translate', 'ngSanitize', 'bd.timedistance', 'ngRoute', 'ngCookies'])
 
-angular.module('myApp.services', []);
-
-angular.module('myApp.controllers', []);
-
-app.config(['$routeProvider', function($routeProvider) {
+.config(['$routeProvider', function($routeProvider) {
     $routeProvider
     .when('/', {
       templateUrl: 'partials/index.html',
@@ -30,16 +26,21 @@ app.config(['$routeProvider', function($routeProvider) {
       controller: 'SignupController'
       })
     .otherwise({redirectTo: '/'});
-}]);
+}])
 
-app.config(function ($translateProvider) {
+.config(function ($translateProvider) {
     $translateProvider.useStaticFilesLoader({
       prefix: 'app/messages/locale-',
       suffix: '.json'
     });
     $translateProvider.use('uk_UA');
-});
+})
 
-app.config(['$httpProvider', function($httpProvider) {
+.config(['$httpProvider', function($httpProvider) {
     $httpProvider.interceptors.push('tokenInjector');
+    $httpProvider.interceptors.push('authHttpResponseInterceptor');
 }]);
+
+angular.module('myApp.services', []);
+
+angular.module('myApp.controllers', []);

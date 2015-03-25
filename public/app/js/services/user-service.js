@@ -21,7 +21,7 @@ angular.module('myApp.services')
       });
   };
 
-  self.login = function(loginName, password){
+  self.login = function(loginName, password, success, error){
     var request = {
       loginName : loginName,
       password : password
@@ -30,6 +30,9 @@ angular.module('myApp.services')
     $http.post('/login', JSON.stringify(request)).
       success(function(data, status, headers, config) {
         self.authenticate(data);
+        success();
+      }).error(function(data,status,headers,config) {
+        error();
       });
   };
 

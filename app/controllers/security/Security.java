@@ -19,8 +19,8 @@ import org.apache.commons.io.IOUtils;
 import play.mvc.Before;
 import play.mvc.Controller;
 import play.mvc.Http.Header;
-import play.mvc.Http.Request;
 import play.mvc.Util;
+import play.mvc.results.CustomUnauthorized;
 
 public class Security extends Controller {
 
@@ -34,16 +34,16 @@ public class Security extends Controller {
 		if (secured != null) {
 			User user = getAuthenticatedUser();
 			if(user == null) {
-				unauthorized();
+				customUnauthorized();
 			}
 			
 			Header timestampHeader = request.headers.get("x-utc-timestamp");
 			if(timestampHeader == null){
-				unauthorized();
+				customUnauthorized();
 			}
 			
 			if(System.currentTimeMillis() - Long.valueOf(timestampHeader.value()) > 10*60*1000){
-				unauthorized();
+				customUnauthorized();
 			}
 			
 			String hmacToken = null;
@@ -56,13 +56,17 @@ public class Security extends Controller {
 			
 			Header authTokenHeader = request.headers.get("x-auth-token");
 			if(authTokenHeader == null){
-				unauthorized();
+				customUnauthorized();
 			}
 			
 			if(!hmacToken.equals(authTokenHeader.value())){
-				unauthorized();
+				customUnauthorized();
 			}
 		}
+	}
+
+	private static void customUnauthorized() {
+		throw new CustomUnauthorized("Unauthorized");
 	}
 
 	@Util
