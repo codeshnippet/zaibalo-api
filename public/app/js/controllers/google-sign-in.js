@@ -77,11 +77,11 @@ angular.module('myApp.controllers')
         );
     };
 
-    $scope.loadScript = function(sScriptSrc, oCallback) {
+    $scope.loadScript = function(oCallback) {
       var oHead = document.getElementsByTagName('head')[0];
       var oScript = document.createElement('script');
       oScript.type = 'text/javascript';
-      oScript.src = sScriptSrc;
+      oScript.src = 'https://apis.google.com/js/client:plusone.js';
       // most browsers
       oScript.onload = oCallback;
       // IE 6 & 7
@@ -94,5 +94,5 @@ angular.module('myApp.controllers')
     }
 
     // Call start function on load.
-    $scope.loadScript('https://apis.google.com/js/client:plusone.js', $scope.renderSignInButton);
+    $scope.loadScript($scope.renderSignInButton);
 }]);

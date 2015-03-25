@@ -2,19 +2,17 @@
 
 angular.module('myApp.controllers')
 
-.controller('FacebookSignInController', ['$rootScope', '$window', 'UserService', function($rootScope, $window, UserService) {
+.controller('FacebookSignInController', ['$scope', 'UserService', function($scope, UserService) {
 
-  $rootScope.user = {};
+  $scope.renderSignInButton = function() {
 
-  FB.init({
-    appId: '1413679762278869',
-    channelUrl: 'partial/facebook-channel.html',
-    status: true,
-    cookie: true,
-    xfbml: true
-  });
-
-  $window.fbAsyncInit = function() {
+    FB.init({
+      appId: '1413679762278869',
+      channelUrl: 'partial/facebook-channel.html',
+      status: true,
+      cookie: true,
+      xfbml: true
+    });
 
     FB.Event.subscribe('auth.authResponseChange', function(res) {
       if (res.status === 'connected') {
@@ -55,23 +53,32 @@ angular.module('myApp.controllers')
 
   };
 
-  (function(d){
-    // load the Facebook javascript SDK
-
+  $scope.loadScript = function(oCallback) {
     var js,
     id = 'facebook-jssdk',
-    ref = d.getElementsByTagName('script')[0];
+    ref = document.getElementsByTagName('script')[0];
 
-    if (d.getElementById(id)) {
+    if (document.getElementById(id)) {
+      oCallback();
       return;
     }
 
-    js = d.createElement('script');
+    js = document.createElement('script');
     js.id = id;
     js.async = true;
     js.src = "//connect.facebook.net/en_US/all.js";
 
+    // most browsers
+    js.onload = oCallback;
+    // IE 6 & 7
+    js.onreadystatechange = function() {
+      if (this.readyState == 'complete') {
+        oCallback();
+      }
+    }
     ref.parentNode.insertBefore(js, ref);
+  }
 
-  }(document));
+  // Call start function on load.
+  $scope.loadScript($scope.renderSignInButton);
 }]);
