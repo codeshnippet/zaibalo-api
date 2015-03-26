@@ -45,7 +45,9 @@ angular.module('myApp.controllers')
 
       }
       else {
-        //logout and remove cookies;
+        FB.logout(function(response) {
+          console.log(response);
+        });
       }
 
   });

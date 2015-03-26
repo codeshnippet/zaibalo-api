@@ -3,28 +3,18 @@
 angular.module('myApp.controllers')
 
 .controller('GoogleSignInController', ['$scope', 'UserService', function($scope, UserService) {
-    // This flag we use to show or hide the button in our HTML.
-    $scope.signedIn = false;
 
-    // Here we do the authentication processing and error handling.
-    // Note that authResult is a JSON object.
     $scope.processAuth = function(authResult) {
-        // Do a check if authentication has been successful.
         if(authResult['access_token']) {
-            // Successful sign in.
-            $scope.signedIn = true;
 
             $scope.getUserInfo();
 
         } else if(authResult['error']) {
-            // Error while signing in.
-            $scope.signedIn = false;
 
-            // Report error.
+            gapi.auth.signOut();
         }
     };
 
-    // When callback is received, we need to process authentication.
     $scope.signInCallback = function(authResult) {
         $scope.$apply(function() {
             $scope.processAuth(authResult);
