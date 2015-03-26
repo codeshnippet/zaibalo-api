@@ -42,10 +42,8 @@ angular.module('myApp.services')
 
   self.logout = function(){
     CookiesService.removeAuthCookies();
-    if (FB.getAccessToken() != null) {
-      FB.logout(function(response) {
-        console.log(response);
-      });
+    if (FB && FB.getAccessToken() != null) {
+      FB.logout(FB.getAccessToken());
     }
     gapi.auth.signOut();
   }
