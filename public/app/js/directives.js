@@ -12,15 +12,6 @@ angular.module('myApp.directives', [])
 	};
 })
 
-.directive('posts', function() {
-	return {
-		restrict : 'E',
-		templateUrl : 'partials/posts.html',
-		replace : true,
-		controller: 'PostsController'
-	};
-})
-
 .directive('comments', function() {
 	return {
 		restrict : 'E',

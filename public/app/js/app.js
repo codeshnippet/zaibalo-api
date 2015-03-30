@@ -6,16 +6,16 @@ var app = angular.module('myApp', ['myApp.filters', 'myApp.services', 'myApp.dir
 .config(['$routeProvider', function($routeProvider) {
     $routeProvider
     .when('/', {
-      templateUrl: 'partials/index.html',
-      controller: 'IndexController'
+      templateUrl: 'partials/posts.html',
+      controller: 'LatestPostsController'
       })
     .when('/tag/:tag', {
-      templateUrl: 'partials/index.html',
-      controller: 'IndexController'
+      templateUrl: 'partials/posts.html',
+      controller: 'TagPostsController'
       })
     .when('/post/:postId', {
-      templateUrl: 'partials/posts.html',
-      controller: 'PostsController'
+      templateUrl: 'partials/single-post.html',
+      controller: 'SinglePostController'
       })
     .when('/@:login', {
       templateUrl: 'partials/user.html',
