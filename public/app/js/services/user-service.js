@@ -40,13 +40,12 @@ angular.module('myApp.services')
     CookiesService.saveAuthCookies(data.user.loginName, data.token);
   };
 
-  self.logout = function(event){
+  self.logout = function(){
     CookiesService.removeAuthCookies();
     if (FB && FB.getAccessToken() != null) {
       FB.logout(FB.getAccessToken());
     }
     gapi.auth.signOut();
-    event.preventDefault();
   }
 
   self.isUserLoggedIn = function(){
