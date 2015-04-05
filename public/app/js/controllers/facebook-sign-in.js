@@ -6,13 +6,13 @@ angular.module('myApp.controllers')
 
   $scope.renderSignInButton = function() {
 
-    // FB.init({
-    //   appId: '1413679762278869',
-    //   channelUrl: 'partial/facebook-channel.html',
-    //   status: true,
-    //   cookie: true,
-    //   xfbml: true
-    // });
+    FB.init({
+      appId      : '1413679762278869',
+      cookie     : true,  // enable cookies to allow the server to access
+                          // the session
+      xfbml      : true,  // parse social plugins on this page
+      version    : 'v2.2' // use version 2.2
+    });
 
     FB.Event.subscribe('auth.authResponseChange', function(res) {
       if (res.status === 'connected') {
@@ -49,38 +49,9 @@ angular.module('myApp.controllers')
           console.log(response);
         });
       }
-
-  });
-
-
+    });
+    
   };
 
-  $scope.loadScript = function(oCallback) {
-    var js,
-    id = 'facebook-jssdk',
-    ref = document.getElementsByTagName('script')[0];
-
-    if (document.getElementById(id)) {
-      oCallback();
-      return;
-    }
-
-    js = document.createElement('script');
-    js.id = id;
-    js.async = true;
-    js.src = "//connect.facebook.net/en_US/all.js";
-
-    // most browsers
-    js.onload = oCallback;
-    // IE 6 & 7
-    js.onreadystatechange = function() {
-      if (this.readyState == 'complete') {
-        oCallback();
-      }
-    }
-    ref.parentNode.insertBefore(js, ref);
-  }
-
-  // Call start function on load.
-  $scope.loadScript($scope.renderSignInButton);
+  $scope.renderSignInButton();
 }]);
