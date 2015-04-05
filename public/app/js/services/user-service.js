@@ -42,7 +42,7 @@ angular.module('myApp.services')
 
   self.logout = function(){
     CookiesService.removeAuthCookies();
-    FB.logout();
+    self.fbLogoutUser();
     gapi.auth.signOut();
   }
 
@@ -69,4 +69,14 @@ angular.module('myApp.services')
         self.authenticate(data);
       });
   };
+
+  self.fbLogoutUser() {
+    FB.getLoginStatus(function(response) {
+        if (response && response.status === 'connected') {
+            FB.logout(function(response) {
+                document.location.reload();
+            });
+        }
+    });
+}
 }]);
