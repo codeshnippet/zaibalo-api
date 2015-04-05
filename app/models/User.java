@@ -8,8 +8,6 @@ import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.EnumType;
 import javax.persistence.Enumerated;
-import javax.persistence.GeneratedValue;
-import javax.persistence.Id;
 import javax.persistence.Table;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
@@ -19,24 +17,11 @@ import org.apache.commons.codec.digest.DigestUtils;
 import org.apache.commons.lang.StringUtils;
 
 import play.Play;
-import play.db.jpa.GenericModel;
+import play.db.jpa.Model;
 
 @Entity
 @Table(name = "users")
-public class User extends GenericModel {
-	
-    @Id
-    @GeneratedValue
-    public Long id;
-
-    public Long getId() {
-        return id;
-    }
-
-    @Override
-    public Object _key() {
-        return getId();
-    }
+public class User extends Model {
 	
 	@NotNull
 	@Column(name = "login_name", unique = true)
