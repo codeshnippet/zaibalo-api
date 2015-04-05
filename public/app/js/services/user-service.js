@@ -73,9 +73,7 @@ angular.module('myApp.services')
   self.fbLogoutUser = function() {
     FB.getLoginStatus(function(response) {
         if (response && response.status === 'connected') {
-            FB.logout(function(response) {
-                document.location = '/#/';
-            });
+            FB.logout(response.authResponse.accessToken);
         }
     });
   };
