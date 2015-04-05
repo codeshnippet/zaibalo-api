@@ -44,13 +44,8 @@ angular.module('myApp.controllers')
         );
 
       }
-      else {
-        FB.logout(function(response) {
-          console.log(response);
-        });
-      }
     });
-    
+
   };
 
   $scope.renderSignInButton();
