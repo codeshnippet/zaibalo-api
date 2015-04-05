@@ -8,6 +8,8 @@ import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.EnumType;
 import javax.persistence.Enumerated;
+import javax.persistence.GeneratedValue;
+import javax.persistence.Id;
 import javax.persistence.Table;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
@@ -17,14 +19,27 @@ import org.apache.commons.codec.digest.DigestUtils;
 import org.apache.commons.lang.StringUtils;
 
 import play.Play;
-import play.db.jpa.Model;
+import play.db.jpa.GenericModel;
 
 @Entity
 @Table(name = "users")
-public class User extends Model {
+public class User extends GenericModel {
+	
+    @Id
+    @GeneratedValue
+    public Long id;
+
+    public Long getId() {
+        return id;
+    }
+
+    @Override
+    public Object _key() {
+        return getId();
+    }
 	
 	@NotNull
-	@Column(unique = true, nullable = false)
+	@Column(name = "login_name", unique = true)
 	public String loginName;
 	
 	@NotNull
@@ -35,16 +50,18 @@ public class User extends Model {
 	public String email;
 	
 	@NotNull
-	@Column(unique=true)
+	@Column(name = "display_name", unique = true)
 	private String displayName;
 
 	@NotNull
 	@Temporal(TemporalType.TIMESTAMP)
+	@Column(name = "date")
 	public Date registrationDate;
 	
 	private String photo = Play.configuration.getProperty("user.default.photo.url");
 	
 	@Enumerated(EnumType.STRING)
+	@Column(name = "photo_provider")
 	public ServiceProvider photoProvider = ServiceProvider.AVATARS_IO;
 	
 	public String token;

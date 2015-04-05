@@ -29,9 +29,9 @@ function($scope, $http, $routeParams, Avatar, $controller, PostsService) {
     });
   }
 
-  // $scope.getAvatar = function(user, size){
-  //   return Avatar(user, size);
-  // }
+  $scope.getAvatar = function(user, size){
+    return Avatar(user, size);
+  }
 
   $scope.loadPosts();
 }]);

@@ -18,9 +18,9 @@ import com.google.gson.JsonArray;
 import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;
 
-@Every("5mn")
+@Every("15mn")
 public class InstagramsPullJob extends Job {
-	private static final String INSTAGRAM_API_URL = "https://api.instagram.com/v1/tags/zaibalo/media/recent?client_id=e3c2ae0fb7904532bfa625cb0f272e99";
+	private static final String INSTAGRAM_API_URL = "https://api.instagram.com/v1/tags/%D0%B7%D0%B0%D1%97%D0%B1%D0%B0%D0%BB%D0%BE/media/recent?client_id=e3c2ae0fb7904532bfa625cb0f272e99";
 
 	public void doJob() {
 		
@@ -37,13 +37,15 @@ public class InstagramsPullJob extends Job {
 			long userId = getUserId(postJson);
 			String userPhoto = getUserPhoto(postJson);
 			String displayName = getDisplayName(postJson);
-			
-			User user = createUserIfNotExists(userId, userPhoto, displayName);		
-			
 			Date creationDate = getCreationDate(postJson);
 			String content = buildContent(postJson);
 			
-			createPostIfNotExists(user, creationDate, content);
+			try{
+				User user = createUserIfNotExists(userId, userPhoto, displayName);
+				createPostIfNotExists(user, creationDate, content);
+			} catch(Exception ex){
+				Logger.warn("Post could not be fetched from instagram.");
+			}
 		}
     }
 

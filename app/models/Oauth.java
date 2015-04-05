@@ -5,8 +5,10 @@ import javax.persistence.Entity;
 import javax.persistence.EnumType;
 import javax.persistence.Enumerated;
 import javax.persistence.FetchType;
+import javax.persistence.JoinColumn;
 import javax.persistence.OneToOne;
 import javax.persistence.Table;
+import javax.validation.constraints.NotNull;
 
 import play.db.jpa.Model;
 
@@ -18,6 +20,7 @@ public class Oauth extends Model{
 	public String clientId;
 	
 	@Enumerated(EnumType.STRING)
+	@Column(nullable = false)
 	public ServiceProvider provider;
 	
 	@OneToOne(fetch=FetchType.EAGER)

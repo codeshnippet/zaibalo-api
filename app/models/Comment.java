@@ -2,6 +2,7 @@ package models;
 
 import java.util.Date;
 
+import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
 import javax.persistence.JoinColumn;
@@ -26,6 +27,7 @@ public class Comment extends Model{
 	public String content;
 
 	@Temporal(TemporalType.TIMESTAMP)
+	@Column(name = "date")
 	public Date creationDate;
 
 	@OneToOne(fetch=FetchType.EAGER)
