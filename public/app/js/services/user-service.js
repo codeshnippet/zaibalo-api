@@ -70,7 +70,7 @@ angular.module('myApp.services')
       });
   };
 
-  self.fbLogoutUser() {
+  self.fbLogoutUser = function() {
     FB.getLoginStatus(function(response) {
         if (response && response.status === 'connected') {
             FB.logout(function(response) {
@@ -78,5 +78,5 @@ angular.module('myApp.services')
             });
         }
     });
-}
+  };
 }]);
