@@ -46,3 +46,8 @@ img.center {
 .comment{
 	padding: 5px 0px 5px 0px;
 }
+
+.tab-pane {
+	margin-top: 15px;
+	min-height: 206px;
+}

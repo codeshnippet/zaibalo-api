@@ -4,34 +4,66 @@
 	</div>
 	<div class="panel-body">
     <div class="row">
-      <div class="col-xs-5">
+      <div class="col-sm-5">
         <span>{{ 'safe.some.typing' | translate }}</span>
 				<google-sign-in></google-sign-in>
 				<facebook-sign-in></facebook-sign-in>
         <span>{{ 'we.hate.spam.in.social' | translate }}</span>
       </div>
-      <div class="col-md-offset-2 col-xs-5">
-      	<form accept-charset="UTF-8" role="form">
-          <fieldset>
-        	  <div class="form-group">
-        		  <input ng-model="user.loginName" class="form-control" placeholder="{{ 'username' | translate }}" name="login" type="text" aria-describedby="helpBlock">
-              <span id="helpBlock" class="help-block">{{ 'used.for.login' | translate }}</span>
-        		</div>
-        		<div class="form-group">
-        		  <input ng-hide="showPassword" ng-model="user.password" class="form-control" placeholder="{{ 'password' | translate }}" name="password" type="password" value="">
-              <input ng-show="showPassword" ng-model="user.password" class="form-control" placeholder="{{ 'password' | translate }}" name="password-unhidden" type="text" value="">
-        		</div>
-            <div class="checkbox">
-              <label>
-                <input ng-model="showPassword" type="checkbox" name="unhide-password">{{ 'unhide.password' | translate}}
-              </label>
-            </div>
-            <div class="form-group">
-        		  <input ng-click="registerUser(user)" class="btn btn-md btn-success btn-block" type="submit" value="{{ 'signup' | translate }}">
-							<input ng-click="login(user)" class="btn btn-md btn-success btn-block" type="submit" value="{{ 'login' | translate }}">
-            </div>
-      	  </fieldset>
-        </form>
+      <div class="col-sm-offset-2 col-sm-5">
+
+				<div role="tabpanel">
+
+				  <!-- Nav tabs -->
+				  <ul class="nav nav-tabs" role="tablist">
+				    <li role="presentation" class="active"><a href="#/signup" data-target="#login" aria-controls="login" role="tab" data-toggle="tab">{{ 'login' | translate }}</a></li>
+				    <li role="presentation"><a href="#/signup" data-target="#signup" aria-controls="signup" role="tab" data-toggle="tab">{{ 'signup' | translate }}</a></li>
+				  </ul>
+
+				  <!-- Tab panes -->
+				  <div class="tab-content">
+				    <div role="tabpanel" class="tab-pane active" id="login">
+							<form accept-charset="UTF-8" role="form">
+								<fieldset>
+									<div class="form-group">
+										<input ng-model="user.loginName" class="form-control" placeholder="{{ 'username' | translate }}" name="login" type="text" aria-describedby="helpBlock">
+									</div>
+									<div class="form-group">
+										<input ng-model="user.password" class="form-control" placeholder="{{ 'password' | translate }}" name="password" type="password" value="">
+									</div>
+									<div class="form-group">
+										<input ng-click="login(user)" class="btn btn-md btn-success btn-block" type="submit" value="{{ 'get.in' | translate }}">
+									</div>
+								</fieldset>
+							</form>
+						</div>
+
+						<div role="tabpanel" class="tab-pane" id="signup">
+							<form accept-charset="UTF-8" role="form">
+								<fieldset>
+									<div class="form-group">
+										<input ng-model="user.loginName" class="form-control" placeholder="{{ 'username' | translate }}" name="login" type="text" aria-describedby="helpBlock">
+										<span id="helpBlock" class="help-block">{{ 'used.for.login' | translate }}</span>
+									</div>
+									<div class="form-group">
+										<input ng-hide="showPassword" ng-model="user.password" class="form-control" placeholder="{{ 'password' | translate }}" name="password" type="password" value="">
+										<input ng-show="showPassword" ng-model="user.password" class="form-control" placeholder="{{ 'password' | translate }}" name="password-unhidden" type="text" value="">
+									</div>
+									<div class="checkbox">
+										<label>
+											<input ng-model="showPassword" type="checkbox" name="unhide-password">{{ 'unhide.password' | translate}}
+										</label>
+									</div>
+									<div class="form-group">
+										<input ng-click="registerUser(user)" class="btn btn-md btn-success btn-block" type="submit" value="{{ 'signup' | translate }}">
+									</div>
+								</fieldset>
+							</form>
+						</div>
+				  </div>
+
+				</div>
+
       </div>
     </div>
   </div>

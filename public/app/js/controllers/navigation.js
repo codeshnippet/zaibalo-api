@@ -19,4 +19,5 @@ angular.module('myApp.controllers')
     $translate.use(langKey);
     $scope.locale = langKey;
   };
+
 }]);

@@ -61,7 +61,7 @@ angular.module('myApp.controllers')
     js = document.createElement('script');
     js.id = id;
     js.async = true;
-    js.src = "//connect.facebook.net/en_US/all.js";
+    js.src = "//connect.facebook.net/uk_UA/all.js";
 
     // most browsers
     js.onload = oCallback;

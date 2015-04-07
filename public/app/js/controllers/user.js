@@ -7,7 +7,7 @@ function($scope, $http, $routeParams, Avatar, $controller, PostsService) {
 
   $controller('ParentPostsController', {$scope: $scope});
 
-  $scope.user;
+  $scope.user = null;
 
   $http({
       method: 'GET',

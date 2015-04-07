@@ -30,5 +30,8 @@
   "safe.some.typing" : "Safe youself some typing. Sign in with:",
   "unhide.password" : "Unhide password",
   "used.for.login" : "Used for login",
-  "logout" : "Logout"
+  "logout" : "Logout",
+  "get.in" : "Login",
+  "post.does.not.exist" : "Post not found or deleted.",
+  "user.does.not.exist" : "User does not exist."
 }

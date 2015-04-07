@@ -1,4 +1,7 @@
-<div class="jumbotron">
+<div ng-hide="user">
+	<div class="alert alert-warning" role="alert">{{ 'user.does.not.exist' | translate }}</div>
+</div>
+<div class="jumbotron" ng-show="user">
 	<div class="panel-body">
 		<img ng-src="{{ getAvatar(user, 'M') }}" width="100px" height="100px"
 			class="img-circle" alt="Circular Image">
@@ -7,4 +10,4 @@
 		<strong>{{user.displayName}}</strong>
 	</div>
 </div>
-<ng-include src="'/partials/posts.html'"></ng-include>
+<ng-include src="'/partials/posts.html'" ng-show="user"></ng-include>

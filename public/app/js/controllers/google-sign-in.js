@@ -68,6 +68,10 @@ angular.module('myApp.controllers')
     };
 
     $scope.loadScript = function(oCallback) {
+      window.___gcfg = {
+        lang: 'uk'
+      };
+
       var oHead = document.getElementsByTagName('head')[0];
       var oScript = document.createElement('script');
       oScript.type = 'text/javascript';
