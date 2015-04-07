@@ -16,7 +16,7 @@
       </div>
     </div>
 
-    <div class="row">
+    <div class="row" ng-show="isUserLoggeIn()">
       <form ng-submit="addComment(post)" class="col-sm-offset-1 col-xs-11">
         <div class="form-group">
           <textarea id="new-comment-text" class="form-control" placeholder="{{ 'text' | translate }}" ng-model="post.newComment"></textarea>
@@ -26,9 +26,10 @@
         </div>
       </form>
     </div>
+
   </div>
 
-  <a class="pull-left" ng-click="toggleComments($event)" href="#">
+  <a class="pull-left" ng-click="toggleComments(post, $event)" href="#">
     <span class="glyphicon glyphicon-comment" aria-hidden="true" style="vertical-align:middle"></span>
     <span translate="comments{{translationSufix(post.comments.length)}}" translate-values="{ value: post.comments.length }" ></span>
   </a>

@@ -47,33 +47,6 @@ angular.module('myApp.controllers')
     });
 
   };
-
-  $scope.loadScript = function(oCallback) {
-    var js,
-    id = 'facebook-jssdk',
-    ref = document.getElementsByTagName('script')[0];
-
-    if (document.getElementById(id)) {
-      oCallback();
-      return;
-    }
-
-    js = document.createElement('script');
-    js.id = id;
-    js.async = true;
-    js.src = "//connect.facebook.net/uk_UA/all.js";
-
-    // most browsers
-    js.onload = oCallback;
-    // IE 6 & 7
-    js.onreadystatechange = function() {
-      if (this.readyState == 'complete') {
-        oCallback();
-      }
-    }
-    ref.parentNode.insertBefore(js, ref);
-  }
-
   // Call start function on load.
-  $scope.loadScript($scope.renderSignInButton);
+  $scope.renderSignInButton();
 }]);

@@ -19,8 +19,10 @@ angular.module('myApp.controllers')
       return Avatar(user, size);
     }
 
-    $scope.toggleComments = function(event){
-      $(event.target).parent().prev().slideToggle(500);
+    $scope.toggleComments = function(post, event){
+      if (post.comments.length > 0 || $scope.isUserLoggeIn()) {
+        $(event.target).parent().prev().slideToggle(500);
+      }
       event.preventDefault();
     }
 
