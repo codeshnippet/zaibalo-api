@@ -1,5 +1,7 @@
 package controllers.comments;
 
+import java.util.Random;
+
 import models.Comment;
 import models.Post;
 
@@ -83,5 +85,59 @@ public class CommentsTest extends FunctionalTest{
 
 		assertStatus(400, response);
 		
+	}
+	
+	@Test
+	public void testCommentDeletionSuccess(){
+		Fixtures.loadModels("data/comments.yml");
+		assertEquals(1, Comment.count());
+		Comment comment = Comment.all().first();
+		
+		Response response = new RequestBuilder()
+		.withPath("/comments/" + comment.id)
+		.withHttpMethod(HttpMethod.DELETE)
+		.send();
+		
+		assertStatus(200, response);
+		assertEquals(0, Comment.count());
+	}
+	
+	@Test
+	public void testCommentDeletionIsSecure(){
+		Fixtures.loadModels("data/comments.yml");
+		assertEquals(1, Comment.count());
+		Comment comment = Comment.all().first();
+		
+		Response response = DELETE("/comments/" + comment.id);
+		
+		assertStatus(401, response);
+		assertEquals(1, Comment.count());
+	}
+	
+	@Test
+	public void testCommentCanBeDeletedByOwnerOnly(){
+		Fixtures.loadModels("data/comments.yml");
+		Comment comment = Comment.all().first();
+		
+		Response response = new RequestBuilder()
+		.withPath("/comments/" + comment.id)
+		.withHttpMethod(HttpMethod.DELETE)
+		.withUsername("billy")
+		.withToken("secret_token_321")
+		.send();
+		
+		assertStatus(403, response);
+	}
+	
+	@Test
+	public void testDeletingCommentWithNotExistingId(){
+		Fixtures.loadModels("data/comments.yml");
+
+		Response response = new RequestBuilder()
+		.withPath("/comments/123")
+		.withHttpMethod(HttpMethod.DELETE)
+		.send();
+		
+		assertStatus(404, response);
 	}
 }

@@ -95,7 +95,7 @@ public class Posts extends Controller {
 
 		Security.verifyOwner(post.author);
 
-		post._delete();
+		post.delete();
 		ok();
 	}
 	

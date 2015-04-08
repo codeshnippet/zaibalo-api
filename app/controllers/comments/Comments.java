@@ -5,6 +5,7 @@ import java.io.InputStreamReader;
 import models.Comment;
 import models.Post;
 import models.User;
+import play.db.jpa.JPABase;
 import play.mvc.Controller;
 import play.mvc.Http.Header;
 import play.mvc.With;
@@ -59,8 +60,17 @@ public class Comments extends Controller {
     	ok();
     }
 
+    @Secured
     public static void deleteComment(long id) {
-    	//TODO: Implement service
+    	Comment comment = Comment.findById(id);
+    	if(comment == null){
+    		notFound();
+    	}
+    	
+    	Security.verifyOwner(comment.author);
+    	
+    	comment.delete();
+    	
     	ok();
     }
 }

@@ -26,6 +26,15 @@ angular.module('myApp.controllers')
       event.preventDefault();
     }
 
+    $scope.deleteComment = function(post, commentId, index, event){
+      $http.delete('/comments/' + commentId).
+        success(function(data, status, headers, config) {
+          post.comments.splice(index, 1);
+        });
+
+      event.preventDefault();
+    }
+
     $scope.translationSufix = function(number){
        if((number-number%10)%100!=10){
          if(number%10==1){

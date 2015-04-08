@@ -51,3 +51,17 @@ img.center {
 	margin-top: 15px;
 	min-height: 206px;
 }
+
+.remove-comment-btn {
+	padding-top: 3px;
+	color: #999;
+	cursor: pointer;
+}
+
+.comment .remove-comment-btn {
+	display:none;
+}
+
+.comment:hover .remove-comment-btn {
+	display:block;
+}
