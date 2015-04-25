@@ -37,4 +37,22 @@ angular.module('myApp.directives', [])
 		replace : true,
 		controller: 'FacebookSignInController'
 	};
-});
+})
+
+.directive('tooltip', ['$translate', function($translate) {
+	return {
+		restrict : 'A',
+		replace : true,
+		link: function(scope, element, attrs) {
+			$(element).tooltip({
+				placement: 'top',
+				toggle: 'tooltip',
+				title: function(){
+					return $translate.instant($(this).attr("title-key"));
+				}
+			});
+		}
+	};
+}])
+
+;

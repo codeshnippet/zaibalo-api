@@ -44,7 +44,7 @@ img.center {
 }
 
 .comment{
-	padding: 5px 0px 5px 0px;
+	padding: 5px 0px 5px 30px;
 }
 
 .tab-pane {
@@ -64,4 +64,8 @@ img.center {
 
 .comment:hover .remove-comment-btn {
 	display:block;
+}
+
+.warning {
+	color: red !important;
 }

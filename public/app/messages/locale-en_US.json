@@ -33,5 +33,7 @@
   "logout" : "Logout",
   "get.in" : "Login",
   "post.does.not.exist" : "Post not found or deleted.",
-  "user.does.not.exist" : "User does not exist."
+  "user.does.not.exist" : "User does not exist.",
+  "delete.comment.tooltip" : "Double click to delete comment",
+  "delete.post.tooltip" : "Double click to delete post"
 }
