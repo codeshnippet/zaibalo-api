@@ -10,8 +10,8 @@
           <div>
             <a href="/#/@{{comment.author.loginName}}"><strong>{{comment.author.displayName}}</strong></a>
             <span class="post-date">{{ comment.creationTimestamp | timeDistance : locale }}</span>
-            <span tooltip class="glyphicon glyphicon-remove pull-right remove-comment-btn" translate translate-attr-title-key="delete.comment.tooltip"
-            ng-show="isOwner(comment.author.loginName)" ng-dblclick="deleteComment(post, comment.id, $index, $event)"></span>
+            <span class="glyphicon glyphicon-remove pull-right remove-comment-btn"
+            ng-show="isOwner(comment.author.loginName)" ng-click="deleteComment(post, comment.id, $index, $event)"></span>
           </div>
           <div ng-bind-html="comment.content | hashtagger"></div>
         </div>

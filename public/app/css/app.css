@@ -59,11 +59,11 @@ img.center {
 }
 
 .comment .remove-comment-btn {
-	display:none;
+	opacity: 0.3;
 }
 
 .comment:hover .remove-comment-btn {
-	display:block;
+	opacity: 1.0;
 }
 
 .warning {
