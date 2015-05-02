@@ -67,8 +67,14 @@ public class PostsTest extends FunctionalTest {
 		List<Post> postsList = new Gson().fromJson(response.out.toString(), new TypeToken<List<Post>>() {
 		}.getType());
 		assertEquals(2, postsList.size());
-		assertEquals("test content 1", postsList.get(0).content);
-		assertEquals("test content 2", postsList.get(1).content);
+		
+		Post postOne = postsList.get(0);
+		assertEquals("test content 1", postOne.content);
+		assertEquals(1, postOne.attachments.size());
+
+		Post postTwo = postsList.get(1);
+		assertEquals("test content 2", postTwo.content);
+		assertEquals(0, postTwo.attachments.size());
 	}
 
 	@Test

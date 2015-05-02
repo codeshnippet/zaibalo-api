@@ -1,5 +1,6 @@
 package models;
 
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
@@ -20,6 +21,7 @@ import org.hibernate.annotations.Type;
 import org.hibernate.validator.constraints.NotEmpty;
 
 import play.db.jpa.Model;
+import controllers.comments.CommentResponse;
 
 @Entity
 @Table(name = "posts")
@@ -40,7 +42,10 @@ public class Post extends Model {
 	public User author;
 
 	@OneToMany(mappedBy = "post", cascade=CascadeType.REMOVE, fetch=FetchType.LAZY)
-	public List<Comment> comments;
+	public List<Comment> comments = new ArrayList<Comment>() ;
+	
+	@OneToMany(mappedBy = "post", cascade=CascadeType.REMOVE, fetch=FetchType.LAZY)
+	public List<PostAttachment> attachments = new ArrayList<PostAttachment>();
 	
 	public Post(){
 		creationDate = new Date();
@@ -51,4 +56,5 @@ public class Post extends Model {
 		this.content = content;
 		this.author = author;
 	}
+
 }

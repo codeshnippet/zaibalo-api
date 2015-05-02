@@ -23,3 +23,7 @@ Post(postTwo):
     content:      test content 2
     author:       frank
     creationDate: 2009-03-27
+
+PostAttachment(attachment):
+    url:  www.url.com
+    post: postOne

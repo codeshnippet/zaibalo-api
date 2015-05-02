@@ -5,7 +5,9 @@ import java.util.Iterator;
 
 import org.apache.commons.lang.StringUtils;
 
+import models.AttachmentType;
 import models.Post;
+import models.PostAttachment;
 import models.ServiceProvider;
 import models.User;
 import play.Logger;
@@ -18,7 +20,7 @@ import com.google.gson.JsonArray;
 import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;
 
-@Every("15mn")
+@Every("1mn")
 public class InstagramsPullJob extends Job {
 	private static final String INSTAGRAM_API_URL = "https://api.instagram.com/v1/tags/%D0%B7%D0%B0%D1%97%D0%B1%D0%B0%D0%BB%D0%BE/media/recent?client_id=e3c2ae0fb7904532bfa625cb0f272e99";
 
@@ -38,16 +40,22 @@ public class InstagramsPullJob extends Job {
 			String userPhoto = getUserPhoto(postJson);
 			String displayName = getDisplayName(postJson);
 			Date creationDate = getCreationDate(postJson);
-			String content = buildContent(postJson);
+			String content = getContent(postJson);
+			String mediaUrl = getMediaURL(postJson);
 			
 			try{
 				User user = createUserIfNotExists(userId, userPhoto, displayName);
-				createPostIfNotExists(user, creationDate, content);
+				createPostIfNotExists(user, creationDate, content, mediaUrl);
 			} catch(Exception ex){
 				Logger.warn("Post could not be fetched from instagram.");
+				ex.printStackTrace();
 			}
 		}
     }
+
+	private String getMediaURL(JsonObject postJson) {
+		return postJson.getAsJsonObject("images").getAsJsonObject("standard_resolution").getAsJsonPrimitive("url").getAsString();
+	}
 
 	private boolean isMediaTypeSupported(JsonObject postJson) {
 		String type = postJson.getAsJsonPrimitive("type").getAsString();
@@ -74,13 +82,11 @@ public class InstagramsPullJob extends Job {
 		return postJson.getAsJsonObject("user").getAsJsonPrimitive("id").getAsLong();
 	}
 
-	private String buildContent(JsonObject postJson) {
-		String caption = postJson.getAsJsonObject("caption").getAsJsonPrimitive("text").getAsString();
-		String imageUrl = postJson.getAsJsonObject("images").getAsJsonObject("standard_resolution").getAsJsonPrimitive("url").getAsString();
-		return "<img src=\"" + imageUrl + "\" class=\"center\" /><br>" + caption;
+	private String getContent(JsonObject postJson) {
+		return postJson.getAsJsonObject("caption").getAsJsonPrimitive("text").getAsString();
 	}
 
-	private void createPostIfNotExists(User user, Date creationDate, String content) {
+	private void createPostIfNotExists(User user, Date creationDate, String content, String mediaUrl) {
 		Post post = Post.find("byAuthorAndCreationDate", user, creationDate).first();
 		if(post == null){
 			post = new Post();
@@ -88,6 +94,11 @@ public class InstagramsPullJob extends Job {
 			post.creationDate = creationDate;
 			post.content = content;
 			post.save();
+			
+			PostAttachment attachment = new PostAttachment();
+			attachment.url = mediaUrl;
+			attachment.post = post;
+			attachment.save();
 		}
 	}
 

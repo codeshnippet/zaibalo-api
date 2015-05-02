@@ -22,7 +22,12 @@
         <span class="post-date">{{ post.creationTimestamp | timeDistance : locale }}</span>
       </div>
     </div>
-    <div class="panel-body post-content" ng-bind-html="post.content | hashtagger"></div>
+    <div class="panel-body">
+      <div ng-repeat="attachment in post.attachments">
+        <img ng-src="{{ attachment.url }}" class="center">
+      </div>
+      <div class="post-content" ng-bind-html="post.content | hashtagger"></div>
+    </div>
     <div class="panel-footer clearfix">
       <comments></comments>
     </div>

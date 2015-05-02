@@ -15,6 +15,7 @@ public class PostResponse {
 	public UserResponse author;
 	public long creationTimestamp;
 	public List<CommentResponse> comments;
+	public List<PostAttachmentResponse> attachments;
 	
 	public static List<PostResponse> convertToPostResponsesList(List<Post> postsList) {
 		List<PostResponse> postJsonList = new ArrayList<PostResponse>(postsList.size());
@@ -32,7 +33,8 @@ public class PostResponse {
 		postResponseJSON.creationTimestamp = post.creationDate.getTime();
 		UserResponse userResponseJSON = UserResponse.convertToJson(post.author);
 		postResponseJSON.author = userResponseJSON;
-		postResponseJSON.comments = post.comments == null ? new ArrayList<CommentResponse>() : CommentResponse.convertToCommentResponsesList(post.comments);
+		postResponseJSON.comments = CommentResponse.convertToCommentResponsesList(post.comments);
+		postResponseJSON.attachments = PostAttachmentResponse.convertToPostAttachmentListResponse(post.attachments);
 		return postResponseJSON;
 	}
 
