@@ -64,15 +64,15 @@ public class PostsTest extends FunctionalTest {
 		assertContentType("application/json", response);
 		assertCharset("UTF-8", response);
 
-		List<Post> postsList = new Gson().fromJson(response.out.toString(), new TypeToken<List<Post>>() {
+		List<PostResponse> postsList = new Gson().fromJson(response.out.toString(), new TypeToken<List<PostResponse>>() {
 		}.getType());
 		assertEquals(2, postsList.size());
 		
-		Post postOne = postsList.get(0);
+		PostResponse postOne = postsList.get(0);
 		assertEquals("test content 1", postOne.content);
 		assertEquals(1, postOne.attachments.size());
 
-		Post postTwo = postsList.get(1);
+		PostResponse postTwo = postsList.get(1);
 		assertEquals("test content 2", postTwo.content);
 		assertEquals(0, postTwo.attachments.size());
 	}
@@ -83,7 +83,7 @@ public class PostsTest extends FunctionalTest {
 
 		Response response = GET("/posts?sort=created_at");
 
-		List<Post> postsList = new Gson().fromJson(response.out.toString(), new TypeToken<List<Post>>() {
+		List<PostResponse> postsList = new Gson().fromJson(response.out.toString(), new TypeToken<List<PostResponse>>() {
 		}.getType());
 		assertEquals(2, postsList.size());
 		assertEquals("test content 2", postsList.get(0).content);
@@ -96,7 +96,7 @@ public class PostsTest extends FunctionalTest {
 
 		Response response = GET("/posts?limit=1");
 
-		List<Post> postsList = new Gson().fromJson(response.out.toString(), new TypeToken<List<Post>>() {
+		List<PostResponse> postsList = new Gson().fromJson(response.out.toString(), new TypeToken<List<PostResponse>>() {
 		}.getType());
 		assertEquals(1, postsList.size());
 		assertEquals("test content 1", postsList.get(0).content);
@@ -108,7 +108,7 @@ public class PostsTest extends FunctionalTest {
 
 		Response response = GET("/posts?from=1&limit=1");
 
-		List<Post> postsList = new Gson().fromJson(response.out.toString(), new TypeToken<List<Post>>() {
+		List<PostResponse> postsList = new Gson().fromJson(response.out.toString(), new TypeToken<List<PostResponse>>() {
 		}.getType());
 		assertEquals(1, postsList.size());
 		assertEquals("test content 2", postsList.get(0).content);
