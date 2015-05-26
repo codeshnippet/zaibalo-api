@@ -41,6 +41,10 @@ var app = angular.module('myApp', ['myApp.filters', 'myApp.services',
 .config(['$httpProvider', function($httpProvider) {
     $httpProvider.interceptors.push('tokenInjector');
     $httpProvider.interceptors.push('authHttpResponseInterceptor');
+}])
+
+.config(['cfpLoadingBarProvider', function(cfpLoadingBarProvider) {
+  cfpLoadingBarProvider.includeSpinner = false;
 }]);
 
 angular.module('myApp.services', []);
