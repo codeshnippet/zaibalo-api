@@ -59,6 +59,8 @@ DELETE     /comment-ratings/{id}                   CommentsRatings.deleteComment
 POST       /login                                  authentication.Login.login
 POST       /oauth-login                            oauth.Oauths.login
 
+GET        /image/{fileName}                       Images.image
+
 # Ignore favicon requests
 GET     /favicon.ico                               404
 
