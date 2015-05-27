@@ -11,7 +11,7 @@
 					</button>
 				</div>
 				<ul class="nav navbar-nav navbar-right collapse navbar-collapse">
-					<li><a href="#/">{{ 'posts' | translate }}</a></li>
+					<li><a href="#/">{{ 'latest' | translate }}</a></li>
 					<li ng-hide="isUserLoggeIn()"><a href="#/signup">{{ 'join' | translate }}</a></li>
 					<li ng-show="isUserLoggeIn()"><a ng-click="logout($event)" href="#/">{{ 'logout' | translate }}</a></li>
 				</ul>
