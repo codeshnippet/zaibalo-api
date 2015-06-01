@@ -26,14 +26,17 @@
 							<form accept-charset="UTF-8" role="form">
 								<fieldset>
 									<div class="form-group">
-										<input ng-model="user.loginName" class="form-control" placeholder="{{ 'username' | translate }}" name="login" type="text" aria-describedby="helpBlock">
+										<input ng-model="user.loginName" class="form-control" placeholder="{{ 'username' | translate }}" name="login" type="text" aria-describedby="helpBlock" required>
 									</div>
 									<div class="form-group">
-										<input ng-model="user.password" class="form-control" placeholder="{{ 'password' | translate }}" name="password" type="password" value="">
+										<input ng-model="user.password" class="form-control" placeholder="{{ 'password' | translate }}" name="password" type="password" value="" required>
 									</div>
 									<div class="form-group">
 										<input ng-click="login(user)" class="btn btn-md btn-success btn-block" type="submit" value="{{ 'get.in' | translate }}">
 									</div>
+									<div class="form-group">
+										<div class="alert alert-danger" role="alert" ng-show="showLoginError">{{ loginError }}</div>
+									</div
 								</fieldset>
 							</form>
 						</div>
@@ -42,12 +45,12 @@
 							<form accept-charset="UTF-8" role="form">
 								<fieldset>
 									<div class="form-group">
-										<input ng-model="user.loginName" class="form-control" placeholder="{{ 'username' | translate }}" name="login" type="text" aria-describedby="helpBlock">
+										<input ng-model="user.loginName" class="form-control" placeholder="{{ 'username' | translate }}" name="login" type="text" aria-describedby="helpBlock" required>
 										<span id="helpBlock" class="help-block">{{ 'used.for.login' | translate }}</span>
 									</div>
 									<div class="form-group">
-										<input ng-hide="showPassword" ng-model="user.password" class="form-control" placeholder="{{ 'password' | translate }}" name="password" type="password" value="">
-										<input ng-show="showPassword" ng-model="user.password" class="form-control" placeholder="{{ 'password' | translate }}" name="password-unhidden" type="text" value="">
+										<input ng-hide="showPassword" ng-model="user.password" class="form-control" placeholder="{{ 'password' | translate }}" name="password" type="password" value="" required>
+										<input ng-show="showPassword" ng-model="user.password" class="form-control" placeholder="{{ 'password' | translate }}" name="password-unhidden" type="text" value="" required>
 									</div>
 									<div class="checkbox">
 										<label>

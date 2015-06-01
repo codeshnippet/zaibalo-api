@@ -35,5 +35,6 @@
   "post.does.not.exist" : "Post not found or deleted.",
   "user.does.not.exist" : "User does not exist.",
   "delete.comment.tooltip" : "Double click to delete comment",
-  "delete.post.tooltip" : "Double click to delete post"
+  "delete.post.tooltip" : "Double click to delete post",
+  "login.fail" : "Login failed"
 }

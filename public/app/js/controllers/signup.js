@@ -2,8 +2,12 @@
 
 angular.module('myApp.controllers')
 
-.controller('SignupController', ['$scope', '$location', 'UserService', function($scope, $location, UserService) {
+.controller('SignupController', ['$scope', '$location', 'UserService', '$translate',
+  function($scope, $location, UserService, $translate) {
+
   $scope.user = {};
+  $scope.showLoginError = false;
+  $scope.loginError = 'dd';
 
   var successCallback = function(){
     var returnTo = $location.search().returnTo ? $location.search().returnTo : '/';
@@ -13,9 +17,8 @@ angular.module('myApp.controllers')
   };
 
   $scope.registerUser = function(user){
-    //TODO
     var errorCallback = function(){
-      alert("Registration failed.");
+      alert("error");
     };
 
     UserService.registerUser(user.loginName, user.password, successCallback, errorCallback);
@@ -23,9 +26,9 @@ angular.module('myApp.controllers')
   };
 
   $scope.login = function(user){
-    //TODO
     var errorCallback = function(){
-      alert("Login failed. Wrong username/password");
+      $scope.showLoginError = true;
+      $scope.loginError = $translate('login.fail').value;
     };
 
     UserService.login(user.loginName, user.password, successCallback, errorCallback);
