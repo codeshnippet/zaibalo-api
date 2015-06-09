@@ -25,8 +25,4 @@ angular.module('myApp.controllers')
     $scope.fromIndex++;
   }
 
-  $scope.isOwner = function(loginName){
-    return UserService.isOwner(loginName);
-  }
-
 }]);

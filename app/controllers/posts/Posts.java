@@ -10,6 +10,8 @@ import play.mvc.Controller;
 import play.mvc.Http.Header;
 import play.mvc.Util;
 import play.mvc.With;
+import utils.HalGsonBuilder;
+import ch.halarious.core.HalSerializer;
 
 import com.google.gson.GsonBuilder;
 
@@ -39,7 +41,7 @@ public class Posts extends Controller {
 	
 	@Secured
 	public static void createPost() {
-		User connected = Security.getAuthenticatedUser();
+		User user = Security.getAuthenticatedUser();
 
 		PostRequest postJSON = new GsonBuilder().create().
 				fromJson(new InputStreamReader(request.body), PostRequest.class);
@@ -50,14 +52,14 @@ public class Posts extends Controller {
 		
 		Post post = new Post();
 		post.content = postJSON.content;
-		post.author = connected;
+		post.author = user;
 		post.save();
 
 		String location = request.host + "/posts/" + post.id;
 		response.headers.put("Location", new Header("Location", location));
 		response.setContentTypeIfNotSet("application/json");
 		response.status = 201;
-		renderJSON(PostResponse.convertToPostResponse(post));
+		renderJSON(PostResponse.convertToPostResponse(post, user));
 	}
 
 	public static void getPost(long id) {
@@ -65,7 +67,9 @@ public class Posts extends Controller {
 		if (post == null) {
 			notFound();
 		}
-		renderJSON(PostResponse.convertToPostResponse(post));
+		User user = Security.getAuthenticatedUser();
+
+		renderJSON(PostResponse.convertToPostResponse(post, user));
 	}
 
 	@Secured
@@ -83,7 +87,8 @@ public class Posts extends Controller {
 		post.save();
 
 		response.setContentTypeIfNotSet("application/json");
-		renderJSON(PostResponse.convertToPostResponse(post));
+		User user = Security.getAuthenticatedUser();
+		renderJSON(PostResponse.convertToPostResponse(post, user));
 	}
 
 	@Secured
@@ -101,16 +106,15 @@ public class Posts extends Controller {
 	
 	@Util
 	public static void renderPostsListJson(String sort, int from, int limit, String query, Object... params) {
-		JPAQuery postsQuery = null;
 		if("created_at".equals(sort)){
-			postsQuery = Post.find(query + " order by creationDate desc", params);
-		}else{
-			postsQuery = Post.find(query, params);
+			query += " order by creationDate desc";
 		}
+		JPAQuery postsQuery = Post.find(query, params);
+		
 		limit = (limit == 0) ? 10 : limit;
 		List<Post> postsList = postsQuery.from(from).fetch(limit);
-		List<PostResponse> responseList = PostResponse.convertToPostResponsesList(postsList);
-		renderJSON(responseList);
+		User user = Security.getAuthenticatedUser();
+		renderJSON(PostResponse.convertToPostResponsesList(postsList, user));
 	}
 
 	@Util

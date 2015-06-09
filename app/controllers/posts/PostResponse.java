@@ -1,14 +1,22 @@
 package controllers.posts;
 
+import java.lang.reflect.Type;
 import java.util.ArrayList;
 import java.util.List;
 
+import models.Post;
+import models.User;
+import utils.HalGsonBuilder;
+import ch.halarious.core.HalBaseResource;
+import ch.halarious.core.HalLink;
+import ch.halarious.core.HalResource;
+
+import com.google.gson.reflect.TypeToken;
+
 import controllers.comments.CommentResponse;
 import controllers.users.UserResponse;
-import models.Comment;
-import models.Post;
 
-public class PostResponse {
+public class PostResponse extends HalBaseResource {
 
 	public long id;
 	public String content;
@@ -16,17 +24,27 @@ public class PostResponse {
 	public long creationTimestamp;
 	public List<CommentResponse> comments;
 	public List<PostAttachmentResponse> attachments;
-	
-	public static List<PostResponse> convertToPostResponsesList(List<Post> postsList) {
+
+	@HalLink(name = "delete")
+	public String deleteLink;
+
+	public static String convertToPostResponsesList(List<Post> postsList, User user) {
 		List<PostResponse> postJsonList = new ArrayList<PostResponse>(postsList.size());
-		for(Post post: postsList){
-			PostResponse postResponseJSON = convertToPostResponse(post);
+		for (Post post : postsList) {
+			PostResponse postResponseJSON = convertSinglePostResponse(post, user);
 			postJsonList.add(postResponseJSON);
 		}
-		return postJsonList;
+		Type type = new TypeToken<List<HalResource>>() {
+		}.getType();
+		return new HalGsonBuilder().getGson().toJson(postJsonList, type);
 	}
 
-	public static PostResponse convertToPostResponse(Post post) {
+	public static String convertToPostResponse(Post post, User user) {
+		PostResponse postResponseJSON = convertSinglePostResponse(post, user);
+		return new HalGsonBuilder().getGson().toJson(postResponseJSON, HalResource.class);
+	}
+
+	private static PostResponse convertSinglePostResponse(Post post, User user) {
 		PostResponse postResponseJSON = new PostResponse();
 		postResponseJSON.id = post.id;
 		postResponseJSON.content = post.content;
@@ -35,6 +53,13 @@ public class PostResponse {
 		postResponseJSON.author = userResponseJSON;
 		postResponseJSON.comments = CommentResponse.convertToCommentResponsesList(post.comments);
 		postResponseJSON.attachments = PostAttachmentResponse.convertToPostAttachmentListResponse(post.attachments);
+
+		if (post.author.equals(user)) {
+			postResponseJSON.deleteLink = "/posts/" + post.id;
+		}
+
+		postResponseJSON.setSelfRef("/posts/" + post.id);
+
 		return postResponseJSON;
 	}
 

@@ -41,8 +41,8 @@ angular.module('myApp.services')
     getPostsCount(callback, 'posts-by-user', user);
   }
 
-  self.deletePost = function(postId, callback){
-    $http.delete(buildPostsUrl('post-by-id', postId)).
+  self.deletePost = function(post, callback){
+    $http.delete(post._links.delete.href).
       success(function(data, status, headers, config) {
         callback();
     });

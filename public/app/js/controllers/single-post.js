@@ -11,16 +11,12 @@ function($scope, $routeParams, Avatar, UserService, PostsService) {
     $scope.post = post;
   });
 
-  $scope.deletePost = function(postId, index, event){
-    PostsService.deletePost(postId, function(){
+  $scope.deletePost = function(post, index, event){
+    PostsService.deletePost(post, function(){
       $scope.post = null;
     });
 
     event.preventDefault();
-  }
-
-  $scope.isOwner = function(loginName){
-    return UserService.isOwner(loginName);
   }
 
 }]);

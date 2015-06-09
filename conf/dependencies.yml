@@ -2,3 +2,11 @@
 
 require:
     - play
+    - ch.halarious -> halarious-core 0.13
+
+repositories:
+    - jboss:
+        type: iBiblio
+        root: "http://repo.surech.ch/content/repositories/hosted.halarious.releases/"
+        contains:
+            - ch.halarious -> *

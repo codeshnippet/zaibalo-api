@@ -9,9 +9,9 @@
           <button type="button" class="btn btn-default dropdown-toggle post-menu-button" data-toggle="dropdown" aria-expanded="false">...
           </button>
           <ul class="dropdown-menu pull-right" role="menu">
-            <li><a href="#/post/{{ post.id }}">{{ 'view.post.page' | translate }}</a></li>
-            <li ng-show="isOwner(post.author.loginName)">
-              <a href="#" ng-click="deletePost(post.id, $index, $event)" class="warning">{{ 'delete.post' | translate }}</a>
+            <li ng-show="post._links.self"><a href="#/post/{{ post.id }}">{{ 'view.post.page' | translate }}</a></li>
+            <li ng-show="post._links.delete">
+              <a href="#" ng-click="deletePost(post, $index, $event)" class="warning">{{ 'delete.post' | translate }}</a>
             </li>
           </ul>
         </div>
