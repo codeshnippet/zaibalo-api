@@ -31,7 +31,7 @@ public class UsersTest extends FunctionalTest {
 	
 	public static final String BILLY_LOGIN_NAME = "billy";
 	private static final String BILLY_SECRET_TOKEN = "secret_token_321";
-	
+
 	private static final String WRONG_DISPLAY_NAME = "NOT_EXISTING_USER";
 
 	@Before
@@ -45,6 +45,7 @@ public class UsersTest extends FunctionalTest {
 
 		User user = User.findByLoginName(FRANKY_LOGIN_NAME);
 		Response response = GET("/users/franky");
+
 		assertIsOk(response);
 		assertContentType(APPLICATION_JSON, response);
 		UserResponse userResponse = new Gson().fromJson(response.out.toString(), UserResponse.class);
@@ -171,7 +172,7 @@ public class UsersTest extends FunctionalTest {
 		.withUsername(BILLY_LOGIN_NAME)
 		.withToken(BILLY_SECRET_TOKEN)
 		.send();
-		
+
 		assertIsNotFound(response);
 	}
 	

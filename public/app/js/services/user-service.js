@@ -3,7 +3,7 @@
 /* Services */
 
 angular.module('myApp.services')
-.service('UserService', ['$http', 'CookiesService', function($http, CookiesService){
+.service('UserService', ['$http', 'CookiesService', '$location', function($http, CookiesService, $location){
   var self = this;
 
   self.loginSocial = function(id, provider, name, email, photo){
@@ -18,6 +18,7 @@ angular.module('myApp.services')
     $http.post('/oauth-login', JSON.stringify(request)).
       success(function(data, status, headers, config) {
         self.authenticate(data);
+        self.redirectBack();
       });
   };
 
@@ -30,6 +31,7 @@ angular.module('myApp.services')
     $http.post('/login', JSON.stringify(request)).
       success(function(data, status, headers, config) {
         self.authenticate(data);
+        self.redirectBack();
         success();
       }).error(function(data,status,headers,config) {
         error();
@@ -68,6 +70,7 @@ angular.module('myApp.services')
       success(function(data, status, headers, config) {
         self.authenticate(data);
         success();
+        self.redirectBack();
       }).error(function(data,status,headers,config) {
         error();
       });
@@ -80,5 +83,11 @@ angular.module('myApp.services')
           });
         }
     });
+  };
+
+  self.redirectBack = function(){
+    var returnTo = $location.search().returnTo ? $location.search().returnTo : '/';
+    $location.search({});
+    $location.path(returnTo);
   };
 }]);

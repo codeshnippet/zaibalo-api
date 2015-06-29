@@ -10,8 +10,6 @@ import play.mvc.Controller;
 import play.mvc.Http.Header;
 import play.mvc.Util;
 import play.mvc.With;
-import utils.HalGsonBuilder;
-import ch.halarious.core.HalSerializer;
 
 import com.google.gson.GsonBuilder;
 

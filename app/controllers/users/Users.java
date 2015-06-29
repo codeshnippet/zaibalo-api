@@ -2,7 +2,6 @@ package controllers.users;
 
 import java.io.InputStreamReader;
 
-import models.Post;
 import models.User;
 import play.mvc.Controller;
 import play.mvc.Http.Header;
@@ -31,7 +30,7 @@ public class Users extends Controller {
 		response.status = 201;
         renderJSON(LoginResponse.convertToJson(user));
 	}
-	
+
 	public static void getUserByLogin(String loginName) {
 		User user = User.find("byLoginName", loginName).first();
 		if (user == null) {
@@ -58,7 +57,7 @@ public class Users extends Controller {
 		response.setContentTypeIfNotSet("application/json");
 		renderJSON(UserResponse.convertToJson(user));
 	}
-	
+
 	public static void getUserPosts(String loginName, String sort, int from, int limit){
 		User user = User.find("byLoginName", loginName).first();
 		if (user == null) {
@@ -66,13 +65,5 @@ public class Users extends Controller {
 		}
 		Posts.renderPostsListJson(sort, from, limit, "author = ?", user);
 	}
-	
-	public static void getUserPostsCount(String loginName){
-		User user = User.find("byLoginName", loginName).first();
-		if (user == null) {
-			notFound();
-		}
-		long count = Post.count("byAuthor", user);
-		Posts.renderCountJson(count);
-	}
+
 }

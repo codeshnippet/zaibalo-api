@@ -26,31 +26,31 @@
 							<form accept-charset="UTF-8" role="form">
 								<fieldset>
 									<div class="form-group">
-										<input ng-model="user.loginName" class="form-control" placeholder="{{ 'username' | translate }}" name="login" type="text" aria-describedby="helpBlock" required>
+										<input ng-model="user.loginName" class="form-control" placeholder="{{ 'username' | translate }}" name="login" type="text" aria-describedby="helpBlock">
 									</div>
 									<div class="form-group">
-										<input ng-model="user.password" class="form-control" placeholder="{{ 'password' | translate }}" name="password" type="password" value="" required>
+										<input ng-model="user.password" class="form-control" placeholder="{{ 'password' | translate }}" name="password" type="password" value="">
 									</div>
 									<div class="form-group">
 										<input ng-click="login(user)" class="btn btn-md btn-success btn-block" type="submit" value="{{ 'get.in' | translate }}">
 									</div>
 									<div class="form-group">
 										<div class="alert alert-danger" role="alert" ng-show="showLoginError">{{ loginError }}</div>
-									</div
+									</div>
 								</fieldset>
 							</form>
 						</div>
 
 						<div role="tabpanel" class="tab-pane" id="signup">
-							<form accept-charset="UTF-8" role="form">
+							<form accept-charset="UTF-8" role="form" id="signup-form">
 								<fieldset>
 									<div class="form-group">
-										<input ng-model="user.loginName" class="form-control" placeholder="{{ 'username' | translate }}" name="login" type="text" aria-describedby="helpBlock" required>
+										<input ng-model="user.loginName" class="form-control" placeholder="{{ 'username' | translate }}" name="login" type="text" aria-describedby="helpBlock">
 										<span id="helpBlock" class="help-block">{{ 'used.for.login' | translate }}</span>
 									</div>
 									<div class="form-group">
-										<input ng-hide="showPassword" ng-model="user.password" class="form-control" placeholder="{{ 'password' | translate }}" name="password" type="password" value="" required>
-										<input ng-show="showPassword" ng-model="user.password" class="form-control" placeholder="{{ 'password' | translate }}" name="password-unhidden" type="text" value="" required>
+										<input ng-hide="showPassword" ng-model="user.password" class="form-control" placeholder="{{ 'password' | translate }}" name="password" type="password" value="">
+										<input ng-show="showPassword" ng-model="user.password" class="form-control" placeholder="{{ 'password' | translate }}" name="password-unhidden" type="text" value="">
 									</div>
 									<div class="checkbox">
 										<label>
@@ -60,14 +60,18 @@
 									<div class="form-group">
 										<input ng-click="registerUser(user)" class="btn btn-md btn-success btn-block" type="submit" value="{{ 'signup' | translate }}">
 									</div>
+									<div class="form-group">
+										<div class="alert alert-danger" role="alert" ng-show="showRegisterError">{{ registerError }}</div>
+									</div>
 								</fieldset>
 							</form>
 						</div>
-				  </div>
 
+				  </div>
 				</div>
 
       </div>
     </div>
   </div>
+
 </div>
