@@ -29,30 +29,35 @@ public class LoginTest extends FunctionalTest {
 	public void testLoginWrongUsername(){
 		Response response = POST("/login", "application/json", toJson(new LoginRequest("wrong_username", "secret")));
 		assertStatus(400, response);
+		assertEquals("login.fail", response.out.toString());
 	}
 	
 	@Test
 	public void testLoginWrongPassword(){
 		Response response = POST("/login", "application/json", toJson(new LoginRequest("franky", "wrong_password")));
 		assertStatus(400, response);
+		assertEquals("login.fail", response.out.toString());
 	}
 	
 	@Test
 	public void testLoginEmptyUsername(){
 		Response response = POST("/login", "application/json", toJson(new LoginRequest("", "secret")));
 		assertStatus(400, response);
+		assertEquals("login.fail.username.required", response.out.toString());
 	}
 	
 	@Test
 	public void testLoginEmptyPassword(){
 		Response response = POST("/login", "application/json", toJson(new LoginRequest("franky", "")));
 		assertStatus(400, response);
+		assertEquals("login.fail.password.required", response.out.toString());
 	}
 	
 	@Test
 	public void testLoginEmptyUsernameAndPassword(){
 		Response response = POST("/login", "application/json", toJson(new LoginRequest("", "")));
 		assertStatus(400, response);
+		assertEquals("login.fail.username.required", response.out.toString());
 	}
 
 	private String toJson(Object object){

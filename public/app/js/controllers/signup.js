@@ -17,7 +17,7 @@ angular.module('myApp.controllers')
   };
 
   $scope.registerUser = function(user){
-    var errorCallback = function(){
+    var errorCallback = function(message){
       $scope.registerError = $translate.instant('register.fail');
       $scope.showRegisterError = true;
     };
@@ -26,8 +26,8 @@ angular.module('myApp.controllers')
   };
 
   $scope.login = function(user){
-    var errorCallback = function(){
-      $scope.loginError = $translate.instant('login.fail');
+    var errorCallback = function(message){
+      $scope.loginError = $translate.instant(message);
       $scope.showLoginError = true;
     };
 

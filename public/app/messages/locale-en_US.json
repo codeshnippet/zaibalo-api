@@ -37,5 +37,7 @@
   "delete.comment.tooltip" : "Double click to delete comment",
   "delete.post.tooltip" : "Double click to delete post",
   "login.fail" : "Login failed",
-  "register.fail" : "Registration failed"
+  "register.fail" : "Registration failed",
+  "login.fail.username.required": "Login failed: Username can not be empty",
+  "login.fail.password.required": "Login failed: Password can not be empty"
 }

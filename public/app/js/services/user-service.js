@@ -34,7 +34,7 @@ angular.module('myApp.services')
         self.redirectBack();
         success();
       }).error(function(data,status,headers,config) {
-        error();
+        error(data);
       });
   };
 
