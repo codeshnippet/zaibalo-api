@@ -18,7 +18,7 @@ angular.module('myApp.controllers')
 
   $scope.registerUser = function(user){
     var errorCallback = function(message){
-      $scope.registerError = $translate.instant('register.fail');
+      $scope.registerError = $translate.instant(message);
       $scope.showRegisterError = true;
     };
 

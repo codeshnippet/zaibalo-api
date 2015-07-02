@@ -39,5 +39,8 @@
   "login.fail" : "Login failed",
   "register.fail" : "Registration failed",
   "login.fail.username.required": "Login failed: Username can not be empty",
-  "login.fail.password.required": "Login failed: Password can not be empty"
+  "login.fail.password.required": "Login failed: Password can not be empty",
+  "registration.fail.username.required" : "Registration failed: Username is required.",
+  "registration.fail.password.required" : "Registration failed: Password is required.",
+  "registration.fail.username.not.free" : "Registration failed: Username is already taken."
 }

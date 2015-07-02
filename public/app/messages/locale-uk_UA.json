@@ -39,5 +39,8 @@
   "login.fail" : "Введені вами ім'я користувача та пароль не збігаються з нашими записами.",
   "register.fail" : "Помилка реєстрації",
   "login.fail.username.required": "Помилка: Ім'я користувача не може бути пустим",
-  "login.fail.password.required": "Помилка: Пароль не може бути пустим"
+  "login.fail.password.required": "Помилка: Пароль не може бути пустим",
+  "registration.fail.username.required" : "Помилка реєстрації: Ім'я користувача не може бути пустим",
+  "registration.fail.password.required" : "Помилка реєстрації: Пароль не може бути пустим",
+  "registration.fail.username.not.free" : "Помилка реєстрації: Ім'я користувача зайнято"
 }

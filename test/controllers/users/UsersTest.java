@@ -88,6 +88,28 @@ public class UsersTest extends FunctionalTest {
 	}
 	
 	@Test
+	public void testUserCreationWithUsernameTaken() {
+		Fixtures.loadModels("data/user.yml");
+		Response response = POST("/users", APPLICATION_JSON, new Gson().toJson(createUserRequest(FRANKY_LOGIN_NAME, "pass")));
+		assertStatus(400, response);
+		assertContentEquals("registration.fail.username.not.free", response);
+	}
+	
+	@Test
+	public void testUserCreationWithUsernameEmpty() {
+		Response response = POST("/users", APPLICATION_JSON, new Gson().toJson(createUserRequest("", "pass")));
+		assertStatus(400, response);
+		assertContentEquals("registration.fail.username.required", response);
+	}
+	
+	@Test
+	public void testUserCreationWithPasswordEmpty() {
+		Response response = POST("/users", APPLICATION_JSON, new Gson().toJson(createUserRequest("johny", "")));
+		assertStatus(400, response);
+		assertContentEquals("registration.fail.password.required", response);
+	}
+	
+	@Test
 	public void testUserCreationWithOtherParameters() {
 		POST("/users", APPLICATION_JSON, new Gson().toJson(createUserRequest("bill", "secret", "Cosby", "billc@gmail.com")));
 
@@ -199,7 +221,7 @@ public class UsersTest extends FunctionalTest {
 		
 		Response response = GET("/users/" + franky.loginName + "/posts/count");
 
-		assertEquals("{\"count\":2}", response.out.toString());
+		assertContentEquals("{\"count\":2}", response);
 	}
 	
 	private UserRequest createUserRequest(String login, String pass){

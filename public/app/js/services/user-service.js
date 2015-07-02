@@ -72,7 +72,7 @@ angular.module('myApp.services')
         success();
         self.redirectBack();
       }).error(function(data,status,headers,config) {
-        error();
+        error(data);
       });
   };
 
