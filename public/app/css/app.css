@@ -87,3 +87,19 @@ img.center {
 .navbar {
   margin-top: 2px;
 }
+
+.user-info-stat {
+  padding-right: 10px;
+}
+
+.user-info-row {
+  padding-bottom: 10px;
+}
+
+.user-info-disp-name {
+  font-size: 34px;
+}
+
+.user-info-about {
+  font-weight: bold;
+}

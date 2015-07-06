@@ -2,12 +2,32 @@
 	<div class="alert alert-warning" role="alert">{{ 'user.does.not.exist' | translate }}</div>
 </div>
 <div class="jumbotron" ng-show="user">
-	<div class="panel-body">
-		<img ng-src="{{ getAvatar(user, 'M') }}" width="100px" height="100px"
-			class="img-circle" alt="Circular Image">
+	<div class="row">
+		<div class="col-sm-3 col-xs-5">
+			<div class="panel-body">
+				<img ng-src="{{ getAvatar(user, 'M') }}" width="100px" height="100px"
+					class="img-circle" alt="Circular Image">
+			</div>
+		</div>
+		<div class="col-sm-9 col-xs-7">
+				<div class="user-info-row user-info-disp-name">{{user.displayName}}</div>
+				<div class="user-info-row user-info-about">Student in Ivano-Frankove</div>
+				<div class="clearfix visible-xs-block"></div>
+				<div class="user-info-row hidden-xs">
+					<span class="user-info-stat"><strong>15</strong> posts</span>
+					<span class="user-info-stat"><strong>345</strong> comments</span>
+					<span class="user-info-stat"><strong>3.15</strong> rate</span>
+				</div>
+		</div>
 	</div>
-	<div class="panel-footer">
-		<strong>{{user.displayName}}</strong>
+	<div class="row">
+		<div class="col-xs-12">
+			<div class="user-info-row visible-xs row">
+				<span class="user-info-stat col-xs-4"><strong>15</strong> posts</span>
+				<span class="user-info-stat col-xs-4"><strong>345</strong> comments</span>
+				<span class="user-info-stat col-xs-4"><strong>3.15</strong> rate</span>
+			</div>
+		</div>
 	</div>
 </div>
 <ng-include src="'/partials/posts.html'" ng-show="user"></ng-include>
