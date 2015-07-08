@@ -7,16 +7,18 @@ angular.module('myApp.services')
   var self = this;
 
   self.saveAuthCookies = function(username, token){
-    $cookies.username = username;
-    $cookies.token = token;
+    var expireDate = new Date();
+    expireDate.setDate(expireDate.getDate() + 90);
+    $cookies.put('username', username, {'expires': expireDate});
+    $cookies.put('token', token, {'expires': expireDate});
   }
 
   self.getToken = function(){
-    return $cookies.token;
+    return $cookies.get('token');
   }
 
   self.getUsername = function(){
-    return $cookies.username;
+    return $cookies.get('username');
   }
 
   self.isUserLoggedIn = function(){
@@ -24,7 +26,7 @@ angular.module('myApp.services')
   }
 
   self.removeAuthCookies = function(){
-    delete $cookies.username;
-    delete $cookies.token;
+    delete $cookies.get('username');
+    delete $cookies.get('token');
   }
 }]);
