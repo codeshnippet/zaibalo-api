@@ -8,7 +8,7 @@ var app = angular.module('myApp', ['myApp.filters', 'myApp.services',
 .config(['$routeProvider', function($routeProvider) {
     $routeProvider
     .when('/', {
-      templateUrl: 'partials/posts.html',
+      templateUrl: 'partials/posts-block.html',
       controller: 'LatestPostsController'
       })
     .when('/tag/:tag', {
