@@ -1,6 +1,5 @@
 package controllers.users;
 
-import java.io.IOException;
 import java.io.InputStreamReader;
 
 import models.Post;
@@ -8,19 +7,19 @@ import models.User;
 
 import org.apache.commons.lang.StringUtils;
 
-import play.mvc.Controller;
 import play.mvc.Http.Header;
 import play.mvc.With;
 
 import com.google.gson.GsonBuilder;
 
+import controllers.BasicController;
 import controllers.authentication.LoginResponse;
 import controllers.posts.Posts;
 import controllers.security.Secured;
 import controllers.security.Security;
 
 @With(Security.class)
-public class Users extends Controller {
+public class Users extends BasicController {
 
 	public static void createUser() {
 		UserRequest userRequest = new GsonBuilder().create().fromJson(new InputStreamReader(request.body), UserRequest.class);
@@ -95,14 +94,6 @@ public class Users extends Controller {
 	private static void failure(String errorMessage) {
 		writeToResponseBody(errorMessage);
 		badRequest();
-	}
-
-	private static void writeToResponseBody(String text) {
-		try {
-			response.out.write(text.getBytes());
-		} catch (IOException e) {
-			e.printStackTrace();
-		}
 	}
 
 }

@@ -2,7 +2,9 @@ package models;
 
 import java.util.ArrayList;
 import java.util.Date;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 
 import javax.persistence.CascadeType;
 import javax.persistence.Column;
@@ -21,7 +23,6 @@ import org.hibernate.annotations.Type;
 import org.hibernate.validator.constraints.NotEmpty;
 
 import play.db.jpa.Model;
-import controllers.comments.CommentResponse;
 
 @Entity
 @Table(name = "posts")
@@ -47,6 +48,9 @@ public class Post extends Model {
 	@OneToMany(mappedBy = "post", cascade=CascadeType.REMOVE, fetch=FetchType.LAZY)
 	public List<PostAttachment> attachments = new ArrayList<PostAttachment>();
 	
+	@OneToMany(mappedBy = "post", cascade=CascadeType.REMOVE)
+	private Set<PostRating> ratings = new HashSet<PostRating>();
+	
 	public Post(){
 		creationDate = new Date();
 	}
@@ -56,5 +60,21 @@ public class Post extends Model {
 		this.content = content;
 		this.author = author;
 	}
+
+    public Object getRatingCount() {
+        return ratings.size();
+    }
+
+    public Object getRatingSum() {
+        int sum = 0;
+        for(PostRating postRating: ratings){
+            if(postRating.isPositive()){
+                sum++;
+            }else{
+                sum--;
+            }
+        }
+        return sum;
+    }
 
 }

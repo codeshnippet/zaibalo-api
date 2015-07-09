@@ -40,12 +40,7 @@ PUT        /comments/{id}                          comments.Comments.editComment
 DELETE     /comments/{id}                          comments.Comments.deleteComment
 
 # Post ratings
-GET        /posts/{postId}/post-ratings            PostRatings.getPostRatings
-POST       /posts/{postId}/post-ratings            PostRatings.createPostRating
-
-GET        /post-ratings/{id}                      PostRatings.getPostRating
-PUT        /post-ratings/{id}                      PostRatings.updatePostRating
-DELETE     /post-ratings/{id}                      PostRatings.deletePostRating
+POST       /posts/{postId}/post-ratings            postratings.PostRatings.createPostRating
 
 # Comment ratings
 GET        /comments/{commentId}/comment-ratings   CommentsRatings.getCommentsRatings

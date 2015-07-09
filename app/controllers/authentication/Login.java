@@ -1,6 +1,5 @@
 package controllers.authentication;
 
-import java.io.IOException;
 import java.io.InputStreamReader;
 
 import models.User;
@@ -8,14 +7,11 @@ import models.User;
 import org.apache.commons.codec.digest.DigestUtils;
 import org.apache.commons.lang.StringUtils;
 
-import play.mvc.Controller;
-
 import com.google.gson.GsonBuilder;
-import com.sun.mail.imap.protocol.Status;
 
-import controllers.users.UserResponse;
+import controllers.BasicController;
 
-public class Login extends Controller {
+public class Login extends BasicController {
 
 	public static void login(){
 		LoginRequest loginRequest = new GsonBuilder().create().
@@ -51,11 +47,4 @@ public class Login extends Controller {
 		badRequest();
 	}
 
-	private static void writeToResponseBody(String text) {
-		try {
-			response.out.write(text.getBytes());
-		} catch (IOException e) {
-			e.printStackTrace();
-		}
-	}
 }
