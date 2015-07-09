@@ -28,7 +28,7 @@ angular.module('myApp.controllers')
     }
 
     $scope.toggleRatings = function(post, event){
-      if (post.ratings.length > 0 || $scope.isUserLoggeIn()) {
+      if (post.ratings.length > 0) {
         $(event.target).parent().parent().parent().prev().hide(500);
         $(event.target).parent().parent().parent().prev().prev().slideToggle(500);
       }
