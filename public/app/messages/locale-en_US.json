@@ -42,5 +42,6 @@
   "login.fail.password.required": "Login failed: Password can not be empty",
   "registration.fail.username.required" : "Registration failed: Username is required.",
   "registration.fail.password.required" : "Registration failed: Password is required.",
-  "registration.fail.username.not.free" : "Registration failed: Username is already taken."
+  "registration.fail.username.not.free" : "Registration failed: Username is already taken.",
+  "rating.colon" : "Rating:"
 }

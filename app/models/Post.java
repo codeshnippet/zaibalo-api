@@ -49,7 +49,7 @@ public class Post extends Model {
 	public List<PostAttachment> attachments = new ArrayList<PostAttachment>();
 	
 	@OneToMany(mappedBy = "post", cascade=CascadeType.REMOVE)
-	private Set<PostRating> ratings = new HashSet<PostRating>();
+	public Set<PostRating> ratings = new HashSet<PostRating>();
 	
 	public Post(){
 		creationDate = new Date();
@@ -61,11 +61,11 @@ public class Post extends Model {
 		this.author = author;
 	}
 
-    public Object getRatingCount() {
+    public Integer getRatingCount() {
         return ratings.size();
     }
 
-    public Object getRatingSum() {
+    public Integer getRatingSum() {
         int sum = 0;
         for(PostRating postRating: ratings){
             if(postRating.isPositive()){

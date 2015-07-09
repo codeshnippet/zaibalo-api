@@ -1,5 +1,20 @@
 <div>
-
+  <div style="display:none;">
+    <div ng-repeat="rating in post.ratings" class="comment">
+      <div class="row">
+        <div class="col-xs-1">
+          <img ng-src="{{ getAvatar(rating.user, 'S') }}" class="img-circle" width="32px" height="32px">
+        </div>
+        <div class="col-xs-11">
+          <div>
+            <a href="/#/@{{ rating.user.loginName }}"><strong>{{ rating.user.displayName }}</strong></a>
+            <span class="post-date">{{ rating.creationTimestamp | timeDistance : locale }}</span>
+          </div>
+          <div>{{ rating.value }}</div>
+        </div>
+      </div>
+    </div>
+  </div>
   <div style="display:none;">
     <div ng-repeat="comment in post.comments" class="comment">
       <div class="row">
@@ -8,7 +23,7 @@
         </div>
         <div class="col-xs-11">
           <div>
-            <a href="/#/@{{comment.author.loginName}}"><strong>{{comment.author.displayName}}</strong></a>
+            <a href="/#/@{{ comment.author.loginName }}"><strong>{{ comment.author.displayName }}</strong></a>
             <span class="post-date">{{ comment.creationTimestamp | timeDistance : locale }}</span>
             <span class="glyphicon glyphicon-remove pull-right remove-comment-btn"
             ng-show="isOwner(comment.author.loginName)" ng-click="deleteComment(post, comment.id, $index, $event)"></span>
@@ -17,23 +32,29 @@
         </div>
       </div>
     </div>
-
-    <div class="row" ng-show="isUserLoggeIn()">
-      <form ng-submit="addComment(post)" class="col-xs-12">
-        <div class="form-group">
-          <textarea id="new-comment-text" class="form-control" placeholder="{{ 'text' | translate }}" ng-model="post.newComment"></textarea>
-        </div>
-        <div class="form-group clearfix">
-          <button class="btn btn-default pull-right">{{ 'send' | translate }}</button>
+    <div ng-show="isUserLoggeIn()">
+      <form class="comment">
+        <div class="input-group">
+          <textarea id="new-comment-text" class="form-control custom-control" placeholder="{{ 'text' | translate }}" ng-model="post.newComment" rows="2" style="resize:none"></textarea>
+          <span ng-click="addComment(post)" class="input-group-addon btn btn-primary">{{ 'send' | translate }}</span>
         </div>
       </form>
     </div>
-
   </div>
 
-  <a class="pull-left" ng-click="toggleComments(post, $event)" href="#">
-    <span class="glyphicon glyphicon-comment" aria-hidden="true" style="vertical-align:middle"></span>
-    <span translate="comments{{translationSufix(post.comments.length)}}" translate-values="{ value: post.comments.length }" ></span>
-  </a>
+  <div class="row">
+    <div class="col-xs-6">
+      <a ng-click="toggleComments(post, $event)" href="#">
+        <span class="glyphicon glyphicon-comment" aria-hidden="true" style="vertical-align:middle"></span>
+        <span translate="comments{{translationSufix(post.comments.length)}}" translate-values="{ value: post.comments.length }" ></span>
+      </a>
+    </div>
+    <div class="col-xs-6">
+      <a ng-click="toggleRatings(post, $event)" href="#" class="pull-right">
+        <span class="glyphicon glyphicon-equalizer" aria-hidden="true"></span>
+        <span>{{ 'rating.colon' | translate }} {{ post.ratingSum }} ({{ post.ratingCount }})</span>
+      </a>
+    </div>
+  </div>
 
 </div>

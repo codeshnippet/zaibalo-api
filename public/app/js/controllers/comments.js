@@ -21,7 +21,16 @@ angular.module('myApp.controllers')
 
     $scope.toggleComments = function(post, event){
       if (post.comments.length > 0 || $scope.isUserLoggeIn()) {
-        $(event.target).parent().prev().slideToggle(500);
+        $(event.target).parent().parent().parent().prev().prev().hide(500);
+        $(event.target).parent().parent().parent().prev().slideToggle(500);
+      }
+      event.preventDefault();
+    }
+
+    $scope.toggleRatings = function(post, event){
+      if (post.ratings.length > 0 || $scope.isUserLoggeIn()) {
+        $(event.target).parent().parent().parent().prev().hide(500);
+        $(event.target).parent().parent().parent().prev().prev().slideToggle(500);
       }
       event.preventDefault();
     }

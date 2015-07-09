@@ -129,6 +129,8 @@ public class PostsTest extends FunctionalTest {
 		assertEquals(post.author.getDisplayName(), json.author.displayName);
 		assertEquals(1238025600000l, json.creationTimestamp);
 		assertEquals(0, json.comments.size());
+		assertEquals(2, json.ratingSum);
+		assertEquals(2, json.ratingCount);
 	}
 
 	@Test

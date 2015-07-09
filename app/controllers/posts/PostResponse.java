@@ -3,6 +3,7 @@ package controllers.posts;
 import java.lang.reflect.Type;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Set;
 
 import models.Post;
 import models.User;
@@ -14,6 +15,7 @@ import ch.halarious.core.HalResource;
 import com.google.gson.reflect.TypeToken;
 
 import controllers.comments.CommentResponse;
+import controllers.postratings.PostRatingResponse;
 import controllers.users.UserResponse;
 
 public class PostResponse extends HalBaseResource {
@@ -24,6 +26,9 @@ public class PostResponse extends HalBaseResource {
 	public long creationTimestamp;
 	public List<CommentResponse> comments;
 	public List<PostAttachmentResponse> attachments;
+	public Set<PostRatingResponse> ratings;
+	public int ratingSum;
+	public int ratingCount;
 
 	@HalLink(name = "delete")
 	public String deleteLink;
@@ -53,6 +58,9 @@ public class PostResponse extends HalBaseResource {
 		postResponseJSON.author = userResponseJSON;
 		postResponseJSON.comments = CommentResponse.convertToCommentResponsesList(post.comments);
 		postResponseJSON.attachments = PostAttachmentResponse.convertToPostAttachmentListResponse(post.attachments);
+		postResponseJSON.ratings = PostRatingResponse.convertToPostRatingListResponse(post.ratings);
+		postResponseJSON.ratingCount = post.getRatingCount();
+		postResponseJSON.ratingSum = post.getRatingSum();
 
 		if (post.author.equals(user)) {
 			postResponseJSON.deleteLink = "/posts/" + post.id;
