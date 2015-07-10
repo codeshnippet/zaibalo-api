@@ -26,7 +26,7 @@ import play.db.jpa.Model;
 
 @Entity
 @Table(name = "posts")
-public class Post extends Model {
+public class Post extends Model implements Ratable {
 
 	@Lob
 	@Type(type="org.hibernate.type.StringClobType")
@@ -76,5 +76,20 @@ public class Post extends Model {
         }
         return sum;
     }
+
+	@Override
+	public boolean hasRating(User user, boolean isPositive) {
+		return PostRating.hasPostRating(this, user, isPositive);
+	}
+
+	@Override
+	public Rating getRating(User user, boolean isPositive) {
+		return PostRating.getPostRating(this, user, isPositive);
+	}
+
+	@Override
+	public Rating createRating(User user, boolean isPositive) {
+		return new PostRating(this, user, isPositive);
+	}
 
 }

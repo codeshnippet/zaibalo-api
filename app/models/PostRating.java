@@ -17,37 +17,15 @@ import play.db.jpa.Model;
 
 @Entity
 @Table(name="post_rating")
-public class PostRating extends Model{
-
-    @Temporal(TemporalType.TIMESTAMP)
-    @Column(name = "date")
-    public Date creationDate;
-    
-    @OneToOne(fetch=FetchType.LAZY)
-    @JoinColumn(name="user_id", referencedColumnName="id")
-    public User user;
+public class PostRating extends Rating{
     
     @OneToOne(fetch=FetchType.LAZY)
     @JoinColumn(name="post_id", referencedColumnName="id")
     public Post post;
     
-    @Column(name="value")
-    public int value;
-
-    public PostRating(){
-        super();
-        this.creationDate = new Date();
-    }
-    
     public PostRating(Post post, User user, boolean isPositive) {
-        this();
+        super(user, isPositive);
         this.post = post;
-        this.user = user;
-        this.value = isPositive ? 1 : -1;
-    }
-
-    public boolean isPositive() {
-        return value == 1;
     }
 
     public static boolean hasPostRating(Post post, User user, boolean isPositive) {

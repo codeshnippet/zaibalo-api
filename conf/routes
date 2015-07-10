@@ -43,12 +43,7 @@ DELETE     /comments/{id}                          comments.Comments.deleteComme
 POST       /posts/{postId}/post-ratings            postratings.PostRatings.createPostRating
 
 # Comment ratings
-GET        /comments/{commentId}/comment-ratings   CommentsRatings.getCommentsRatings
-POST       /comments/{commentId}/comment-ratings   CommentsRatings.createCommentRating
-
-GET        /comment-ratings/{id}                   CommentsRatings.getCommentRating
-PUT        /comment-ratings/{id}                   CommentsRatings.updateCommentRating
-DELETE     /comment-ratings/{id}                   CommentsRatings.deleteCommentRating
+POST       /comments/{commentId}/comment-ratings   commentratings.CommentRatings.createCommentRating
 
 # Secure controllers
 POST       /login                                  authentication.Login.login

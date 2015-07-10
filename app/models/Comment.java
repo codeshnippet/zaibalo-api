@@ -1,13 +1,17 @@
 package models;
 
 import java.util.Date;
+import java.util.HashSet;
+import java.util.Set;
 
+import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
 import javax.persistence.JoinColumn;
 import javax.persistence.Lob;
 import javax.persistence.ManyToOne;
+import javax.persistence.OneToMany;
 import javax.persistence.OneToOne;
 import javax.persistence.Table;
 import javax.persistence.Temporal;
@@ -20,7 +24,7 @@ import play.db.jpa.Model;
 
 @Entity
 @Table(name = "comments")
-public class Comment extends Model{
+public class Comment extends Model implements Ratable {
 
 	@Lob
 	@Type(type="org.hibernate.type.StringClobType")
@@ -38,8 +42,42 @@ public class Comment extends Model{
 	@ManyToOne(fetch=FetchType.LAZY)
 	@JoinColumn(name="post_id", referencedColumnName="id", nullable = false)
 	public Post post;
+	
+	@OneToMany(mappedBy = "comment", cascade=CascadeType.REMOVE)
+	public Set<CommentRating> ratings = new HashSet<CommentRating>();
 
 	public Comment() {
 		creationDate = new Date();
+	}
+
+	@Override
+	public boolean hasRating(User user, boolean isPositive) {
+		return CommentRating.hasCommentRating(this, user, isPositive);
+	}
+
+	@Override
+	public Rating getRating(User user, boolean isPositive) {
+		return CommentRating.getCommentRating(this, user, isPositive);
+	}
+
+	@Override
+	public Rating createRating(User user, boolean isPositive) {
+		return new CommentRating(this, user, isPositive);
+	}
+
+	public Integer getRatingSum() {
+        int sum = 0;
+        for(CommentRating commentRating: ratings){
+            if(commentRating.isPositive()){
+                sum++;
+            }else{
+                sum--;
+            }
+        }
+        return sum;
+	}
+
+	public Integer getRatingCount() {
+		return ratings.size();
 	}
 }

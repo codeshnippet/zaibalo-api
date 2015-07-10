@@ -15,7 +15,7 @@ import ch.halarious.core.HalResource;
 import com.google.gson.reflect.TypeToken;
 
 import controllers.comments.CommentResponse;
-import controllers.postratings.PostRatingResponse;
+import controllers.rating.RatingResponse;
 import controllers.users.UserResponse;
 
 public class PostResponse extends HalBaseResource {
@@ -26,7 +26,7 @@ public class PostResponse extends HalBaseResource {
 	public long creationTimestamp;
 	public List<CommentResponse> comments;
 	public List<PostAttachmentResponse> attachments;
-	public Set<PostRatingResponse> ratings;
+	public Set<RatingResponse> ratings;
 	public int ratingSum;
 	public int ratingCount;
 
@@ -58,7 +58,7 @@ public class PostResponse extends HalBaseResource {
 		postResponseJSON.author = userResponseJSON;
 		postResponseJSON.comments = CommentResponse.convertToCommentResponsesList(post.comments);
 		postResponseJSON.attachments = PostAttachmentResponse.convertToPostAttachmentListResponse(post.attachments);
-		postResponseJSON.ratings = PostRatingResponse.convertToPostRatingListResponse(post.ratings);
+		postResponseJSON.ratings = RatingResponse.convertToPostRatingListResponse(post.ratings);
 		postResponseJSON.ratingCount = post.getRatingCount();
 		postResponseJSON.ratingSum = post.getRatingSum();
 

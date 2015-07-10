@@ -16,6 +16,7 @@ import controllers.ContentType;
 import controllers.HttpMethod;
 import controllers.RequestBuilder;
 import controllers.posts.PostRequest;
+import controllers.rating.RatingRequest;
 
 public class PostRatingsTest
     extends FunctionalTest {
@@ -58,8 +59,6 @@ public class PostRatingsTest
         assertEquals(Integer.valueOf(4), post.getRatingCount());
         assertEquals(Integer.valueOf(0), post.getRatingSum());
 
-        assertHeaderEquals("Location", newRequest().host + "/post-ratings/" + postRating.id, response);
-
     }
 
     @Test
@@ -69,7 +68,7 @@ public class PostRatingsTest
 
         Response response = POST("/posts/" + post.id + "/post-ratings", "application/json", new GsonBuilder()
             .create()
-            .toJson(new PostRatingRequest(true)));
+            .toJson(new RatingRequest(true)));
 
         assertStatus(401, response);
     }

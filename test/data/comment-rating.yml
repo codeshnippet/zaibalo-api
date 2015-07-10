@@ -1,0 +1,32 @@
+User(frank):
+    displayName:      Superman
+    email:            superman@mail.com
+    registrationDate: 2009-03-26
+    loginName:        franky
+    password:         secret
+    token:            secret_token_123
+
+User(bill):
+    displayName:      Drunk
+    email:            bill@mail.com
+    registrationDate: 2009-03-27
+    loginName:        billy
+    password:         secret
+    token:            secret_token_321
+
+Post(postOne):
+    content:      test content 1
+    author:       bill
+    creationDate: 2009-03-26
+
+Comment(commentOne):
+    content:          Funny comment!
+    author:           frank
+    post:             postOne
+    creationDate:     2009-03-26
+
+CommentRating(commentRating1):
+    creationDate : 2009-03-26
+    user         : frank
+    comment      : commentOne
+    value        : -1
