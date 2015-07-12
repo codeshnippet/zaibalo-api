@@ -28,8 +28,23 @@
       </div>
       <div class="post-content" ng-bind-html="post.content | hashtagger"></div>
     </div>
-    <div class="panel-footer clearfix">
+    <div class="panel-footer clearfix comment-rating-block">
+      <post-ratings></post-ratings>
       <comments></comments>
+      <div class="row">
+        <div class="col-xs-6">
+          <a ng-click="toggleComments(post, $event)" href="#">
+            <span class="glyphicon glyphicon-comment" aria-hidden="true" style="vertical-align:middle"></span>
+            <span translate="comments{{ translationSufix(post._embedded.comments.length) }}" translate-values="{ value: post._embedded.comments.length }" ></span>
+          </a>
+        </div>
+        <div class="col-xs-6">
+          <a ng-click="toggleRatings(post, $event)" href="#" class="pull-right">
+            <span class="glyphicon glyphicon-equalizer" aria-hidden="true"></span>
+            <span>{{ 'rating.colon' | translate }} {{ post.ratingSum }} ({{ post.ratingCount }})</span>
+          </a>
+        </div>
+      </div>
     </div>
   </div>
 

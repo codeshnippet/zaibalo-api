@@ -1,22 +1,5 @@
-<div>
-  <div style="display:none;">
-    <div ng-repeat="rating in post.ratings" class="comment">
-      <div class="row">
-        <div class="col-xs-1">
-          <img ng-src="{{ getAvatar(rating.user, 'S') }}" class="img-circle" width="32px" height="32px">
-        </div>
-        <div class="col-xs-11">
-          <div>
-            <a href="/#/@{{ rating.user.loginName }}"><strong>{{ rating.user.displayName }}</strong></a>
-            <span class="post-date">{{ rating.creationTimestamp | timeDistance : locale }}</span>
-          </div>
-          <div>{{ rating.value }}</div>
-        </div>
-      </div>
-    </div>
-  </div>
-  <div style="display:none;">
-    <div ng-repeat="comment in post.comments" class="comment">
+<div style="display: none;" class="comment-block">
+    <div ng-repeat="comment in post._embedded.comments" class="comment">
       <div class="row">
         <div class="col-xs-1">
           <img ng-src="{{ getAvatar(comment.author, 'S') }}" class="img-circle" width="32px" height="32px">
@@ -26,7 +9,7 @@
             <a href="/#/@{{ comment.author.loginName }}"><strong>{{ comment.author.displayName }}</strong></a>
             <span class="post-date">{{ comment.creationTimestamp | timeDistance : locale }}</span>
             <span class="glyphicon glyphicon-remove pull-right remove-comment-btn"
-            ng-show="isOwner(comment.author.loginName)" ng-click="deleteComment(post, comment.id, $index, $event)"></span>
+            ng-show="comment._links.delete" ng-click="deleteComment(post, comment.id, $index, $event)"></span>
           </div>
           <div ng-bind-html="comment.content | hashtagger"></div>
         </div>
@@ -40,21 +23,4 @@
         </div>
       </form>
     </div>
-  </div>
-
-  <div class="row">
-    <div class="col-xs-6">
-      <a ng-click="toggleComments(post, $event)" href="#">
-        <span class="glyphicon glyphicon-comment" aria-hidden="true" style="vertical-align:middle"></span>
-        <span translate="comments{{translationSufix(post.comments.length)}}" translate-values="{ value: post.comments.length }" ></span>
-      </a>
-    </div>
-    <div class="col-xs-6">
-      <a ng-click="toggleRatings(post, $event)" href="#" class="pull-right">
-        <span class="glyphicon glyphicon-equalizer" aria-hidden="true"></span>
-        <span>{{ 'rating.colon' | translate }} {{ post.ratingSum }} ({{ post.ratingCount }})</span>
-      </a>
-    </div>
-  </div>
-
 </div>

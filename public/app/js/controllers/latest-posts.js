@@ -14,7 +14,12 @@ angular.module('myApp.controllers')
     $scope.loadPosts = function(){
       PostsService.loadLatestPosts($scope.fromIndex, function(posts){
         for (var i = 0; i < posts.length; i++) {
-            $scope.posts.push(posts[i]);
+          if(!posts[i]._embedded){
+            posts[i]._embedded = {
+              comments :[]
+            };
+          }
+          $scope.posts.push(posts[i]);
         }
         $scope.fromIndex = $scope.fromIndex + PostsService.pageSize;
       });

@@ -74,8 +74,8 @@ angular.module('myApp.services')
           from: from
         }
       }).
-      success(function(posts, status, headers, config) {
-          callback(posts);
+      success(function(data, status, headers, config) {
+          callback(data._embedded.posts);
       });
   }
 

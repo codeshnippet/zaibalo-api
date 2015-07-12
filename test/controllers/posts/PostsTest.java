@@ -64,15 +64,15 @@ public class PostsTest extends FunctionalTest {
 		assertContentType("application/json", response);
 		assertCharset("UTF-8", response);
 
-		List<PostResponse> postsList = new Gson().fromJson(response.out.toString(), new TypeToken<List<PostResponse>>() {
+		List<PostResource> postsList = new Gson().fromJson(response.out.toString(), new TypeToken<List<PostResource>>() {
 		}.getType());
 		assertEquals(2, postsList.size());
 		
-		PostResponse postOne = postsList.get(0);
+		PostResource postOne = postsList.get(0);
 		assertEquals("test content 1", postOne.content);
 		assertEquals(1, postOne.attachments.size());
 
-		PostResponse postTwo = postsList.get(1);
+		PostResource postTwo = postsList.get(1);
 		assertEquals("test content 2", postTwo.content);
 		assertEquals(0, postTwo.attachments.size());
 	}
@@ -83,7 +83,7 @@ public class PostsTest extends FunctionalTest {
 
 		Response response = GET("/posts?sort=created_at");
 
-		List<PostResponse> postsList = new Gson().fromJson(response.out.toString(), new TypeToken<List<PostResponse>>() {
+		List<PostResource> postsList = new Gson().fromJson(response.out.toString(), new TypeToken<List<PostResource>>() {
 		}.getType());
 		assertEquals(2, postsList.size());
 		assertEquals("test content 2", postsList.get(0).content);
@@ -96,7 +96,7 @@ public class PostsTest extends FunctionalTest {
 
 		Response response = GET("/posts?limit=1");
 
-		List<PostResponse> postsList = new Gson().fromJson(response.out.toString(), new TypeToken<List<PostResponse>>() {
+		List<PostResource> postsList = new Gson().fromJson(response.out.toString(), new TypeToken<List<PostResource>>() {
 		}.getType());
 		assertEquals(1, postsList.size());
 		assertEquals("test content 1", postsList.get(0).content);
@@ -108,7 +108,7 @@ public class PostsTest extends FunctionalTest {
 
 		Response response = GET("/posts?from=1&limit=1");
 
-		List<PostResponse> postsList = new Gson().fromJson(response.out.toString(), new TypeToken<List<PostResponse>>() {
+		List<PostResource> postsList = new Gson().fromJson(response.out.toString(), new TypeToken<List<PostResource>>() {
 		}.getType());
 		assertEquals(1, postsList.size());
 		assertEquals("test content 2", postsList.get(0).content);
@@ -122,7 +122,7 @@ public class PostsTest extends FunctionalTest {
 
 		Response response = GET("/posts/" + post.getId());
 		String responseBody = response.out.toString();
-		PostResponse json = new GsonBuilder().create().fromJson(responseBody, PostResponse.class);
+		PostResource json = new GsonBuilder().create().fromJson(responseBody, PostResource.class);
 		assertEquals(post.getId().longValue(), json.id);
 		assertEquals("test content 1", json.content);
 		assertEquals(post.author.id.longValue(), json.author.id);
@@ -195,7 +195,7 @@ public class PostsTest extends FunctionalTest {
 		post.refresh();
 		assertEquals("new post content", post.content);
 
-		PostResponse postResponse = new GsonBuilder().create().fromJson(response.out.toString(), PostResponse.class);
+		PostResource postResponse = new GsonBuilder().create().fromJson(response.out.toString(), PostResource.class);
 		assertEquals(Long.valueOf(post.id), Long.valueOf(postResponse.id));
 		assertEquals("new post content", postResponse.content);
 		assertNotNull(postResponse.author);
