@@ -10,9 +10,10 @@ import org.junit.Test;
 import play.mvc.Http.Response;
 import play.test.Fixtures;
 import play.test.FunctionalTest;
+import utils.HalGsonBuilder;
+import ch.halarious.core.HalResource;
 
 import com.google.gson.Gson;
-import com.google.gson.reflect.TypeToken;
 
 public class TaggedPostsTest extends FunctionalTest {
 	
@@ -27,8 +28,8 @@ public class TaggedPostsTest extends FunctionalTest {
 
 		Response response = GET("/posts/hashtag/tagged");
 
-		List<Post> postsList = new Gson().fromJson(response.out.toString(), new TypeToken<List<Post>>() {
-		}.getType());
+		List<PostResource> postsList = getPostsListFrom(response);
+		
 		assertEquals(2, postsList.size());
 		assertEquals("#tagged test content 1", postsList.get(0).content);
 		assertEquals("test content 4 #tagged.", postsList.get(1).content);
@@ -40,8 +41,8 @@ public class TaggedPostsTest extends FunctionalTest {
 
 		Response response = GET("/posts/hashtag/tagged?sort=created_at");
 
-		List<Post> postsList = new Gson().fromJson(response.out.toString(), new TypeToken<List<Post>>() {
-		}.getType());
+		List<PostResource> postsList = getPostsListFrom(response);
+		
 		assertEquals(2, postsList.size());
 		assertEquals("test content 4 #tagged.", postsList.get(0).content);
 		assertEquals("#tagged test content 1", postsList.get(1).content);
@@ -53,8 +54,8 @@ public class TaggedPostsTest extends FunctionalTest {
 
 		Response response = GET("/posts/hashtag/tagged?limit=1");
 
-		List<Post> postsList = new Gson().fromJson(response.out.toString(), new TypeToken<List<Post>>() {
-		}.getType());
+		List<PostResource> postsList = getPostsListFrom(response);
+		
 		assertEquals(1, postsList.size());
 		assertEquals("#tagged test content 1", postsList.get(0).content);
 	}
@@ -65,8 +66,8 @@ public class TaggedPostsTest extends FunctionalTest {
 
 		Response response = GET("/posts/hashtag/tagged?from=1&limit=1");
 
-		List<Post> postsList = new Gson().fromJson(response.out.toString(), new TypeToken<List<Post>>() {
-		}.getType());
+		List<PostResource> postsList = getPostsListFrom(response);
+		
 		assertEquals(1, postsList.size());
 		assertEquals("test content 4 #tagged.", postsList.get(0).content);
 	}
@@ -77,8 +78,8 @@ public class TaggedPostsTest extends FunctionalTest {
 
 		Response response = GET("/posts/hashtag/тег");
 
-		List<Post> postsList = new Gson().fromJson(response.out.toString(), new TypeToken<List<Post>>() {
-		}.getType());
+		List<PostResource> postsList = getPostsListFrom(response);
+		
 		assertEquals(1, postsList.size());
 		assertEquals("Ще одненький #тег українською", postsList.get(0).content);
 	}
@@ -89,5 +90,12 @@ public class TaggedPostsTest extends FunctionalTest {
 
 		Response response = GET("/posts/hashtag/tagged/count");
 		assertEquals("{\"count\":2}", response.out.toString());
+	}
+
+	private List<PostResource> getPostsListFrom(Response response) {
+		String responseBody = response.out.toString();
+		Gson gson = HalGsonBuilder.getDeserializerGson(PostsListResource.class);
+		PostsListResource postsListResource = (PostsListResource) gson.fromJson(responseBody, HalResource.class);
+		return postsListResource.posts;
 	}
 }

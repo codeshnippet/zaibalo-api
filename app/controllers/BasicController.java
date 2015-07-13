@@ -27,12 +27,12 @@ public class BasicController extends Controller {
     
     @Util
 	protected static String convertToHalResponse(HalBaseResource halResource) {
-		return new HalGsonBuilder().getGson().toJson(halResource, HalResource.class);
+		return new HalGsonBuilder().getSerializerGson().toJson(halResource, HalResource.class);
 	}
     
     @Util
 	protected static String convertToHalListResponse(List<? extends HalBaseResource> halResourcesList) {
     	Type type = new TypeToken<List<HalResource>>() {}.getType();
-		return new HalGsonBuilder().getGson().toJson(halResourcesList, type);
+		return new HalGsonBuilder().getSerializerGson().toJson(halResourcesList, type);
     }
 }

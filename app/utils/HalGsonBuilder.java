@@ -9,17 +9,18 @@ import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 
 public class HalGsonBuilder {
-	private Gson gson;
 
-	public HalGsonBuilder() {
+	public static Gson getDeserializerGson(Class clazz){
 		GsonBuilder builder = new GsonBuilder();
-		builder.registerTypeAdapter(HalResource.class, new HalSerializer());
-		builder.registerTypeAdapter(HalResource.class, new HalDeserializer(HalResource.class));
+		builder.registerTypeAdapter(HalResource.class, new HalDeserializer(clazz));
 		builder.setExclusionStrategies(new HalExclusionStrategy());
-		this.gson = builder.create();
+		return builder.create();
 	}
 
-	public Gson getGson(){
-		return this.gson;
+	public static Gson getSerializerGson(){
+		GsonBuilder builder = new GsonBuilder();
+		builder.registerTypeAdapter(HalResource.class, new HalSerializer());
+		builder.setExclusionStrategies(new HalExclusionStrategy());
+		return builder.create();
 	}
 }

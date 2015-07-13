@@ -12,7 +12,7 @@ import ch.halarious.core.HalLink;
 public class PostsListResource extends HalBaseResource {
 	
 	@HalEmbedded
-	public List<PostResource> posts;
+	public List<PostResource> posts = new ArrayList<PostResource>();
 	
 	@HalLink
 	public String add;

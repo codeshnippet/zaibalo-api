@@ -11,7 +11,10 @@ import play.mvc.Http.Response;
 import play.test.Fixtures;
 import play.test.FunctionalTest;
 import utils.HalGsonBuilder;
+import ch.halarious.core.HalDeserializer;
+import ch.halarious.core.HalExclusionStrategy;
 import ch.halarious.core.HalResource;
+import ch.halarious.core.HalSerializer;
 
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
@@ -66,16 +69,15 @@ public class PostsTest extends FunctionalTest {
 		assertContentType("application/json", response);
 		assertCharset("UTF-8", response);
 
-		String responseBody = response.out.toString();
-		Gson gson = new HalGsonBuilder().getGson();
-		PostsListResource postsListResource = (PostsListResource) new GsonBuilder().create().fromJson(responseBody, HalResource.class);
-		assertEquals(2, postsListResource.posts.size());
+		List<PostResource> postsList = getPostsListFrom(response);
 		
-		PostResource postOne = postsListResource.posts.get(0);
+		assertEquals(2, postsList.size());
+		
+		PostResource postOne = postsList.get(0);
 		assertEquals("test content 1", postOne.content);
 		assertEquals(1, postOne.attachments.size());
 
-		PostResource postTwo = postsListResource.posts.get(1);
+		PostResource postTwo = postsList.get(1);
 		assertEquals("test content 2", postTwo.content);
 		assertEquals(0, postTwo.attachments.size());
 	}
@@ -86,8 +88,7 @@ public class PostsTest extends FunctionalTest {
 
 		Response response = GET("/posts?sort=created_at");
 
-		List<PostResource> postsList = new Gson().fromJson(response.out.toString(), new TypeToken<List<PostResource>>() {
-		}.getType());
+		List<PostResource> postsList = getPostsListFrom(response);
 		assertEquals(2, postsList.size());
 		assertEquals("test content 2", postsList.get(0).content);
 		assertEquals("test content 1", postsList.get(1).content);
@@ -99,8 +100,7 @@ public class PostsTest extends FunctionalTest {
 
 		Response response = GET("/posts?limit=1");
 
-		List<PostResource> postsList = new Gson().fromJson(response.out.toString(), new TypeToken<List<PostResource>>() {
-		}.getType());
+		List<PostResource> postsList = getPostsListFrom(response);
 		assertEquals(1, postsList.size());
 		assertEquals("test content 1", postsList.get(0).content);
 	}
@@ -111,8 +111,7 @@ public class PostsTest extends FunctionalTest {
 
 		Response response = GET("/posts?from=1&limit=1");
 
-		List<PostResource> postsList = new Gson().fromJson(response.out.toString(), new TypeToken<List<PostResource>>() {
-		}.getType());
+		List<PostResource> postsList = getPostsListFrom(response);
 		assertEquals(1, postsList.size());
 		assertEquals("test content 2", postsList.get(0).content);
 	}
@@ -262,5 +261,12 @@ public class PostsTest extends FunctionalTest {
 			.send();
 
 		assertStatus(400, response);
+	}
+	
+	private List<PostResource> getPostsListFrom(Response response) {
+		String responseBody = response.out.toString();
+		Gson gson = HalGsonBuilder.getDeserializerGson(PostsListResource.class);
+		PostsListResource postsListResource = (PostsListResource) gson.fromJson(responseBody, HalResource.class);
+		return postsListResource.posts;
 	}
 }
