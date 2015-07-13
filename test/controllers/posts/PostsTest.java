@@ -10,6 +10,8 @@ import org.junit.Test;
 import play.mvc.Http.Response;
 import play.test.Fixtures;
 import play.test.FunctionalTest;
+import utils.HalGsonBuilder;
+import ch.halarious.core.HalResource;
 
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
@@ -64,15 +66,16 @@ public class PostsTest extends FunctionalTest {
 		assertContentType("application/json", response);
 		assertCharset("UTF-8", response);
 
-		List<PostResource> postsList = new Gson().fromJson(response.out.toString(), new TypeToken<List<PostResource>>() {
-		}.getType());
-		assertEquals(2, postsList.size());
+		String responseBody = response.out.toString();
+		Gson gson = new HalGsonBuilder().getGson();
+		PostsListResource postsListResource = (PostsListResource) new GsonBuilder().create().fromJson(responseBody, HalResource.class);
+		assertEquals(2, postsListResource.posts.size());
 		
-		PostResource postOne = postsList.get(0);
+		PostResource postOne = postsListResource.posts.get(0);
 		assertEquals("test content 1", postOne.content);
 		assertEquals(1, postOne.attachments.size());
 
-		PostResource postTwo = postsList.get(1);
+		PostResource postTwo = postsListResource.posts.get(1);
 		assertEquals("test content 2", postTwo.content);
 		assertEquals(0, postTwo.attachments.size());
 	}
@@ -128,7 +131,7 @@ public class PostsTest extends FunctionalTest {
 		assertEquals(post.author.id.longValue(), json.author.id);
 		assertEquals(post.author.getDisplayName(), json.author.displayName);
 		assertEquals(1238025600000l, json.creationTimestamp);
-		assertEquals(0, json.comments.size());
+		assertNull(json.comments);
 		assertEquals(2, json.ratingSum);
 		assertEquals(2, json.ratingCount);
 	}
