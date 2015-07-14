@@ -21,10 +21,8 @@ function($scope, $http, $routeParams, Avatar, $controller, PostsService) {
   });
 
   $scope.loadPosts = function(){
-    PostsService.loadPostsByUser($routeParams.login, $scope.fromIndex, function(posts){
-      for (var i = 0; i < posts.length; i++) {
-        $scope.posts.push(posts[i]);
-      }
+    PostsService.loadPostsByUser($routeParams.login, $scope.fromIndex, function(postsResource){
+      $scope.postsResource = postsResource;
       $scope.fromIndex = $scope.fromIndex + PostsService.pageSize;
     });
   }
