@@ -1,5 +1,5 @@
 <div>
-  <div ng-repeat="post in posts">
+  <div ng-repeat="post in postsResource._embedded.posts">
     <ng-include src="'/partials/single-post.html'"></ng-include>
   </div>
 

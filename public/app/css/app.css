@@ -25,7 +25,12 @@ a:hover, a:visited, a:link, a:active
 	margin-bottom: 5px;
 }
 
-.post-date {
+.date {
+	color: #666;
+	font-size: 12px;
+}
+
+.author-login {
 	color: #666;
 	font-size: 12px;
 }

@@ -6,8 +6,11 @@
         </div>
         <div class="col-xs-11">
           <div>
-            <a href="/#/@{{ comment.author.loginName }}"><strong>{{ comment.author.displayName }}</strong></a>
-            <span class="post-date">{{ comment.creationTimestamp | timeDistance : locale }}</span>
+            <a href="/#/@{{ comment.author.loginName }}">
+              <strong>{{ comment.author.displayName }}</strong>
+              <span class="author-login">@{{ post.author.loginName }}</span>
+            </a>
+            <span class="date">{{ comment.creationTimestamp | timeDistance : locale }}</span>
             <span class="glyphicon glyphicon-remove pull-right remove-comment-btn"
             ng-show="comment._links.delete" ng-click="deleteComment(post, comment.id, $index, $event)"></span>
           </div>
@@ -16,11 +19,18 @@
       </div>
     </div>
     <div ng-show="isUserLoggeIn()">
-      <form class="comment">
-        <div class="input-group">
-          <textarea id="new-comment-text" class="form-control custom-control" placeholder="{{ 'text' | translate }}" ng-model="post.newComment" rows="2" style="resize:none"></textarea>
-          <span ng-click="addComment(post)" class="input-group-addon btn btn-primary">{{ 'send' | translate }}</span>
+        <div class="row comment">
+          <div class="col-xs-1">
+            <img ng-src="{{ getAvatar(comment.author, 'S') }}" class="img-circle" width="32px" height="32px">
+          </div>
+          <div class="col-xs-11">
+            <form>
+              <div class="input-group">
+                <textarea id="new-comment-text" class="form-control custom-control" placeholder="{{ 'text' | translate }}" ng-model="post.newComment" rows="2" style="resize:none"></textarea>
+                <span ng-click="addComment(post)" class="input-group-addon btn btn-primary">{{ 'send' | translate }}</span>
+              </div>
+            </form>
+          </div>
         </div>
-      </form>
     </div>
 </div>

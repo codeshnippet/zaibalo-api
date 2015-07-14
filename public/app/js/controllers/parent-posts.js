@@ -5,21 +5,21 @@ angular.module('myApp.controllers')
 .controller('ParentPostsController', ['$scope', 'PostsService', 'UserService', function($scope, PostsService, UserService) {
 
   $scope.fromIndex = 0;
-  $scope.posts = [];
+  $scope.postsResource = [];
   $scope.postsCount;
 
   $scope.deletePost = function(postId, index, event){
     PostsService.deletePost(postId, function(){
-      $scope.posts.splice(index, 1);
+      $scope.postsResource._embedded.posts.splice(index, 1);
       $scope.postsCount--;
     });
 
     event.preventDefault();
   }
 
-  $scope.addPost = function(posts){
+  $scope.addPost = function(){
     PostsService.addPost($scope.newPost, function(post){
-      posts.unshift(post);
+      $scope.postsResource._embedded.posts.unshift(post);
     });
     this.newPost = "";
     $scope.fromIndex++;

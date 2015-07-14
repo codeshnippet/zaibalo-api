@@ -18,8 +18,11 @@
       </div>
       <div>
         <img ng-src="{{ getAvatar(post.author, 'S') }}" class="img-circle" width="32px" height="32px">
-        <a href="/#/@{{post.author.loginName}}"><strong>{{post.author.displayName}}</strong></a>
-        <span class="post-date">{{ post.creationTimestamp | timeDistance : locale }}</span>
+        <a href="/#/@{{post.author.loginName}}">
+          <strong>{{post.author.displayName}}</strong>
+          <span class="author-login">@{{ post.author.loginName }}</span>
+        </a>
+        <span class="date">{{ post.creationTimestamp | timeDistance : locale }}</span>
       </div>
     </div>
     <div class="panel-body">
