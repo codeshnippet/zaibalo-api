@@ -5,30 +5,31 @@ import java.io.InputStreamReader;
 import models.Comment;
 import models.Post;
 import models.User;
-import play.db.jpa.JPABase;
-import play.mvc.Controller;
 import play.mvc.Http.Header;
 import play.mvc.With;
 
 import com.google.gson.GsonBuilder;
 
+import controllers.BasicController;
 import controllers.security.Secured;
 import controllers.security.Security;
 
 @With(Security.class)
-public class Comments extends Controller {
+public class Comments extends BasicController {
 
     public static void getPostComments(long postId) {
+    	User user = Security.getAuthenticatedUser();
+    	
     	response.setContentTypeIfNotSet("application/json");
 
     	Post post = Post.findById(postId);
 
-    	renderJSON(CommentResponse.convertToCommentResponsesList(post.comments));
+    	renderJSON(CommentResponse.convertToCommentResponsesList(post.comments, user));
     }
 
 	@Secured
     public static void createPostComment(long postId) {
-    	User connected = Security.getAuthenticatedUser();
+    	User authUser = Security.getAuthenticatedUser();
     	Post post = Post.findById(postId);
 
 		CommentRequest commentJSON = new GsonBuilder().create().
@@ -39,7 +40,7 @@ public class Comments extends Controller {
 		}
 		
 		Comment comment = new Comment();
-		comment.author = connected;
+		comment.author = authUser;
 		comment.content = commentJSON.content;
 		comment.post = post;
 		comment.save();
@@ -47,7 +48,9 @@ public class Comments extends Controller {
 		String location = request.host + "/comments/" + comment.id;
 		response.headers.put("Location", new Header("Location", location));
 		response.status = 201;
-		renderJSON(CommentResponse.convertToCommentResponse(comment));
+		
+		CommentResponse commentResponse = CommentResponse.convertToCommentResponse(comment, authUser);
+		renderJSON(convertToHalResponse(commentResponse));
     }
 
     public static void getComment(long id) {

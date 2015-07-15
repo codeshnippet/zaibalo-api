@@ -1,7 +1,7 @@
 package controllers.users;
 
 import models.User;
-import controllers.posts.PostResponse;
+import controllers.posts.PostResource;
 
 public class UserResponse {
 

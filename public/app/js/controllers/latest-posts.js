@@ -12,10 +12,8 @@ angular.module('myApp.controllers')
     });
 
     $scope.loadPosts = function(){
-      PostsService.loadLatestPosts($scope.fromIndex, function(posts){
-        for (var i = 0; i < posts.length; i++) {
-            $scope.posts.push(posts[i]);
-        }
+      PostsService.loadLatestPosts($scope.fromIndex, function(postsResource){
+        $scope.postsResource = postsResource;
         $scope.fromIndex = $scope.fromIndex + PostsService.pageSize;
       });
     }

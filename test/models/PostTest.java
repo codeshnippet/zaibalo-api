@@ -34,13 +34,13 @@ public class PostTest extends UnitTest{
         Post post = Post.find("byContent", "test content 1").first();
         User user = User.findByLoginName("theresa");
 
-        assertEquals(3, post.getRatingCount());
-        assertEquals(1, post.getRatingSum());
+        assertEquals(Integer.valueOf(3), post.getRatingCount());
+        assertEquals(Integer.valueOf(1), post.getRatingSum());
 
         new PostRating(post, user, true).save();
 
         post.refresh();
-        assertEquals(4, post.getRatingCount());
-        assertEquals(2, post.getRatingSum());
+        assertEquals(Integer.valueOf(4), post.getRatingCount());
+        assertEquals(Integer.valueOf(2), post.getRatingSum());
     }
 }

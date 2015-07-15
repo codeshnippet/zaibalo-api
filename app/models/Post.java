@@ -26,7 +26,7 @@ import play.db.jpa.Model;
 
 @Entity
 @Table(name = "posts")
-public class Post extends Model {
+public class Post extends Model implements Ratable {
 
 	@Lob
 	@Type(type="org.hibernate.type.StringClobType")
@@ -49,7 +49,7 @@ public class Post extends Model {
 	public List<PostAttachment> attachments = new ArrayList<PostAttachment>();
 	
 	@OneToMany(mappedBy = "post", cascade=CascadeType.REMOVE)
-	private Set<PostRating> ratings = new HashSet<PostRating>();
+	public Set<PostRating> ratings = new HashSet<PostRating>();
 	
 	public Post(){
 		creationDate = new Date();
@@ -61,11 +61,11 @@ public class Post extends Model {
 		this.author = author;
 	}
 
-    public Object getRatingCount() {
+    public Integer getRatingCount() {
         return ratings.size();
     }
 
-    public Object getRatingSum() {
+    public Integer getRatingSum() {
         int sum = 0;
         for(PostRating postRating: ratings){
             if(postRating.isPositive()){
@@ -76,5 +76,20 @@ public class Post extends Model {
         }
         return sum;
     }
+
+	@Override
+	public boolean hasRating(User user, boolean isPositive) {
+		return PostRating.hasPostRating(this, user, isPositive);
+	}
+
+	@Override
+	public Rating getRating(User user, boolean isPositive) {
+		return PostRating.getPostRating(this, user, isPositive);
+	}
+
+	@Override
+	public Rating createRating(User user, boolean isPositive) {
+		return new PostRating(this, user, isPositive);
+	}
 
 }

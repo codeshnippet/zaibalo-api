@@ -9,7 +9,7 @@ angular.module('myApp.controllers')
       var json = JSON.stringify({ content : post.newComment });
       $http.post('/posts/' + post.id + '/comments', json).
         success(function(data, status, headers, config) {
-        	post.comments.push(data);
+        	post._embedded.comments.push(data);
         });
 
       post.newComment = "";
@@ -19,23 +19,19 @@ angular.module('myApp.controllers')
       return Avatar(user, size);
     }
 
-    $scope.toggleComments = function(post, event){
-      if (post.comments.length > 0 || $scope.isUserLoggeIn()) {
-        $(event.target).parent().prev().slideToggle(500);
-      }
-      event.preventDefault();
-    }
-
     $scope.deleteComment = function(post, commentId, index, event){
       $http.delete('/comments/' + commentId).
         success(function(data, status, headers, config) {
-          post.comments.splice(index, 1);
+          post._embedded.comments.splice(index, 1);
         });
 
       event.preventDefault();
     }
 
     $scope.translationSufix = function(number){
+      if(number == undefined){
+        number = 0;
+      }
        if((number-number%10)%100!=10){
          if(number%10==1){
            return 1;
@@ -48,5 +44,4 @@ angular.module('myApp.controllers')
          return 5;
        }
      };
-
 }]);

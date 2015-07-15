@@ -1,0 +1,16 @@
+<div style="display: none;" class="post-rating-block">
+<div ng-repeat="rating in post.ratings" class="comment">
+    <div class="row">
+      <div class="col-xs-1">
+        <img ng-src="{{ getAvatar(rating.user, 'S') }}" class="img-circle" width="32px" height="32px">
+      </div>
+      <div class="col-xs-11">
+        <div>
+          <a href="/#/@{{ rating.user.loginName }}"><strong>{{ rating.user.displayName }}</strong></a>
+          <span class="date">{{ rating.creationTimestamp | timeDistance : locale }}</span>
+        </div>
+        <div>{{ rating.value }}</div>
+      </div>
+    </div>
+</div>
+</div>

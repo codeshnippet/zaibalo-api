@@ -16,6 +16,7 @@ import controllers.ContentType;
 import controllers.HttpMethod;
 import controllers.RequestBuilder;
 import controllers.posts.PostRequest;
+import controllers.rating.RatingRequest;
 
 public class PostRatingsTest
     extends FunctionalTest {
@@ -55,10 +56,8 @@ public class PostRatingsTest
         assertEquals(false, postRating.isPositive());
 
         post.refresh();
-        assertEquals(4, post.getRatingCount());
-        assertEquals(0, post.getRatingSum());
-
-        assertHeaderEquals("Location", newRequest().host + "/post-ratings/" + postRating.id, response);
+        assertEquals(Integer.valueOf(4), post.getRatingCount());
+        assertEquals(Integer.valueOf(0), post.getRatingSum());
 
     }
 
@@ -69,7 +68,7 @@ public class PostRatingsTest
 
         Response response = POST("/posts/" + post.id + "/post-ratings", "application/json", new GsonBuilder()
             .create()
-            .toJson(new PostRatingRequest(true)));
+            .toJson(new RatingRequest(true)));
 
         assertStatus(401, response);
     }
@@ -89,8 +88,8 @@ public class PostRatingsTest
         assertStatus(204, response);
 
         post.refresh();
-        assertEquals(2, post.getRatingCount());
-        assertEquals(0, post.getRatingSum());
+        assertEquals(Integer.valueOf(2), post.getRatingCount());
+        assertEquals(Integer.valueOf(0), post.getRatingSum());
     }
 
     @Test
@@ -109,7 +108,7 @@ public class PostRatingsTest
         assertContentEquals("POST_RATE_EXISTS", response);
 
         post.refresh();
-        assertEquals(3, post.getRatingCount());
-        assertEquals(1, post.getRatingSum());
+        assertEquals(Integer.valueOf(3), post.getRatingCount());
+        assertEquals(Integer.valueOf(1), post.getRatingSum());
     }
 }

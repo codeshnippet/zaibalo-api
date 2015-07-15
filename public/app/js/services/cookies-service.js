@@ -26,7 +26,7 @@ angular.module('myApp.services')
   }
 
   self.removeAuthCookies = function(){
-    delete $cookies.get('username');
-    delete $cookies.get('token');
+    $cookies.remove('username');
+    $cookies.remove('token');
   }
 }]);

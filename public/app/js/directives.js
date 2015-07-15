@@ -21,6 +21,15 @@ angular.module('myApp.directives', [])
 	};
 })
 
+.directive('postRatings', function() {
+	return {
+		restrict : 'E',
+		templateUrl : 'partials/post-ratings.html',
+		replace : true,
+		controller: 'PostRatingsController'
+	};
+})
+
 .directive('googleSignIn', function() {
 	return {
 		restrict : 'E',

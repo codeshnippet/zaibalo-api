@@ -1,39 +1,36 @@
-<div>
-
-  <div style="display:none;">
-    <div ng-repeat="comment in post.comments" class="comment">
+<div style="display: none;" class="comment-block">
+    <div ng-repeat="comment in post._embedded.comments" class="comment">
       <div class="row">
         <div class="col-xs-1">
           <img ng-src="{{ getAvatar(comment.author, 'S') }}" class="img-circle" width="32px" height="32px">
         </div>
         <div class="col-xs-11">
           <div>
-            <a href="/#/@{{comment.author.loginName}}"><strong>{{comment.author.displayName}}</strong></a>
-            <span class="post-date">{{ comment.creationTimestamp | timeDistance : locale }}</span>
+            <a href="/#/@{{ comment.author.loginName }}">
+              <strong>{{ comment.author.displayName }}</strong>
+              <span class="author-login">@{{ post.author.loginName }}</span>
+            </a>
+            <span class="date">{{ comment.creationTimestamp | timeDistance : locale }}</span>
             <span class="glyphicon glyphicon-remove pull-right remove-comment-btn"
-            ng-show="isOwner(comment.author.loginName)" ng-click="deleteComment(post, comment.id, $index, $event)"></span>
+            ng-show="comment._links.delete" ng-click="deleteComment(post, comment.id, $index, $event)"></span>
           </div>
           <div ng-bind-html="comment.content | hashtagger"></div>
         </div>
       </div>
     </div>
-
-    <div class="row" ng-show="isUserLoggeIn()">
-      <form ng-submit="addComment(post)" class="col-xs-12">
-        <div class="form-group">
-          <textarea id="new-comment-text" class="form-control" placeholder="{{ 'text' | translate }}" ng-model="post.newComment"></textarea>
+    <div ng-show="isUserLoggeIn()">
+        <div class="row comment">
+          <div class="col-xs-1">
+            <img ng-src="{{ getAvatar(comment.author, 'S') }}" class="img-circle" width="32px" height="32px">
+          </div>
+          <div class="col-xs-11">
+            <form>
+              <div class="input-group">
+                <textarea id="new-comment-text" class="form-control custom-control" placeholder="{{ 'text' | translate }}" ng-model="post.newComment" rows="2" style="resize:none"></textarea>
+                <span ng-click="addComment(post)" class="input-group-addon btn btn-primary">{{ 'send' | translate }}</span>
+              </div>
+            </form>
+          </div>
         </div>
-        <div class="form-group clearfix">
-          <button class="btn btn-default pull-right">{{ 'send' | translate }}</button>
-        </div>
-      </form>
     </div>
-
-  </div>
-
-  <a class="pull-left" ng-click="toggleComments(post, $event)" href="#">
-    <span class="glyphicon glyphicon-comment" aria-hidden="true" style="vertical-align:middle"></span>
-    <span translate="comments{{translationSufix(post.comments.length)}}" translate-values="{ value: post.comments.length }" ></span>
-  </a>
-
 </div>

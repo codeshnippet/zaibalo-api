@@ -1,0 +1,18 @@
+<div>
+  <div class="row" ng-show="isUserLoggeIn()">
+    <div class="col-xs-1">
+      <img ng-src="{{ getAvatar(post.author, 'S') }}" class="img-circle" width="32px" height="32px">
+    </div>
+    <div class="col-xs-11">
+      <form>
+    		<div class="form-group input-group">
+    			<textarea id="new-post-text" class="form-control custom-control" placeholder="{{ 'text' | translate }}" ng-model="newPost" rows="2" style="resize:none"></textarea>
+          <span ng-click="addPost()" class="input-group-addon btn btn-primary">{{ 'send' | translate }}</span>
+    		</div>
+    	</form>
+    </div>
+  </div>
+
+  <ng-include src="'/partials/posts.html'"></ng-include>
+
+</div>

@@ -18,8 +18,11 @@
       </div>
       <div>
         <img ng-src="{{ getAvatar(post.author, 'S') }}" class="img-circle" width="32px" height="32px">
-        <a href="/#/@{{post.author.loginName}}"><strong>{{post.author.displayName}}</strong></a>
-        <span class="post-date">{{ post.creationTimestamp | timeDistance : locale }}</span>
+        <a href="/#/@{{post.author.loginName}}">
+          <strong>{{post.author.displayName}}</strong>
+          <span class="author-login">@{{ post.author.loginName }}</span>
+        </a>
+        <span class="date">{{ post.creationTimestamp | timeDistance : locale }}</span>
       </div>
     </div>
     <div class="panel-body">
@@ -28,8 +31,23 @@
       </div>
       <div class="post-content" ng-bind-html="post.content | hashtagger"></div>
     </div>
-    <div class="panel-footer clearfix">
+    <div class="panel-footer clearfix comment-rating-block">
+      <post-ratings></post-ratings>
       <comments></comments>
+      <div class="row">
+        <div class="col-xs-6">
+          <a ng-click="toggleComments(post, $event)" href="#">
+            <span class="glyphicon glyphicon-comment" aria-hidden="true" style="vertical-align:middle"></span>
+            <span translate="comments{{ translationSufix(post._embedded.comments.length) }}" translate-values="{ value: post._embedded.comments.length }" ></span>
+          </a>
+        </div>
+        <div class="col-xs-6">
+          <a ng-click="toggleRatings(post, $event)" href="#" class="pull-right">
+            <span class="glyphicon glyphicon-equalizer" aria-hidden="true"></span>
+            <span>{{ 'rating.colon' | translate }} {{ post.ratingSum }} ({{ post.ratingCount }})</span>
+          </a>
+        </div>
+      </div>
     </div>
   </div>
 

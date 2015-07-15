@@ -14,6 +14,14 @@ User(bill):
     password:         secret
     token:            secret_token_321
 
+User(joe):
+    displayName:      Joey
+    email:            joe@mail.com
+    registrationDate: 2009-03-28
+    loginName:        joey
+    password:         secret
+    token:            secret_token_456
+
 Post(postOne):
     content:      test content 1
     author:       frank
@@ -27,3 +35,15 @@ Post(postTwo):
 PostAttachment(attachment):
     url:  www.url.com
     post: postOne
+
+PostRating(postRating1):
+    creationDate : 2009-03-26
+    user         : bill
+    post         : postOne
+    value        : 1
+
+PostRating(postRating2):
+    creationDate : 2009-03-26
+    user         : joe
+    post         : postOne
+    value        : 1

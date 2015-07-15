@@ -11,6 +11,8 @@ import org.junit.Test;
 import play.mvc.Http.Response;
 import play.test.Fixtures;
 import play.test.FunctionalTest;
+import utils.HalGsonBuilder;
+import ch.halarious.core.HalResource;
 
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
@@ -19,6 +21,8 @@ import com.google.gson.reflect.TypeToken;
 import controllers.ContentType;
 import controllers.HttpMethod;
 import controllers.RequestBuilder;
+import controllers.posts.PostResource;
+import controllers.posts.PostsListResource;
 
 public class UsersTest extends FunctionalTest {
 
@@ -206,8 +210,7 @@ public class UsersTest extends FunctionalTest {
 		
 		Response response = GET("/users/" + franky.loginName + "/posts");
 
-		List<Post> postsList = new Gson().fromJson(response.out.toString(), new TypeToken<List<Post>>() {
-		}.getType());
+		List<PostResource> postsList = getPostsListFrom(response);
 		assertEquals(2, postsList.size());
 		assertEquals("test content 1", postsList.get(0).content);
 		assertEquals("test content 3", postsList.get(1).content);
@@ -236,5 +239,12 @@ public class UsersTest extends FunctionalTest {
 		userRequest.displayName = displayName;
 		userRequest.email = email;
 		return userRequest;
+	}
+	
+	private List<PostResource> getPostsListFrom(Response response) {
+		String responseBody = response.out.toString();
+		Gson gson = HalGsonBuilder.getDeserializerGson(PostsListResource.class);
+		PostsListResource postsListResource = (PostsListResource) gson.fromJson(responseBody, HalResource.class);
+		return postsListResource.posts;
 	}
 }

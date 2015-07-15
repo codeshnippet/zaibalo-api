@@ -6,5 +6,5 @@ This is a template for a web application that uses the Play Framework. The sampl
 
 Make sure your play framework install directory is on your path. Then navigate to the application directory and run the app with:
 
-$play run
+$play run 
 

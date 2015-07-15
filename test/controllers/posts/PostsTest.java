@@ -10,6 +10,11 @@ import org.junit.Test;
 import play.mvc.Http.Response;
 import play.test.Fixtures;
 import play.test.FunctionalTest;
+import utils.HalGsonBuilder;
+import ch.halarious.core.HalDeserializer;
+import ch.halarious.core.HalExclusionStrategy;
+import ch.halarious.core.HalResource;
+import ch.halarious.core.HalSerializer;
 
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
@@ -64,15 +69,15 @@ public class PostsTest extends FunctionalTest {
 		assertContentType("application/json", response);
 		assertCharset("UTF-8", response);
 
-		List<PostResponse> postsList = new Gson().fromJson(response.out.toString(), new TypeToken<List<PostResponse>>() {
-		}.getType());
+		List<PostResource> postsList = getPostsListFrom(response);
+		
 		assertEquals(2, postsList.size());
 		
-		PostResponse postOne = postsList.get(0);
+		PostResource postOne = postsList.get(0);
 		assertEquals("test content 1", postOne.content);
 		assertEquals(1, postOne.attachments.size());
 
-		PostResponse postTwo = postsList.get(1);
+		PostResource postTwo = postsList.get(1);
 		assertEquals("test content 2", postTwo.content);
 		assertEquals(0, postTwo.attachments.size());
 	}
@@ -83,8 +88,7 @@ public class PostsTest extends FunctionalTest {
 
 		Response response = GET("/posts?sort=created_at");
 
-		List<PostResponse> postsList = new Gson().fromJson(response.out.toString(), new TypeToken<List<PostResponse>>() {
-		}.getType());
+		List<PostResource> postsList = getPostsListFrom(response);
 		assertEquals(2, postsList.size());
 		assertEquals("test content 2", postsList.get(0).content);
 		assertEquals("test content 1", postsList.get(1).content);
@@ -96,8 +100,7 @@ public class PostsTest extends FunctionalTest {
 
 		Response response = GET("/posts?limit=1");
 
-		List<PostResponse> postsList = new Gson().fromJson(response.out.toString(), new TypeToken<List<PostResponse>>() {
-		}.getType());
+		List<PostResource> postsList = getPostsListFrom(response);
 		assertEquals(1, postsList.size());
 		assertEquals("test content 1", postsList.get(0).content);
 	}
@@ -108,8 +111,7 @@ public class PostsTest extends FunctionalTest {
 
 		Response response = GET("/posts?from=1&limit=1");
 
-		List<PostResponse> postsList = new Gson().fromJson(response.out.toString(), new TypeToken<List<PostResponse>>() {
-		}.getType());
+		List<PostResource> postsList = getPostsListFrom(response);
 		assertEquals(1, postsList.size());
 		assertEquals("test content 2", postsList.get(0).content);
 	}
@@ -122,13 +124,15 @@ public class PostsTest extends FunctionalTest {
 
 		Response response = GET("/posts/" + post.getId());
 		String responseBody = response.out.toString();
-		PostResponse json = new GsonBuilder().create().fromJson(responseBody, PostResponse.class);
+		PostResource json = new GsonBuilder().create().fromJson(responseBody, PostResource.class);
 		assertEquals(post.getId().longValue(), json.id);
 		assertEquals("test content 1", json.content);
 		assertEquals(post.author.id.longValue(), json.author.id);
 		assertEquals(post.author.getDisplayName(), json.author.displayName);
 		assertEquals(1238025600000l, json.creationTimestamp);
-		assertEquals(0, json.comments.size());
+		assertNull(json.comments);
+		assertEquals(2, json.ratingSum);
+		assertEquals(2, json.ratingCount);
 	}
 
 	@Test
@@ -193,7 +197,7 @@ public class PostsTest extends FunctionalTest {
 		post.refresh();
 		assertEquals("new post content", post.content);
 
-		PostResponse postResponse = new GsonBuilder().create().fromJson(response.out.toString(), PostResponse.class);
+		PostResource postResponse = new GsonBuilder().create().fromJson(response.out.toString(), PostResource.class);
 		assertEquals(Long.valueOf(post.id), Long.valueOf(postResponse.id));
 		assertEquals("new post content", postResponse.content);
 		assertNotNull(postResponse.author);
@@ -257,5 +261,12 @@ public class PostsTest extends FunctionalTest {
 			.send();
 
 		assertStatus(400, response);
+	}
+	
+	private List<PostResource> getPostsListFrom(Response response) {
+		String responseBody = response.out.toString();
+		Gson gson = HalGsonBuilder.getDeserializerGson(PostsListResource.class);
+		PostsListResource postsListResource = (PostsListResource) gson.fromJson(responseBody, HalResource.class);
+		return postsListResource.posts;
 	}
 }

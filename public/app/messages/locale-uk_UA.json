@@ -42,5 +42,6 @@
   "login.fail.password.required": "Помилка: Пароль не може бути пустим",
   "registration.fail.username.required" : "Помилка реєстрації: Ім'я користувача не може бути пустим",
   "registration.fail.password.required" : "Помилка реєстрації: Пароль не може бути пустим",
-  "registration.fail.username.not.free" : "Помилка реєстрації: Ім'я користувача зайнято"
+  "registration.fail.username.not.free" : "Помилка реєстрації: Ім'я користувача зайнято",
+  "rating.colon" : "Рейтинг:"
 }
