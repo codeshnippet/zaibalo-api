@@ -39,7 +39,7 @@ public class Login extends BasicController {
 	}
 	
 	private static void success(User user) {
-		renderJSON(LoginResponse.convertToJson(user));
+		renderJSON(LoginResource.convertToJson(user));
 	}
 
 	private static void failure(String errorMessage) {

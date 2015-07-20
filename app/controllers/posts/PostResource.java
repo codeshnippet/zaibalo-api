@@ -15,22 +15,22 @@ import ch.halarious.core.HalResource;
 
 import com.google.gson.reflect.TypeToken;
 
-import controllers.comments.CommentResponse;
-import controllers.rating.RatingResponse;
-import controllers.users.UserResponse;
+import controllers.comments.CommentResource;
+import controllers.rating.RatingResource;
+import controllers.users.UserResource;
 
 public class PostResource extends HalBaseResource {
 
 	public long id;
 	public String content;
-	public UserResponse author;
+	public UserResource author;
 	public long creationTimestamp;
 	
 	@HalEmbedded
-	public List<CommentResponse> comments;
+	public List<CommentResource> comments;
 	
 	public List<PostAttachmentResponse> attachments;
-	public Set<RatingResponse> ratings;
+	public Set<RatingResource> ratings;
 	public int ratingSum;
 	public int ratingCount;
 
@@ -42,11 +42,11 @@ public class PostResource extends HalBaseResource {
 		postResponseJSON.id = post.id;
 		postResponseJSON.content = post.content;
 		postResponseJSON.creationTimestamp = post.creationDate.getTime();
-		UserResponse userResponseJSON = UserResponse.convertToJson(post.author);
+		UserResource userResponseJSON = UserResource.convertToJson(post.author);
 		postResponseJSON.author = userResponseJSON;
-		postResponseJSON.comments = CommentResponse.convertToCommentResponsesList(post.comments, authUser);
+		postResponseJSON.comments = CommentResource.convertToCommentResponsesList(post.comments, authUser);
 		postResponseJSON.attachments = PostAttachmentResponse.convertToPostAttachmentListResponse(post.attachments);
-		postResponseJSON.ratings = RatingResponse.convertToPostRatingListResponse(post.ratings);
+		postResponseJSON.ratings = RatingResource.convertToPostRatingListResponse(post.ratings);
 		postResponseJSON.ratingCount = post.getRatingCount();
 		postResponseJSON.ratingSum = post.getRatingSum();
 

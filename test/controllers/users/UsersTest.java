@@ -52,7 +52,7 @@ public class UsersTest extends FunctionalTest {
 
 		assertIsOk(response);
 		assertContentType(APPLICATION_JSON, response);
-		UserResponse userResponse = new Gson().fromJson(response.out.toString(), UserResponse.class);
+		UserResource userResponse = new Gson().fromJson(response.out.toString(), UserResource.class);
 		assertEquals(Long.valueOf(user.id), Long.valueOf(userResponse.id));
 		assertEquals("Superman", userResponse.displayName);
 		assertEquals("franky", userResponse.loginName);
@@ -149,7 +149,7 @@ public class UsersTest extends FunctionalTest {
 		assertEquals("moondance@gmail.com", user.email);
 		assertEquals("Mike", user.loginName);
 		
-		UserResponse userResponse = new GsonBuilder().create().fromJson(response.out.toString(), UserResponse.class);
+		UserResource userResponse = new GsonBuilder().create().fromJson(response.out.toString(), UserResource.class);
 		assertEquals(Long.valueOf(user.id), Long.valueOf(userResponse.id));
 		assertEquals("Jackson", userResponse.displayName);
 	}

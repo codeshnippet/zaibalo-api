@@ -7,13 +7,13 @@ import models.Comment;
 import models.User;
 import ch.halarious.core.HalBaseResource;
 import ch.halarious.core.HalLink;
-import controllers.users.UserResponse;
+import controllers.users.UserResource;
 
-public class CommentResponse extends HalBaseResource {
+public class CommentResource extends HalBaseResource {
 
 	public long id;
 	public String content;
-	public UserResponse author;
+	public UserResource author;
 	public long creationTimestamp;
 	public int ratingSum;
 	public int ratingCount;
@@ -21,19 +21,19 @@ public class CommentResponse extends HalBaseResource {
 	@HalLink(name = "delete")
 	public String deleteLink;
 	
-	public static List<CommentResponse> convertToCommentResponsesList(List<Comment> commentsList, User authUser) {
-		List<CommentResponse> commentResponsesList = new ArrayList<CommentResponse>();
+	public static List<CommentResource> convertToCommentResponsesList(List<Comment> commentsList, User authUser) {
+		List<CommentResource> commentResponsesList = new ArrayList<CommentResource>();
 		for(Comment comment: commentsList){
 			commentResponsesList.add(convertToCommentResponse(comment, authUser));
 		}
 		return commentResponsesList;
 	}
 
-	public static CommentResponse convertToCommentResponse(Comment comment, User authUser){
-		CommentResponse commentResponse = new CommentResponse();
+	public static CommentResource convertToCommentResponse(Comment comment, User authUser){
+		CommentResource commentResponse = new CommentResource();
 		commentResponse.id = comment.id;
 		commentResponse.content = comment.content;
-		commentResponse.author = UserResponse.convertToJson(comment.author);
+		commentResponse.author = UserResource.convertToJson(comment.author);
 		commentResponse.creationTimestamp = comment.creationDate.getTime();
 		commentResponse.ratingCount = comment.getRatingCount();
 		commentResponse.ratingSum = comment.getRatingSum();

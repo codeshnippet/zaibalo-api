@@ -13,7 +13,7 @@ import play.mvc.With;
 import com.google.gson.GsonBuilder;
 
 import controllers.BasicController;
-import controllers.authentication.LoginResponse;
+import controllers.authentication.LoginResource;
 import controllers.posts.Posts;
 import controllers.security.Secured;
 import controllers.security.Security;
@@ -44,7 +44,7 @@ public class Users extends BasicController {
 		response.headers.put("Location", new Header("Location", location));
 
 		response.status = 201;
-		renderJSON(LoginResponse.convertToJson(user));
+		renderJSON(LoginResource.convertToJson(user));
 	}
 
 	public static void getUserByLogin(String loginName) {
@@ -53,7 +53,7 @@ public class Users extends BasicController {
 			notFound();
 		}
 		response.setContentTypeIfNotSet("application/json");
-		renderJSON(UserResponse.convertToJson(user));
+		renderJSON(UserResource.convertToJson(user));
 	}
 
 	@Secured
@@ -71,7 +71,7 @@ public class Users extends BasicController {
 		user.save();
 
 		response.setContentTypeIfNotSet("application/json");
-		renderJSON(UserResponse.convertToJson(user));
+		renderJSON(UserResource.convertToJson(user));
 	}
 
 	public static void getUserPostsCount(String loginName) {

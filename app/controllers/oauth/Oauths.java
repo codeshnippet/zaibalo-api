@@ -9,7 +9,7 @@ import play.mvc.Controller;
 
 import com.google.gson.GsonBuilder;
 
-import controllers.authentication.LoginResponse;
+import controllers.authentication.LoginResource;
 
 public class Oauths extends Controller {
 
@@ -30,7 +30,7 @@ public class Oauths extends Controller {
 			oauth.save();
 		}
 
-		renderJSON(LoginResponse.convertToJson(oauth.user));
+		renderJSON(LoginResource.convertToJson(oauth.user));
 	}
 
 }

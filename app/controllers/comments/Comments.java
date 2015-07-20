@@ -24,7 +24,7 @@ public class Comments extends BasicController {
 
     	Post post = Post.findById(postId);
 
-    	renderJSON(CommentResponse.convertToCommentResponsesList(post.comments, user));
+    	renderJSON(CommentResource.convertToCommentResponsesList(post.comments, user));
     }
 
 	@Secured
@@ -49,7 +49,7 @@ public class Comments extends BasicController {
 		response.headers.put("Location", new Header("Location", location));
 		response.status = 201;
 		
-		CommentResponse commentResponse = CommentResponse.convertToCommentResponse(comment, authUser);
+		CommentResource commentResponse = CommentResource.convertToCommentResponse(comment, authUser);
 		renderJSON(convertToHalResponse(commentResponse));
     }
 
