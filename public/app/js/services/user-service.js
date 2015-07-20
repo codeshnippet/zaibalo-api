@@ -3,7 +3,7 @@
 /* Services */
 
 angular.module('myApp.services')
-.service('UserService', ['$http', 'CookiesService', '$location', function($http, CookiesService, $location){
+.service('UserService', ['$http', 'CookiesService', '$location', 'Avatar', function($http, CookiesService, $location, Avatar){
   var self = this;
 
   self.loginSocial = function(id, provider, name, email, photo){
@@ -39,7 +39,7 @@ angular.module('myApp.services')
   };
 
   self.authenticate = function(data){
-    CookiesService.saveAuthCookies(data.user.loginName, data.token);
+    CookiesService.saveAuthCookies(data.user.loginName, data.token, Avatar(data.user, 'S'));
   };
 
   self.logout = function(){
@@ -58,6 +58,10 @@ angular.module('myApp.services')
 
   self.getUsername = function(){
     return CookiesService.getUsername();
+  }
+  
+  self.getAvatarUrl = function(){
+	return CookiesService.getAvatarUrl();
   }
 
   self.registerUser = function(loginName, password, success, error){

@@ -48,5 +48,9 @@ angular.module('myApp.controllers')
     }
     event.preventDefault();
   }
+  
+  $scope.getAvatarUrl = function(){
+	  return UserService.getAvatarUrl();
+  }
 
 }]);

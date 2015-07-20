@@ -6,19 +6,28 @@ angular.module('myApp.services')
 .service("CookiesService", ['$cookies', function($cookies){
   var self = this;
 
-  self.saveAuthCookies = function(username, token){
+  var TOKEN = 'token';
+  var USERNAME = 'username';
+  var AVATAR_URL = 'avatar-url';
+  
+  self.saveAuthCookies = function(username, token, avatarUrl){
     var expireDate = new Date();
     expireDate.setDate(expireDate.getDate() + 90);
-    $cookies.put('username', username, {'expires': expireDate});
-    $cookies.put('token', token, {'expires': expireDate});
+    $cookies.put(USERNAME, username, {'expires': expireDate});
+    $cookies.put(TOKEN, token, {'expires': expireDate});
+    $cookies.put(AVATAR_URL, avatarUrl, {'expires': expireDate});
   }
 
   self.getToken = function(){
-    return $cookies.get('token');
+    return $cookies.get(TOKEN);
   }
 
   self.getUsername = function(){
-    return $cookies.get('username');
+    return $cookies.get(USERNAME);
+  }
+  
+  self.getAvatarUrl = function(){
+    return $cookies.get(AVATAR_URL);
   }
 
   self.isUserLoggedIn = function(){
@@ -26,7 +35,8 @@ angular.module('myApp.services')
   }
 
   self.removeAuthCookies = function(){
-    $cookies.remove('username');
-    $cookies.remove('token');
+    $cookies.remove(USERNAME);
+    $cookies.remove(TOKEN);
+    $cookies.remove(AVATAR_URL);
   }
 }]);
