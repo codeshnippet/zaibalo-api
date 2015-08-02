@@ -13,7 +13,7 @@ import play.mvc.With;
 import com.google.gson.GsonBuilder;
 
 import controllers.BasicController;
-import controllers.authentication.LoginResource;
+import controllers.authentication.LoginDTO;
 import controllers.posts.Posts;
 import controllers.security.Secured;
 import controllers.security.Security;
@@ -44,7 +44,7 @@ public class Users extends BasicController {
 		response.headers.put("Location", new Header("Location", location));
 
 		response.status = 201;
-		renderJSON(LoginResource.convertToJson(user));
+		renderJSON(LoginDTO.toDTO(user));
 	}
 
 	public static void getUserByLogin(String loginName) {
