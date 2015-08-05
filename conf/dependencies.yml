@@ -3,8 +3,8 @@
 require:
     - play
     - ch.halarious -> halarious-core 0.13
-    - com.google.api.client -> google-api-client 1.4.1-beta
-    - com.google.apis -> google-api-services-oauth2 v2-rev65-1.17.0-rc
+    - com.google.api.client -> google-api-client 1.20.0
+    - com.google.apis -> google-api-services-oauth2 v2-rev93-1.20.0
 
 repositories:
     - jboss:
