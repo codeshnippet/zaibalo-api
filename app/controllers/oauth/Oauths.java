@@ -11,7 +11,7 @@ import services.OauthServiceImpl;
 
 import com.google.gson.GsonBuilder;
 
-import controllers.authentication.LoginResource;
+import controllers.authentication.LoginDTO;
 
 public class Oauths extends Controller {
 
@@ -32,7 +32,7 @@ public class Oauths extends Controller {
 			oauth.save();
 		}
 
-		renderJSON(LoginResource.convertToJson(oauth.user));
+		renderJSON(LoginDTO.toDTO(oauth.user));
 	}
 
 }

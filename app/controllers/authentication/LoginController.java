@@ -11,7 +11,9 @@ import com.google.gson.GsonBuilder;
 
 import controllers.BasicController;
 
-public class Login extends BasicController {
+import static controllers.authentication.LoginDTO.toDTO;
+
+public class LoginController extends BasicController {
 
 	public static void login(){
 		LoginRequest loginRequest = new GsonBuilder().create().
@@ -39,7 +41,7 @@ public class Login extends BasicController {
 	}
 	
 	private static void success(User user) {
-		renderJSON(LoginResource.convertToJson(user));
+		renderJSON(toDTO(user));
 	}
 
 	private static void failure(String errorMessage) {

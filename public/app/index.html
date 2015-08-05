@@ -11,19 +11,25 @@
     </head>
 
     <body>
-    	<div class="container">
-			<navigation-bar></navigation-bar>
-			
+    	<navigation-bar></navigation-bar>
+    	
+    	<div class="container">	
 			<div class="row">
 				<div class="col-md-offset-2 col-md-8 col-xs-12" ng-view></div>
 			</div>
-    	
-			<footer class="footer">
-				<button class="btn btn-xs text-muted pull-right" ng-click="toggleLanguage()" translate="switch"></button>
-			</footer>
 		</div>
-		
-        <div id="fb-root"></div>
+
+		<footer class="footer">
+			<div class="container">	
+				<div class="row">
+					<div class="col-md-offset-2 col-md-8 col-xs-12">
+						<button class="btn btn-xs text-muted pull-right" ng-click="toggleLanguage()" translate="switch"></button>
+					</div>
+				</div>
+			</div>	
+		</footer>
+
+		<div id="fb-root"></div>
 
         <script src="/public/app/lib/jquery/jquery-1.11.2.js"></script>
         <script src="/public/app/lib/bootstrap-3.3.2/js/bootstrap.js"></script>
