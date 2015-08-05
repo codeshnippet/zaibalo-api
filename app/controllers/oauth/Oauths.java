@@ -35,6 +35,7 @@ public class Oauths extends Controller {
 		
 		boolean exists = Oauth.isExisting(oauthUser.clientId, oauthUser.provider);
 		if(!exists){
+			oauthUser.user.save();
 			oauthUser.save();
 		}
 
