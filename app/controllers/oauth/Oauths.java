@@ -6,6 +6,8 @@ import models.Oauth;
 import models.ServiceProvider;
 import models.User;
 import play.mvc.Controller;
+import services.OauthService;
+import services.OauthServiceImpl;
 
 import com.google.gson.GsonBuilder;
 

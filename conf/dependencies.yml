@@ -3,6 +3,8 @@
 require:
     - play
     - ch.halarious -> halarious-core 0.13
+    - com.google.apis -> google-api-services-plus v1-rev99-1.17.0-rc
+    - com.google.api.client -> google-api-client 1.4.1-beta
 
 repositories:
     - jboss:
@@ -10,3 +12,9 @@ repositories:
         root: "http://repo.surech.ch/content/repositories/hosted.halarious.releases/"
         contains:
             - ch.halarious -> *
+    - google:
+        type: iBiblio
+        root: "http://repo1.maven.org/maven2"
+        contains:
+            - com.google.apis -> *
+            - com.google.api.client -> *
