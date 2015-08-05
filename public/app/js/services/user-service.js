@@ -6,13 +6,10 @@ angular.module('myApp.services')
 .service('UserService', ['$http', 'CookiesService', '$location', 'Avatar', function($http, CookiesService, $location, Avatar){
   var self = this;
 
-  self.loginSocial = function(id, provider, name, email, photo){
+  self.loginSocial = function(accessToken, provider){
     var request = {
-      clientId : id,
-      provider : provider,
-      displayName : name,
-      email : email,
-      photo : photo
+      accessToken : id,
+      provider : provider
     };
 
     $http.post('/oauth-login', JSON.stringify(request)).
