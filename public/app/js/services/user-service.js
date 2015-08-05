@@ -8,7 +8,7 @@ angular.module('myApp.services')
 
   self.loginSocial = function(accessToken, provider){
     var request = {
-      accessToken : id,
+      accessToken : accessToken,
       provider : provider
     };
 
