@@ -7,6 +7,7 @@ import models.Post;
 import models.User;
 import play.mvc.Http.Header;
 import play.mvc.With;
+import ch.halarious.core.HalResource;
 
 import com.google.gson.GsonBuilder;
 
@@ -49,7 +50,7 @@ public class Comments extends BasicController {
 		response.headers.put("Location", new Header("Location", location));
 		response.status = 201;
 		
-		CommentResource commentResponse = CommentResource.convertToCommentResponse(comment, authUser);
+		HalResource commentResponse = CommentResource.convertToCommentResponse(comment, authUser);
 		renderJSON(convertToHalResponse(commentResponse));
     }
 

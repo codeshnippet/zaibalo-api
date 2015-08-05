@@ -8,26 +8,19 @@ import org.apache.commons.lang.StringUtils;
 
 public class OauthRequest {
 
-	public String clientId;
+	public String accessToken;
 	public String provider;
-	public String displayName;
-	public String email;
-	public String photo;
-	
-	public OauthRequest(String clientId, ServiceProvider provider, String displayName, String email, String photo){
-		this.clientId = clientId;
-		this.provider = provider.toString();
-		this.displayName = displayName;
-		this.email = email;
-		this.photo = photo;
-	}
 
 	public boolean isValid() {
-		return StringUtils.isNotBlank(this.clientId) && ServiceProvider.contains(this.provider) && StringUtils.isNotBlank(this.displayName)
-				&& StringUtils.isNotBlank(this.email) && StringUtils.isNotBlank(this.photo);
+		return StringUtils.isNotBlank(this.accessToken) && ServiceProvider.contains(this.provider);
 	}
 
-	public static User transformOauthRequestToUser(OauthRequest oauthRequest) {
+	public OauthRequest(String accessToken, ServiceProvider provider) {
+		this.accessToken = accessToken;
+		this.provider = provider.toString();
+	}
+
+/*	public static User transformOauthRequestToUser(OauthRequest oauthRequest) {
 		User user = new User(oauthRequest.clientId, oauthRequest.displayName);
 		user.email = oauthRequest.email;
 		user.setPhoto(oauthRequest.photo);
@@ -41,5 +34,5 @@ public class OauthRequest {
 		oauth.user = user;
 		oauth.provider = ServiceProvider.valueOf(oauthRequest.provider);
 		return oauth;
-	}
+	}*/
 }

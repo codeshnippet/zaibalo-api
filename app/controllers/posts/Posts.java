@@ -10,6 +10,7 @@ import play.mvc.Http.Header;
 import play.mvc.Util;
 import play.mvc.With;
 import ch.halarious.core.HalBaseResource;
+import ch.halarious.core.HalResource;
 
 import com.google.gson.GsonBuilder;
 
@@ -70,7 +71,7 @@ public class Posts extends BasicController {
 		}
 		User user = Security.getAuthenticatedUser();
 	
-		HalBaseResource postResponseJSON = PostResource.convertSinglePostResponse(post, user);
+		HalResource postResponseJSON = PostResource.convertSinglePostResponse(post, user);
 		renderJSON(convertToHalResponse(postResponseJSON));
 	}
 

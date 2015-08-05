@@ -26,7 +26,7 @@ public class Oauth extends Model{
 	@OneToOne(fetch=FetchType.EAGER)
 	public User user;
 	
-	public static Oauth findByClienIdAndProvider(String clientId, ServiceProvider provider) {
-		return Oauth.find("byClientIdAndProvider", clientId, provider).first();
+	public static boolean isExisting(String clientId, ServiceProvider provider) {
+		return Oauth.find("byClientIdAndProvider", clientId, provider).first() != null;
 	}
 }

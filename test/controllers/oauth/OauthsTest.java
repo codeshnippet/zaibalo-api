@@ -22,8 +22,7 @@ public class OauthsTest extends FunctionalTest {
 
 	@Test
 	public void testOauthLoginSuccess() {
-		OauthRequest oauthRequest = new OauthRequest("frankOauthClientId123", ServiceProvider.GOOGLE_PLUS, "Franky Sinatra", "a@a.com",
-				"p.com/a.jpg");
+		OauthRequest oauthRequest = new OauthRequest("access_token_123", ServiceProvider.GOOGLE_PLUS);
 		Response response = POST("/oauth-login", "application/json", toJson(oauthRequest));
 		assertStatus(200, response);
 		assertContentType("application/json", response);
@@ -33,8 +32,7 @@ public class OauthsTest extends FunctionalTest {
 	@Test
 	public void testOauthLoginNotExistingClientId() {
 		assertEquals(1, Oauth.count());
-		OauthRequest oauthRequest = new OauthRequest("frankOauthClientId321", ServiceProvider.GOOGLE_PLUS, "Bob Tiger", "a1@a.com",
-				"p.com/a.jpg");
+		OauthRequest oauthRequest = new OauthRequest("access_token_123", ServiceProvider.GOOGLE_PLUS);
 		Response response = POST("/oauth-login", "application/json", toJson(oauthRequest));
 		assertStatus(200, response);
 		assertContentType("application/json", response);

@@ -75,19 +75,8 @@ angular.module('myApp.services')
         }
       }).
       success(function(data, status, headers, config) {
-          callback(fix(data));
+          callback(data);
       });
-  }
-
-  function fix(postsResource){
-    for (var i = 0; i < postsResource._embedded.posts.length; i++) {
-      if(!postsResource._embedded.posts[i]._embedded){
-        postsResource._embedded.posts[i]._embedded = {
-          comments :[]
-        };
-      }
-    }
-    return postsResource;
   }
 
   function buildPostsCountUrl(type, param){

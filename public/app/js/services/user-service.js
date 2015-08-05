@@ -46,6 +46,7 @@ angular.module('myApp.services')
     CookiesService.removeAuthCookies();
     self.fbLogoutUser();
     gapi.auth.signOut();
+    $location.path('/signup');
   }
 
   self.isUserLoggedIn = function(){
@@ -59,7 +60,7 @@ angular.module('myApp.services')
   self.getUsername = function(){
     return CookiesService.getUsername();
   }
-  
+
   self.getAvatarUrl = function(){
 	return CookiesService.getAvatarUrl();
   }

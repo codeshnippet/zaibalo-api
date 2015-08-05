@@ -36,6 +36,9 @@ public class PostResource extends HalBaseResource {
 
 	@HalLink(name = "delete")
 	public String deleteLink;
+	
+	@HalLink(name = "addComment")
+	public String addCommentLink;
 
 	public static PostResource convertSinglePostResponse(Post post, User authUser) {
 		PostResource postResponseJSON = new PostResource();
@@ -50,6 +53,10 @@ public class PostResource extends HalBaseResource {
 		postResponseJSON.ratingCount = post.getRatingCount();
 		postResponseJSON.ratingSum = post.getRatingSum();
 
+		if(authUser != null){
+			postResponseJSON.addCommentLink = "/posts/" + post.id + "/comments";
+		}
+		
 		if (post.author.equals(authUser)) {
 			postResponseJSON.deleteLink = "/posts/" + post.id;
 		}

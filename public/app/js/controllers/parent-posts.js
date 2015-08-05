@@ -34,7 +34,7 @@ angular.module('myApp.controllers')
   }
 
   $scope.toggleComments = function(post, event){
-    if (post._embedded.comments.length > 0 || $scope.isUserLoggeIn()) {
+    if ($scope.hasComments(post) || $scope.isUserLoggeIn()) {
       getRatingBlockElement().hide(500);
       getCommentBlockElement().slideToggle(500);
     }
@@ -48,9 +48,13 @@ angular.module('myApp.controllers')
     }
     event.preventDefault();
   }
-  
+
   $scope.getAvatarUrl = function(){
 	  return UserService.getAvatarUrl();
+  }
+
+  $scope.hasComments = function(post){
+    return post._embedded && post._embedded.comments && post._embedded.comments.length > 0;
   }
 
 }]);

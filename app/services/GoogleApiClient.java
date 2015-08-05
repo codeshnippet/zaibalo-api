@@ -1,39 +1,43 @@
 package services;
 
 import java.io.IOException;
-import java.security.GeneralSecurityException;
 
+import models.Oauth;
 import models.ServiceProvider;
+import models.User;
 
 import com.google.api.client.googleapis.auth.oauth2.GoogleCredential;
-import com.google.api.client.googleapis.auth.oauth2.GoogleIdToken;
-import com.google.api.client.googleapis.auth.oauth2.GoogleIdTokenVerifier;
 import com.google.api.client.http.javanet.NetHttpTransport;
-import com.google.api.client.json.JsonFactory;
-import com.google.api.client.json.gson.GsonFactory;
 import com.google.api.client.json.jackson.JacksonFactory;
+import com.google.api.services.oauth2.Oauth2;
+import com.google.api.services.oauth2.model.Userinfoplus;
 
 public class GoogleApiClient implements SocialApiClient {
 
     private static final ServiceProvider PROVIDER = ServiceProvider.GOOGLE_PLUS;
-    
-    private JsonFactory mJFactory = new GsonFactory();
-    private NetHttpTransport transport = new NetHttpTransport();
-    private GoogleIdTokenVerifier mVerifier = new GoogleIdTokenVerifier(transport, mJFactory);
 
     @Override
-    public boolean validateAccessToken(String accessToken) {
-        boolean success = false;
-        try {
-            GoogleIdToken token = GoogleIdToken.parse(mJFactory, accessToken);
-            success = mVerifier.verify(token);
-        } catch (GeneralSecurityException e) {
-            // "Security issue: " + e.getLocalizedMessage();
-        } catch (IOException e) {
-            // "Network problem: " + e.getLocalizedMessage();
-        }
+    public Oauth getOauthUser(String accessToken) throws IOException {
+        
+        GoogleCredential credential = new GoogleCredential().setAccessToken(accessToken);   
+        Oauth2 oauth2 = new Oauth2.Builder(new NetHttpTransport(), new JacksonFactory(), credential).setApplicationName(
+                 "Oauth2").build();
+        
+        Userinfoplus userinfo = null;
+		userinfo = oauth2.userinfo().get().execute();
 
-        return success;
+        User user = new User(userinfo.getId(), userinfo.getName());
+        user.email = userinfo.getEmail();
+        user.setPhoto(userinfo.getPicture());
+        user.photoProvider = PROVIDER;
+
+        Oauth oauth = new Oauth();
+        oauth.provider = PROVIDER;
+        oauth.clientId = userinfo.getId();
+        
+        oauth.user = user;
+        
+        return oauth;
     }
 
     @Override

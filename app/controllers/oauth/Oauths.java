@@ -1,5 +1,6 @@
 package controllers.oauth;
 
+import java.io.IOException;
 import java.io.InputStreamReader;
 
 import models.Oauth;
@@ -23,16 +24,21 @@ public class Oauths extends Controller {
 			badRequest();
 		}
 		
-		Oauth oauth = Oauth.findByClienIdAndProvider(oauthRequest.clientId, ServiceProvider.valueOf(oauthRequest.provider));
-		if(oauth == null){
-			User user = OauthRequest.transformOauthRequestToUser(oauthRequest);
-			user.save();
-			
-			oauth = OauthRequest.createFromOauthRequest(oauthRequest, user);
-			oauth.save();
+		OauthService oauthService = OauthServiceImpl.getInstance();
+		
+		Oauth oauthUser = null;
+		try {
+			oauthUser = oauthService.getOauthUser(oauthRequest.accessToken, ServiceProvider.valueOf(oauthRequest.provider));
+		} catch (IOException e) {
+			error(e.getMessage());
+		}
+		
+		boolean exists = Oauth.isExisting(oauthUser.clientId, oauthUser.provider);
+		if(!exists){
+			oauthUser.save();
 		}
 
-		renderJSON(LoginDTO.toDTO(oauth.user));
+		renderJSON(LoginDTO.toDTO(oauthUser.user));
 	}
 
 }

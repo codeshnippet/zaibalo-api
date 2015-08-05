@@ -9,6 +9,9 @@ angular.module('myApp.controllers')
       var json = JSON.stringify({ content : post.newComment });
       $http.post('/posts/' + post.id + '/comments', json).
         success(function(data, status, headers, config) {
+          if(!$scope.hasComments(post)){
+            post._embedded = {comments:[]};
+          }
         	post._embedded.comments.push(data);
         });
 
@@ -26,6 +29,10 @@ angular.module('myApp.controllers')
         });
 
       event.preventDefault();
+    }
+
+    $scope.hasComments = function(post){
+      return post._embedded && post._embedded.comments && post._embedded.comments.length > 0;
     }
 
     $scope.translationSufix = function(number){

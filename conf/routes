@@ -46,7 +46,7 @@ POST       /posts/{postId}/post-ratings            postratings.PostRatings.creat
 POST       /comments/{commentId}/comment-ratings   commentratings.CommentRatings.createCommentRating
 
 # Secure controllers
-POST       /login                                  authentication.Login.login
+POST       /login                                  authentication.LoginController.login
 POST       /oauth-login                            oauth.Oauths.login
 
 GET        /image/{fileName}                       Images.image

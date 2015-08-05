@@ -13,10 +13,22 @@ angular.module('myApp.controllers')
 
     $scope.loadPosts = function(){
       PostsService.loadLatestPosts($scope.fromIndex, function(postsResource){
-        $scope.postsResource = postsResource;
+        if(hasPosts()){
+          for(var i =0; i < postsResource._embedded.posts.length; i++){
+            $scope.postsResource._embedded.posts.push(postsResource._embedded.posts[i]);
+          }
+        } else {
+          $scope.postsResource = postsResource;
+        }
         $scope.fromIndex = $scope.fromIndex + PostsService.pageSize;
       });
-    }
+    };
+
+    function hasPosts(){
+      return $scope.postsResource._embedded &&
+        $scope.postsResource._embedded.posts &&
+        $scope.postsResource._embedded.posts.length > 0;
+    };
 
     $scope.loadPosts();
 }]);

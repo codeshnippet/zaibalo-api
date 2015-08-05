@@ -26,7 +26,7 @@ public class BasicController extends Controller {
     }
     
     @Util
-	protected static String convertToHalResponse(HalBaseResource halResource) {
+	protected static String convertToHalResponse(HalResource halResource) {
 		return new HalGsonBuilder().getSerializerGson().toJson(halResource, HalResource.class);
 	}
     

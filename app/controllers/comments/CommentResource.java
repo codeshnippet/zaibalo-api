@@ -5,11 +5,11 @@ import java.util.List;
 
 import models.Comment;
 import models.User;
-import ch.halarious.core.HalBaseResource;
 import ch.halarious.core.HalLink;
+import ch.halarious.core.HalResource;
 import controllers.users.UserResource;
 
-public class CommentResource extends HalBaseResource {
+public class CommentResource implements HalResource {
 
 	public long id;
 	public String content;
@@ -20,6 +20,9 @@ public class CommentResource extends HalBaseResource {
 
 	@HalLink(name = "delete")
 	public String deleteLink;
+	
+    @HalLink(name = "self")
+    public String selfRef;
 	
 	public static List<CommentResource> convertToCommentResponsesList(List<Comment> commentsList, User authUser) {
 		List<CommentResource> commentResponsesList = new ArrayList<CommentResource>();
@@ -42,7 +45,7 @@ public class CommentResource extends HalBaseResource {
 			commentResponse.deleteLink = "/comments/" + comment.id;
 		}
 		
-		commentResponse.setSelfRef("/comments/" + comment.id);
+		commentResponse.selfRef = "/comments/" + comment.id;
 		
 		return commentResponse;
 	}

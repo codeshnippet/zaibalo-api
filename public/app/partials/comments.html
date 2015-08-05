@@ -8,7 +8,7 @@
           <div>
             <a href="/#/@{{ comment.author.loginName }}">
               <strong>{{ comment.author.displayName }}</strong>
-              <span class="author-login">@{{ post.author.loginName }}</span>
+              <span class="author-login">@{{ comment.author.loginName }}</span>
             </a>
             <span class="date">{{ comment.creationTimestamp | timeDistance : locale }}</span>
             <span class="glyphicon glyphicon-remove pull-right remove-comment-btn"
@@ -18,7 +18,7 @@
         </div>
       </div>
     </div>
-    <div ng-show="isUserLoggeIn()">
+    <div ng-show="post._links.addComment">
         <div class="row comment">
           <div class="col-xs-1">
              <img ng-src="{{ getAvatarUrl() }}" class="img-circle" width="32px" height="32px">

@@ -43,4 +43,8 @@ function($scope, $routeParams, Avatar, UserService, PostsService) {
     event.preventDefault();
   }
 
+  $scope.getAvatarUrl = function(){
+    return UserService.getAvatarUrl();
+  }
+
 }]);
