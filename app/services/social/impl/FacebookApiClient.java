@@ -31,8 +31,7 @@ public class FacebookApiClient implements SocialApiClient {
 			Logger.error("Facebook API error", e);
 			throw new RuntimeException(e.getMessage());
 		}
-    	transformToUserInfo(me, pictureUrl);
-        return null;
+        return transformToUserInfo(me, pictureUrl);
     }
 
     private UserInfo transformToUserInfo(User me, String pictureUrl) {
