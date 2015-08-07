@@ -17,12 +17,12 @@ public class FacebookApiClient implements SocialApiClient {
 
     @Override
     public UserInfo getUserInfo(String accessToken) {
-//    	String appId = Play.configuration.getProperty("facebook.app.id");
-//    	String appSecret = Play.configuration.getProperty("facebook.app.secret");
+    	String appId = "";//Play.configuration.getProperty("facebook.app.id");
+    	String appSecret = "";// Play.configuration.getProperty("facebook.app.secret");
     	
     	Facebook facebook = new FacebookFactory().getInstance();
-//    	facebook.setOAuthAppId(appId, appSecret);
-//    	facebook.setOAuthPermissions("public_profile,email");
+    	facebook.setOAuthAppId(appId, appSecret);
+    	facebook.setOAuthPermissions("public_profile,email");
     	facebook.setOAuthAccessToken(new AccessToken(accessToken, null));
     	
     	User me = null;
