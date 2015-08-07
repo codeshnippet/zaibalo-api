@@ -5,6 +5,7 @@ import java.io.IOException;
 import models.Oauth;
 import models.ServiceProvider;
 import models.User;
+import play.Logger;
 
 import com.google.api.client.googleapis.auth.oauth2.GoogleCredential;
 import com.google.api.client.http.javanet.NetHttpTransport;
@@ -18,14 +19,12 @@ public class GoogleApiClient implements SocialApiClient {
 
     @Override
     public Oauth getOauthUser(String accessToken) throws IOException {
-        
         GoogleCredential credential = new GoogleCredential().setAccessToken(accessToken);   
         Oauth2 oauth2 = new Oauth2.Builder(new NetHttpTransport(), new JacksonFactory(), credential).setApplicationName(
                  "Oauth2").build();
         
-        Userinfoplus userinfo = null;
-		userinfo = oauth2.userinfo().get().execute();
-
+        Userinfoplus userinfo = oauth2.userinfo().get().execute();
+		
         User user = new User(userinfo.getId(), userinfo.getName());
         user.email = userinfo.getEmail();
         user.setPhoto(userinfo.getPicture());

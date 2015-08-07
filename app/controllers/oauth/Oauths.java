@@ -6,6 +6,7 @@ import java.io.InputStreamReader;
 import models.Oauth;
 import models.ServiceProvider;
 import models.User;
+import play.Logger;
 import play.mvc.Controller;
 import services.OauthService;
 import services.OauthServiceImpl;
@@ -34,7 +35,9 @@ public class Oauths extends Controller {
 		}
 		
 		boolean exists = Oauth.isExisting(oauthUser.clientId, oauthUser.provider);
-		if(!exists){
+		if(exists){
+			oauthUser = Oauth.findByClienIdAndProvider(oauthUser.clientId, oauthUser.provider);
+		} else {
 			oauthUser.user.save();
 			oauthUser.save();
 		}

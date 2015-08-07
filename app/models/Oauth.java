@@ -27,6 +27,11 @@ public class Oauth extends Model{
 	public User user;
 	
 	public static boolean isExisting(String clientId, ServiceProvider provider) {
-		return Oauth.find("byClientIdAndProvider", clientId, provider).first() != null;
+		return findByClienIdAndProvider(clientId, provider) != null;
 	}
+	
+	public static Oauth findByClienIdAndProvider(String clientId, ServiceProvider provider) {
+		return Oauth.find("byClientIdAndProvider", clientId, provider).first();
+	}
+
 }
