@@ -5,6 +5,7 @@ require:
     - ch.halarious -> halarious-core 0.13
     - com.google.apis -> google-api-services-plus v1-rev242-1.20.0
     - com.google.apis -> google-api-services-oauth2 v2-rev93-1.20.0
+    - org.facebook4j -> facebook4j-core 2.3.0
 
 repositories:
     - jboss:

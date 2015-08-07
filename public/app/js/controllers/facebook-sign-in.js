@@ -16,33 +16,7 @@ angular.module('myApp.controllers')
 
     FB.Event.subscribe('auth.authResponseChange', function(res) {
       if (res.status === 'connected') {
-
-        var user = {
-          provider: 'FACEBOOK'
-        }
-
-        FB.api(
-            "/me",
-            function (res) {
-              if (res && !res.error) {
-                user.id = res.id;
-                user.displayName = res.name;
-                user.email = res.email;
-              }
-              /* make the API call */
-              FB.api(
-                  "/me/picture",
-                  function (res) {
-                    if (res && !res.error) {
-                      user.photo = res.data.url;
-                    }
-
-                    UserService.loginSocial(user.id, user.provider, user.displayName, user.email, user.photo);
-                  }
-              );
-            }
-        );
-
+    	UserService.loginSocial(res.authResponse.accessToken, 'FACEBOOK');
       }
     });
 
