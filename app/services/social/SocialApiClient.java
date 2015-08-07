@@ -1,12 +1,14 @@
-package services;
+package services.social;
 
 import java.io.IOException;
 
+import services.social.model.UserInfo;
 import models.Oauth;
 import models.ServiceProvider;
 
 public interface SocialApiClient {
 
-    public Oauth getOauthUser(String accessToken) throws IOException;
+    public UserInfo getUserInfo(String accessToken);
+    
     public boolean isProvider(ServiceProvider provider);
 }

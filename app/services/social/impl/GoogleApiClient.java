@@ -1,11 +1,11 @@
-package services;
+package services.social.impl;
 
 import java.io.IOException;
 
-import models.Oauth;
-import models.ServiceProvider;
-import models.User;
 import play.Logger;
+import models.ServiceProvider;
+import services.social.SocialApiClient;
+import services.social.model.UserInfo;
 
 import com.google.api.client.googleapis.auth.oauth2.GoogleCredential;
 import com.google.api.client.http.javanet.NetHttpTransport;
@@ -18,28 +18,31 @@ public class GoogleApiClient implements SocialApiClient {
     private static final ServiceProvider PROVIDER = ServiceProvider.GOOGLE_PLUS;
 
     @Override
-    public Oauth getOauthUser(String accessToken) throws IOException {
+    public UserInfo getUserInfo(String accessToken) {
         GoogleCredential credential = new GoogleCredential().setAccessToken(accessToken);   
         Oauth2 oauth2 = new Oauth2.Builder(new NetHttpTransport(), new JacksonFactory(), credential).setApplicationName(
                  "Oauth2").build();
         
-        Userinfoplus userinfo = oauth2.userinfo().get().execute();
-		
-        User user = new User(userinfo.getId(), userinfo.getName());
-        user.email = userinfo.getEmail();
-        user.setPhoto(userinfo.getPicture());
-        user.photoProvider = PROVIDER;
-
-        Oauth oauth = new Oauth();
-        oauth.provider = PROVIDER;
-        oauth.clientId = userinfo.getId();
-        
-        oauth.user = user;
-        
-        return oauth;
+        Userinfoplus userInfo;
+		try {
+			userInfo = oauth2.userinfo().get().execute();
+		} catch (IOException e) {
+			Logger.error("Network error", e);
+			throw new RuntimeException(e.getMessage());
+		}
+        return transformToUserInfo(userInfo);
     }
 
-    @Override
+    private UserInfo transformToUserInfo(Userinfoplus userInfoplus) {
+		UserInfo userInfo = new UserInfo();
+		userInfo.id = userInfoplus.getId();
+		userInfo.email = userInfoplus.getEmail();
+		userInfo.name = userInfoplus.getName();
+		userInfo.picture = userInfoplus.getPicture();
+		return userInfo;
+	}
+
+	@Override
     public boolean isProvider(ServiceProvider provider){
         return provider.equals(PROVIDER);
     }

@@ -1,6 +1,7 @@
-package services;
+package services.social.impl;
 
-import models.Oauth;
+import services.social.SocialApiClient;
+import services.social.model.UserInfo;
 import models.ServiceProvider;
 
 public class FacebookApiClient implements SocialApiClient {
@@ -8,7 +9,7 @@ public class FacebookApiClient implements SocialApiClient {
     private static final ServiceProvider PROVIDER = ServiceProvider.FACEBOOK;
 
     @Override
-    public Oauth getOauthUser(String accessToken) {
+    public UserInfo getUserInfo(String accessToken) {
         return null;
     }
 

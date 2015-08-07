@@ -5,11 +5,10 @@ import java.io.InputStreamReader;
 
 import models.Oauth;
 import models.ServiceProvider;
-import models.User;
-import play.Logger;
 import play.mvc.Controller;
-import services.OauthService;
-import services.OauthServiceImpl;
+import services.social.OauthService;
+import services.social.impl.OauthServiceImpl;
+import services.social.model.UserInfo;
 
 import com.google.gson.GsonBuilder;
 
@@ -26,23 +25,19 @@ public class Oauths extends Controller {
 		}
 		
 		OauthService oauthService = OauthServiceImpl.getInstance();
+		ServiceProvider serviceProvider = ServiceProvider.valueOf(oauthRequest.provider);
+		UserInfo userInfo = oauthService.getUserInfo(oauthRequest.accessToken, serviceProvider);
 		
-		Oauth oauthUser = null;
-		try {
-			oauthUser = oauthService.getOauthUser(oauthRequest.accessToken, ServiceProvider.valueOf(oauthRequest.provider));
-		} catch (IOException e) {
-			error(e.getMessage());
-		}
+		boolean exists = Oauth.isExisting(userInfo.id, serviceProvider);
 		
-		boolean exists = Oauth.isExisting(oauthUser.clientId, oauthUser.provider);
+		Oauth oauth = null;
 		if(exists){
-			oauthUser = Oauth.findByClienIdAndProvider(oauthUser.clientId, oauthUser.provider);
+			oauth = Oauth.findByClienIdAndProvider(userInfo.id, serviceProvider);
 		} else {
-			oauthUser.user.save();
-			oauthUser.save();
+			oauth = oauthService.createOauthFromUserInfo(userInfo, serviceProvider);
 		}
 
-		renderJSON(LoginDTO.toDTO(oauthUser.user));
+		renderJSON(LoginDTO.toDTO(oauth.user));
 	}
 
 }
