@@ -17,31 +17,30 @@ public class FacebookApiClient implements SocialApiClient {
 
     @Override
     public UserInfo getUserInfo(String accessToken) {
-    	String appId = "";//Play.configuration.getProperty("facebook.app.id");
-    	String appSecret = "";// Play.configuration.getProperty("facebook.app.secret");
-    	
     	Facebook facebook = new FacebookFactory().getInstance();
-    	facebook.setOAuthAppId(appId, appSecret);
+    	facebook.setOAuthAppId("", "");
     	facebook.setOAuthPermissions("public_profile,email");
     	facebook.setOAuthAccessToken(new AccessToken(accessToken, null));
     	
     	User me = null;
+    	String pictureUrl = null;
     	try {
 			me = facebook.getMe();
+			pictureUrl = facebook.getPictureURL().toString();
 		} catch (FacebookException e) {
 			Logger.error("Facebook API error", e);
 			throw new RuntimeException(e.getMessage());
 		}
-    	transformToUserInfo(me);
+    	transformToUserInfo(me, pictureUrl);
         return null;
     }
 
-    private UserInfo transformToUserInfo(User me) {
+    private UserInfo transformToUserInfo(User me, String pictureUrl) {
 		UserInfo userInfo = new UserInfo();
 		userInfo.id = me.getId();
 		userInfo.name = me.getName();
 		userInfo.email = me.getEmail();
-		userInfo.picture = me.getPicture().getURL().toString();
+		userInfo.picture = pictureUrl;
 		return userInfo;
 	}
 
