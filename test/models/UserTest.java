@@ -117,6 +117,11 @@ public class UserTest extends UnitTest{
     	user.setPassword("password");
     	user.email =  null;
     	user.save();
+    	
+    	User user2 = new User("login2", null);
+    	user2.setPassword("password2");
+    	user2.email = null;
+    	user2.save();
     }
     
     @Test

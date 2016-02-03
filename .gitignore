@@ -5,6 +5,7 @@ logs/
 test-result/
 tmp/
 modules/
+lib/
 .classpath
 .project
 .settings
