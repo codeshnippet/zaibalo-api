@@ -6,6 +6,7 @@ test-result/
 tmp/
 modules/
 lib/
+precompiled/
 .classpath
 .project
 .settings
