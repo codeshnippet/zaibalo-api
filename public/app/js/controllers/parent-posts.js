@@ -53,6 +53,9 @@ angular.module('myApp.controllers')
 	  FB.ui({
 		  method: 'share',
 		  href: 'http://zaibalo-api.herokuapp.com/#/post/' + post.id,
+		  description: post.content,
+		  caption: 'Поділися зайобом з друзями на Facebook',
+		  link: 'http://zaibalo-api.herokuapp.com/#/post/' + post.id
 		}, function(response){});
 	  event.preventDefault();
   }
