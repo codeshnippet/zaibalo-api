@@ -52,7 +52,7 @@ angular.module('myApp.controllers')
   $scope.shareOnFacebook = function(post, event){
 	  FB.ui({
 		  method: 'share',
-		  href: 'https://developers.facebook.com/docs/',
+		  href: 'http://zaibalo-api.herokuapp.com/#/post/' + post.id,
 		}, function(response){});
 	  event.preventDefault();
   }
