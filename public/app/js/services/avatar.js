@@ -10,7 +10,7 @@ angular.module('myApp.services')
     }
 
     if(provider == 'GOOGLE_PLUS' && size == 'M') {
-      return '?sz=100';
+      return '?sz=200';
     }
 
     if(provider == 'AVATARS_IO' && size == 'S') {

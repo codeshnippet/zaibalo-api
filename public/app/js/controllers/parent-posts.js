@@ -2,7 +2,7 @@
 
 angular.module('myApp.controllers')
 
-.controller('ParentPostsController', ['$scope', 'PostsService', 'UserService', function($scope, PostsService, UserService) {
+.controller('ParentPostsController', ['$scope', 'PostsService', 'UserService', 'Avatar', function($scope, PostsService, UserService, Avatar) {
 
   $scope.fromIndex = 0;
   $scope.postsResource = [];
@@ -54,11 +54,15 @@ angular.module('myApp.controllers')
 		  method: 'share',
 		  href: 'http://zaibalo-api.herokuapp.com/#/post/' + post.id,
 		  description: post.content,
-		  picture: $scope.getAvatarUrl(),
+		  picture: $scope.getAvatar(post.author, 'M'),
 		  link: 'http://zaibalo-api.herokuapp.com/#/post/' + post.id
 		}, function(response){});
 	  event.preventDefault();
   }
+  
+  $scope.getAvatar = function(user, size){
+      return Avatar(user, size);
+    }
 
   $scope.getAvatarUrl = function(){
 	  return UserService.getAvatarUrl();
