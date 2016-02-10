@@ -2,9 +2,13 @@
 	<div class="container">
 		<div class="row">
 			<div class="col-md-offset-2 col-md-8 col-xs-12">
-			    <div class="navbar-header">
-			      <a class="navbar-brand" href="#">Задовбало</a>
-			    </div>
+				<div class="navbar-header">
+					<img src="/public/app/img/logo.png" class='logo'>
+					<button type="button" class="navbar-toggle" data-toggle="collapse"
+						data-target=".navbar-collapse">
+						<span class="icon-bar"></span> <span class="icon-bar"></span> <span class="icon-bar"></span>
+					</button>
+				</div>
 				<ul class="nav navbar-nav navbar-right collapse navbar-collapse">
 					<li><a href="#/">{{ 'latest' | translate }}</a></li>
 					<li ng-hide="isUserLoggeIn()"><a href="#/signup">{{ 'join' | translate }}</a></li>
