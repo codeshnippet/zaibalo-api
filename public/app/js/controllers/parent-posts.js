@@ -54,7 +54,7 @@ angular.module('myApp.controllers')
 		  method: 'share',
 		  href: 'http://zaibalo-api.herokuapp.com/#/post/' + post.id,
 		  description: post.content,
-		  picture: getAvatar(post.author, 'M')
+		  picture: $scope.getAvatarUrl(),
 		  link: 'http://zaibalo-api.herokuapp.com/#/post/' + post.id
 		}, function(response){});
 	  event.preventDefault();
