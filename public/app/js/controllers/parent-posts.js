@@ -48,6 +48,14 @@ angular.module('myApp.controllers')
     }
     event.preventDefault();
   }
+  
+  $scope.shareOnFacebook = function(post, event){
+	  FB.ui({
+		  method: 'share',
+		  href: 'https://developers.facebook.com/docs/',
+		}, function(response){});
+	  event.preventDefault();
+  }
 
   $scope.getAvatarUrl = function(){
 	  return UserService.getAvatarUrl();

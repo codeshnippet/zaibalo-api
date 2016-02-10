@@ -35,14 +35,17 @@
       <post-ratings></post-ratings>
       <comments></comments>
       <div class="row">
-        <div class="col-xs-6">
+        <div class="col-xs-4">
           <a ng-click="toggleComments(post, $event)" href="#">
             <span class="glyphicon glyphicon-comment" aria-hidden="true" style="vertical-align:middle"></span>
             <span translate="comments{{ translationSufix(post._embedded.comments.length ? post._embedded.comments.length : 0 ) }}"
                   translate-values="{ value: post._embedded.comments.length ? post._embedded.comments.length : 0 }" ></span>
           </a>
         </div>
-        <div class="col-xs-6">
+        <div class="col-xs-4">
+        	<a ng-click="shareOnFacebook(post, $event)" href="#" class="pull-right">Share</a>
+        </div>
+        <div class="col-xs-4">
           <a ng-click="toggleRatings(post, $event)" href="#" class="pull-right">
             <span class="glyphicon glyphicon-equalizer" aria-hidden="true"></span>
             <span>{{ 'rating.colon' | translate }} {{ post.ratingSum }} ({{ post.ratingCount }})</span>
