@@ -12,3 +12,6 @@ precompiled/
 .settings
 eclipse
 .DS_Store
+*.iml
+*.ipr
+*.iws

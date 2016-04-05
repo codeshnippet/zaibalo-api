@@ -37,6 +37,7 @@ public class Oauths extends Controller {
 			oauth = oauthService.createOauthFromUserInfo(userInfo, serviceProvider);
 		}
 
+        response.setContentTypeIfNotSet("application/json");
 		renderJSON(LoginDTO.toDTO(oauth.user));
 	}
 
