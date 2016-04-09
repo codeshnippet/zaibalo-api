@@ -11,7 +11,7 @@
     </head>
 
     <body>
-    	
+
     	<script>
 		  window.fbAsyncInit = function() {
 		    FB.init({
@@ -20,7 +20,7 @@
 		      version    : 'v2.5'
 		    });
 		  };
-		
+
 		  (function(d, s, id){
 		     var js, fjs = d.getElementsByTagName(s)[0];
 		     if (d.getElementById(id)) {return;}
@@ -29,23 +29,23 @@
 		     fjs.parentNode.insertBefore(js, fjs);
 		   }(document, 'script', 'facebook-jssdk'));
 		</script>
-    
+
     	<navigation-bar></navigation-bar>
-    	
-    	<div class="container">	
+
+    	<div class="container">
 			<div class="row">
 				<div class="col-md-offset-2 col-md-8 col-xs-12" ng-view></div>
 			</div>
 		</div>
 
 		<footer class="footer">
-			<div class="container">	
+			<div class="container">
 				<div class="row">
 					<div class="col-md-offset-2 col-md-8 col-xs-12">
 						<button class="btn btn-xs text-muted pull-right" ng-click="toggleLanguage()" translate="switch"></button>
 					</div>
 				</div>
-			</div>	
+			</div>
 		</footer>
 
 		<div id="fb-root"></div>
@@ -85,13 +85,13 @@
         <script src="/public/app/js/controllers/user.js"></script>
         <script src="/public/app/js/controllers/signup.js"></script>
         <script src="/public/app/js/controllers/google-sign-in.js"></script>
-        <!-- <script src="/public/app/js/controllers/facebook-sign-in.js"></script> -->
+        <script src="/public/app/js/controllers/facebook-sign-in.js"></script>
         <script src="/public/app/js/controllers/single-post.js"></script>
         <script src="/public/app/js/controllers/tag-posts.js"></script>
         <script src="/public/app/js/controllers/post-ratings.js"></script>
         <script src="/public/app/js/filters.js"></script>
         <script src="/public/app/js/directives.js"></script>
-        
+
         <script>
 		  (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
 		  (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),

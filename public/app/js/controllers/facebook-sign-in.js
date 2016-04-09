@@ -16,7 +16,9 @@ angular.module('myApp.controllers')
 
     FB.Event.subscribe('auth.authResponseChange', function(res) {
       if (res.status === 'connected') {
-        
+        FB.api('/me', function(response) {
+          console.log(response);
+        });
     	  //UserService.loginSocial(res.authResponse.accessToken, 'FACEBOOK');
       }
     });
