@@ -4,20 +4,9 @@ angular.module('myApp.controllers')
 
 .controller('GoogleSignInController', ['$scope', 'UserService', function($scope, UserService) {
 
-    $scope.processAuth = function(authResult) {
-    	var authToken = authResult['access_token'];
-        if(authToken) {
-        	UserService.loginSocial(authToken, 'GOOGLE_PLUS');
-            //$scope.getUserInfo();
-        } else if(authResult['error']) {
-
-            gapi.auth.signOut();
-        }
-    };
-
     $scope.signInCallback = function(authResult) {
         $scope.$apply(function() {
-            $scope.processAuth(authResult);
+          $scope.getUserInfo();
         });
     };
 
@@ -37,35 +26,35 @@ angular.module('myApp.controllers')
 
     // Process user info.
     // userInfo is a JSON object.
-//    $scope.processUserInfo = function(userInfo) {
-//        var user = {
-//          id: userInfo.id,
-//          provider: 'GOOGLE_PLUS',
-//          displayName: userInfo.displayName,
-//          email: userInfo['emails'][0]['value'],
-//          photo: userInfo.image.url.split("?")[0]
-//        };
-//
-//        UserService.loginSocial(user.id, user.provider, user.displayName, user.email, user.photo);
-//    }
+   $scope.processUserInfo = function(userInfo) {
+       var user = {
+         id: userInfo.id,
+         provider: 'GOOGLE_PLUS',
+         displayName: userInfo.displayName,
+         email: userInfo['emails'][0]['value'],
+         photo: userInfo.image.url.split("?")[0]
+       };
+
+       UserService.loginSocial(user.id, user.email, user.displayName, user.photo);
+   }
 
     // When callback is received, process user info.
-//    $scope.userInfoCallback = function(userInfo) {
-//        $scope.$apply(function() {
-//            $scope.processUserInfo(userInfo);
-//        });
-//    };
+   $scope.userInfoCallback = function(userInfo) {
+       $scope.$apply(function() {
+           $scope.processUserInfo(userInfo);
+       });
+   };
 
     // Request user info.
-//    $scope.getUserInfo = function() {
-//        gapi.client.request(
-//            {
-//                'path':'/plus/v1/people/me',
-//                'method':'GET',
-//                'callback': $scope.userInfoCallback
-//            }
-//        );
-//    };
+   $scope.getUserInfo = function() {
+       gapi.client.request(
+           {
+               'path':'/plus/v1/people/me',
+               'method':'GET',
+               'callback': $scope.userInfoCallback
+           }
+       );
+   };
 
     $scope.loadScript = function(oCallback) {
       window.___gcfg = {

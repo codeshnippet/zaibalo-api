@@ -126,7 +126,7 @@ public class UserTest extends UnitTest{
     
     @Test
     public void testCreateUsersWithoutEmail(){
-    	User user = new User("login222");
+    	User user = new User("login222", "login222");
     	user.save();
     }
 }

@@ -13,3 +13,12 @@ User(bill):
     loginName:        billy
     password:         secret
     token:            secret_token_321
+
+User(face):
+    displayName:      Johny Brown
+    email:            johny@gmail.com
+    registrationDate: 2009-03-28
+    loginName:        ext123
+    password:         secret
+    token:            secret_token_567
+    photo:            http://img.com/a.jpg

@@ -1,38 +1,26 @@
 package controllers.oauth;
 
-import models.Oauth;
 import models.ServiceProvider;
-import models.User;
 
+import models.User;
 import org.apache.commons.lang.StringUtils;
 
 public class OauthRequest {
 
-	public String accessToken;
-	public String provider;
+    public String email;
+    public String displayName;
+    public String photo;
+    public String externalId;
 
 	public boolean isValid() {
-		return StringUtils.isNotBlank(this.accessToken) && ServiceProvider.contains(this.provider);
+		return StringUtils.isNotBlank(this.externalId) && StringUtils.isNotBlank(this.displayName)
+                && StringUtils.isNotBlank(this.email) && StringUtils.isNotBlank(this.photo);
 	}
 
-	public OauthRequest(String accessToken, ServiceProvider provider) {
-		this.accessToken = accessToken;
-		this.provider = provider.toString();
-	}
-
-/*	public static User transformOauthRequestToUser(OauthRequest oauthRequest) {
-		User user = new User(oauthRequest.clientId, oauthRequest.displayName);
-		user.email = oauthRequest.email;
-		user.setPhoto(oauthRequest.photo);
-		user.photoProvider = ServiceProvider.valueOf(oauthRequest.provider);
-		return user;
-	}
-	
-	public static Oauth createFromOauthRequest(OauthRequest oauthRequest, User user) {
-		Oauth oauth = new Oauth();
-		oauth.clientId = oauthRequest.clientId;
-		oauth.user = user;
-		oauth.provider = ServiceProvider.valueOf(oauthRequest.provider);
-		return oauth;
-	}*/
+    public static User transformOauthRequestToUser(OauthRequest oauthRequest) {
+        User user = new User(oauthRequest.externalId, oauthRequest.displayName);
+        user.setPhoto(oauthRequest.photo);
+        user.email = oauthRequest.email;
+        return user;
+    }
 }

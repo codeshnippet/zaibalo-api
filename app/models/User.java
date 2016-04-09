@@ -54,16 +54,10 @@ public class User extends Model {
 	protected User(){
 		this.registrationDate = new Date();
 		this.token = new BigInteger(128, new SecureRandom()).toString(32);
-		this.setPassword(new BigInteger(128, new SecureRandom()).toString(32));
+		this.password = new BigInteger(128, new SecureRandom()).toString(32);
 	}
 	
 	public User(String loginName, String displayName){
-		this();
-		this.loginName = loginName;
-		this.setDisplayName(displayName);
-	}
-
-	public User(String loginName) {
 		this();
 		this.loginName = loginName;
 		this.setDisplayName(displayName);
