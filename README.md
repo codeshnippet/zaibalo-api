@@ -1,6 +1,8 @@
-# Play framework template application
+[![Build Status](https://travis-ci.org/pubsy/zaibalo-api.svg?branch=master)](https://travis-ci.org/pubsy/zaibalo-api)
 
-This is a template for a web application that uses the Play Framework. The sample code is a simple CRUD page that manipulates records for a single model object.    
+# Заїбало
+
+Журнал в якому люди сваряться на повсягденне життя, діляться досвідом та порадами.
 
 ## Running the application locally
 
