@@ -2,28 +2,14 @@
 
 angular.module('myApp.controllers')
 
-.controller('FacebookSignInController', ['$scope', 'UserService', function($scope, UserService) {
+.controller('FacebookSignInController', ['$scope', 'UserService', '$facebook', function($scope, UserService, $facebook) {
 
-  $scope.renderSignInButton = function() {
-
-    FB.init({
-      appId: '1413679762278869',
-      channelUrl: 'partial/facebook-channel.html',
-      status: true,
-      cookie: true,
-      xfbml: true
-    });
-
-    FB.Event.subscribe('auth.authResponseChange', function(res) {
-      if (res.status === 'connected') {
-        FB.api('/me', function(response) {
-          console.log(response);
-        });
-    	  //UserService.loginSocial(res.authResponse.accessToken, 'FACEBOOK');
-      }
-    });
-
-  };
-  // Call start function on load.
-  $scope.renderSignInButton();
+  $scope.$on('fb.auth.authResponseChange', function() {
+        $scope.status = $facebook.isConnected();
+        if($scope.status) {
+          $facebook.api('/me?fields=name, picture, email').then(function(user) {
+            UserService.loginSocial(user.id, user.email, user.name, user.picture.data.url);
+          });
+        }
+      });
 }]);
