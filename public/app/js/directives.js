@@ -30,15 +30,6 @@ angular.module('myApp.directives', [])
 	};
 })
 
-.directive('googleSignIn', function() {
-	return {
-		restrict : 'E',
-		templateUrl : 'partials/google-sign-in.html',
-		replace : true,
-		controller: 'GoogleSignInController'
-	};
-})
-
 .directive('facebookSignIn', function() {
 	return {
 		restrict : 'E',

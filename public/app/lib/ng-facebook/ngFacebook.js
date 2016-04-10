@@ -250,6 +250,12 @@ angular.module('ngFacebook', [])
         }, 500);
       };
 
+      $facebook.parse = function () {
+        return $facebook.promise.then(function(FB) {
+          FB.XFBML.parse();
+        });
+      };
+
       return $facebook;
     }];
   })

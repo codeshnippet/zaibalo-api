@@ -3,7 +3,7 @@
 /* Services */
 
 angular.module('myApp.services')
-.service('UserService', ['$http', 'CookiesService', '$location', 'Avatar', function($http, CookiesService, $location, Avatar){
+.service('UserService', ['$http', 'CookiesService', '$location', 'Avatar', '$facebook', function($http, CookiesService, $location, Avatar, $facebook){
   var self = this;
 
   self.loginSocial = function(externalId, email, displayName, photo){
@@ -44,7 +44,6 @@ angular.module('myApp.services')
   self.logout = function(){
     CookiesService.removeAuthCookies();
     self.fbLogoutUser();
-    gapi.auth.signOut();
     $location.path('/signup');
   }
 
@@ -61,7 +60,7 @@ angular.module('myApp.services')
   }
 
   self.getAvatarUrl = function(){
-	return CookiesService.getAvatarUrl();
+	  return CookiesService.getAvatarUrl();
   }
 
   self.registerUser = function(loginName, password, success, error){
@@ -81,12 +80,7 @@ angular.module('myApp.services')
   };
 
   self.fbLogoutUser = function() {
-    FB.getLoginStatus(function(response) {
-        if (response && response.status === 'connected') {
-          FB.logout(function(response) {
-          });
-        }
-    });
+    $facebook.logout();
   };
 
   self.redirectBack = function(){
