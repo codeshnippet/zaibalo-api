@@ -21,6 +21,7 @@ public class OauthRequest {
         User user = new User(oauthRequest.externalId, oauthRequest.displayName);
         user.setPhoto(oauthRequest.photo);
         user.email = oauthRequest.email;
+        user.photoProvider = ServiceProvider.FACEBOOK;
         return user;
     }
 }

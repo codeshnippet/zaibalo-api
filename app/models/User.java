@@ -47,7 +47,7 @@ public class User extends Model {
 	
 	@Enumerated(EnumType.STRING)
 	@Column(name = "photo_provider")
-	public ServiceProvider photoProvider = ServiceProvider.AVATARS_IO;
+	public ServiceProvider photoProvider = ServiceProvider.ZAIBALO;
 	
 	public String token;
 
