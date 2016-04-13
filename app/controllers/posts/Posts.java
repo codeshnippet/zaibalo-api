@@ -1,11 +1,16 @@
 package controllers.posts;
 
 import java.io.InputStreamReader;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import models.Post;
+import models.PostRating;
+import models.Similarity;
 import models.User;
 import play.db.jpa.GenericModel.JPAQuery;
+import play.db.jpa.JPABase;
 import play.mvc.Http.Header;
 import play.mvc.Util;
 import play.mvc.With;
@@ -108,7 +113,7 @@ public class Posts extends BasicController {
 		post.delete();
 		ok();
 	}
-	
+
 	@Util
 	public static void renderPostsListJson(String sort, int from, int limit, String query, Object... params) {
 		if("created_at".equals(sort)){

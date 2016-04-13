@@ -35,7 +35,7 @@ public class Comment extends Model implements Ratable {
 	@Column(name = "date")
 	public Date creationDate;
 
-	@OneToOne(fetch=FetchType.EAGER)
+	@ManyToOne(fetch=FetchType.EAGER)
 	@JoinColumn(name="author_id", referencedColumnName="id", nullable = false)
 	public User author;
 
