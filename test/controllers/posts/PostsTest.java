@@ -116,6 +116,25 @@ public class PostsTest extends FunctionalTest {
 		assertEquals("test content 2", postsList.get(0).content);
 	}
 
+    @Test
+    public void testGetRecommendedPosts() {
+        Fixtures.loadModels("data/post-recommendation.yml");
+
+        Response response = new RequestBuilder()
+                .withPath("/posts/recommended")
+                .withHttpMethod(HttpMethod.GET)
+                .send();
+
+        assertStatus(200, response);
+        assertContentType("application/json", response);
+        List<PostResource> postsList = getPostsListFrom(response);
+
+        assertNotNull(postsList);
+        assertEquals(1, postsList.size());
+        PostResource postOne = postsList.get(0);
+        assertEquals("Post about Math!", postOne.content);
+    }
+
 	@Test
 	public void testGetSinglePost() {
 		Fixtures.loadModels("data/posts.yml");

@@ -1,10 +1,13 @@
 package controllers.posts;
 
 import java.io.InputStreamReader;
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import controllers.posts.service.PostsService;
+import controllers.posts.service.impl.PostsServiceImpl;
 import models.Post;
 import models.PostRating;
 import models.Similarity;
@@ -26,6 +29,8 @@ import controllers.security.Security;
 @With(Security.class)
 public class Posts extends BasicController {
 
+    private static PostsService postsService = new PostsServiceImpl();
+
 	public static void getPostsByTag(String name, String sort, int from, int limit) {
 		renderPostsListJson(sort, from, limit, "content like ?1", "%#" + name + "%");
 	}
@@ -33,6 +38,20 @@ public class Posts extends BasicController {
 	public static void getPosts(String sort, int from, int limit) {
 		renderPostsListJson(sort, from, limit, "");
 	}
+
+    public static void getRecommendedPosts(){
+        response.setContentTypeIfNotSet("application/json");
+
+        User user = Security.getAuthenticatedUser();
+
+        if(user == null){
+
+        }
+
+        List<Post> postsList = postsService.getRecommendedPosts(user);
+        PostsListResource postsListResource = PostsListResource.convertToPostsListResource(postsList, null);
+        renderJSON(convertToHalResponse(postsListResource));
+    }
 
 	public static void getPostsCount(){
 		long count = Post.count();

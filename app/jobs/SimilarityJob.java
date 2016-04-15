@@ -10,14 +10,12 @@ import play.jobs.OnApplicationStart;
 
 import java.util.*;
 
-@OnApplicationStart
 public class SimilarityJob extends Job {
 
     public void doJob() {
         Logger.info("SimilarityJob started.");
 
-        printRecommendedPosts();
-        //populateSimilarity();
+        populateSimilarity();
 
         Logger.info("SimilarityJob ended.");
     }
@@ -91,50 +89,5 @@ public class SimilarityJob extends Job {
             sumOfSquares += Math.pow(ratingsOne.get(post) - ratingsTwo.get(post), 2);
         }
         return 1/(1 + Math.sqrt(sumOfSquares));
-    }
-
-
-    public static void printRecommendedPosts(){
-        User user = User.findById(1l);
-
-        Map<User, Set<PostRating>> map = PostRating.getUserPostRatingsMap();
-
-        Map<User, Double> similarities = Similarity.getSimilarities(user);
-        List<Post> posts = PostRating.getRatesBySimilaritiesExceptUser(similarities.keySet(), user);
-
-        Map<Post, Double> recommendations = new HashMap<Post, Double>();
-
-        for(Post post: posts) {
-            double simSum = 0;
-            double sum = 0;
-            for(User critic: similarities.keySet()){
-                Double similarity = similarities.get(critic);
-                Set<PostRating> ratingSet = map.get(critic);
-
-                Integer value = null;
-                for(PostRating pr: ratingSet){
-                    if(pr.post.id == post.id){
-                        value = pr.value;
-                        break;
-                    }
-                }
-
-                if(value != null){
-                    simSum += similarity;
-                    sum += similarity * value;
-                }
-            }
-
-            if(sum == 0){
-                continue;
-            }
-
-            double result = sum / simSum;
-            recommendations.put(post, result);
-        }
-
-        for(Post post: recommendations.keySet()){
-            System.out.println("Post id:" + post.id + " rating:" + recommendations.get(post));
-        }
     }
 }

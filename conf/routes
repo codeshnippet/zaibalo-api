@@ -25,6 +25,7 @@ GET        /posts/count                            posts.Posts.getPostsCount
 POST       /posts                                  posts.Posts.createPost
 GET        /posts/hashtag/{name}                   posts.Posts.getPostsByTag
 GET        /posts/hashtag/{name}/count             posts.Posts.getPostsByTagCount
+GET        /posts/recommended                      posts.Posts.getRecommendedPosts
 
 GET        /posts/{id}                             posts.Posts.getPost
 PUT        /posts/{id}                             posts.Posts.editPost

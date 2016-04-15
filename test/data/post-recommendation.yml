@@ -1,0 +1,46 @@
+# Bill likes a pos about math. Frank has 0.5 similarity with Bill. Math post should be recommended to Bill.
+
+User(frank):
+    displayName:      Superman
+    email:            superman@mail.com
+    registrationDate: 2009-03-26
+    loginName:        franky
+    password:         secret
+    token:            secret_token_123
+
+User(bill):
+    displayName:      Drunk
+    email:            bill@mail.com
+    registrationDate: 2009-03-27
+    loginName:        billy
+    password:         secret
+    token:            secret_token_321
+
+User(joe):
+    displayName:      Joey
+    email:            joe@mail.com
+    registrationDate: 2009-03-28
+    loginName:        joey
+    password:         secret
+    token:            secret_token_456
+
+Post(math):
+    content:          Post about Math!
+    author:           joe
+    creationDate:     2009-03-26
+
+Post(flowers):
+    content:          Post about Flowers!
+    author:           joe
+    creationDate:     2009-03-26
+
+Similarity(sim1):
+    one:              frank
+    two:              bill
+    value:            0.5
+
+PostRating(postRating1):
+    creationDate:     2009-03-26
+    user:             bill
+    post:             math
+    value:            1

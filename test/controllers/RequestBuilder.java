@@ -40,11 +40,17 @@ public class RequestBuilder {
 			return sendPut();
 		case DELETE:
 			return sendDelete();
+        case GET:
+            return sendGet();
 		}
 		throw new RuntimeException("Should never happen");
 	}
-	
-	private Response sendDelete() {
+
+    private Response sendGet() {
+        return FunctionalTest.GET(createAuthRequest(), path);
+    }
+
+    private Response sendDelete() {
 		return FunctionalTest.DELETE(createAuthRequest(), path);
 	}
 
