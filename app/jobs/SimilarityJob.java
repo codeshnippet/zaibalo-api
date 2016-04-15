@@ -1,11 +1,9 @@
 package jobs;
 
-import controllers.posts.Posts;
 import models.Post;
 import models.PostRating;
 import models.Similarity;
 import models.User;
-import org.junit.Assert;
 import play.Logger;
 import play.jobs.Job;
 import play.jobs.OnApplicationStart;
@@ -18,6 +16,13 @@ public class SimilarityJob extends Job {
     public void doJob() {
         Logger.info("SimilarityJob started.");
 
+        printRecommendedPosts();
+        //populateSimilarity();
+
+        Logger.info("SimilarityJob ended.");
+    }
+
+    private void populateSimilarity() {
         List<User> users = PostRating.getUserRatingPosts();
         Map<User, Set<PostRating>> map = PostRating.getUserPostRatingsMap();
         for(User one: users) {
@@ -30,24 +35,20 @@ public class SimilarityJob extends Job {
                     // ratingsOne now contains only the elements which are also contained in ratingsTwo.
                     ratingsOne.keySet().retainAll(ratingsTwo.keySet());
 
-                    // do not save similarity value if no posts in common were rated
-                    if (ratingsOne.keySet().size() < 10) {
+                    // do not save similarity value if less then 10 posts in common were rated
+                    if (ratingsOne.keySet().size() < 5) {
                         continue;
                     }
 
                     double value = calculateSimilarity(ratingsOne, ratingsTwo);
                     queue.add(new Critic(two, value));
-                    if(queue.size() > 10){
-                        queue.poll();
-                    }
                 }
             }
+
             for(Critic critic: queue) {
                 saveSimilarity(one, critic.user, critic.value);
             }
         }
-
-        Logger.info("SimilarityJob ended.");
     }
 
     private Map<Post, Integer> transform(Set<PostRating> postRatings) {
@@ -92,4 +93,48 @@ public class SimilarityJob extends Job {
         return 1/(1 + Math.sqrt(sumOfSquares));
     }
 
+
+    public static void printRecommendedPosts(){
+        User user = User.findById(1l);
+
+        Map<User, Set<PostRating>> map = PostRating.getUserPostRatingsMap();
+
+        Map<User, Double> similarities = Similarity.getSimilarities(user);
+        List<Post> posts = PostRating.getRatesBySimilaritiesExceptUser(similarities.keySet(), user);
+
+        Map<Post, Double> recommendations = new HashMap<Post, Double>();
+
+        for(Post post: posts) {
+            double simSum = 0;
+            double sum = 0;
+            for(User critic: similarities.keySet()){
+                Double similarity = similarities.get(critic);
+                Set<PostRating> ratingSet = map.get(critic);
+
+                Integer value = null;
+                for(PostRating pr: ratingSet){
+                    if(pr.post.id == post.id){
+                        value = pr.value;
+                        break;
+                    }
+                }
+
+                if(value != null){
+                    simSum += similarity;
+                    sum += similarity * value;
+                }
+            }
+
+            if(sum == 0){
+                continue;
+            }
+
+            double result = sum / simSum;
+            recommendations.put(post, result);
+        }
+
+        for(Post post: recommendations.keySet()){
+            System.out.println("Post id:" + post.id + " rating:" + recommendations.get(post));
+        }
+    }
 }
