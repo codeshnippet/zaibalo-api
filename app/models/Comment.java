@@ -42,9 +42,6 @@ public class Comment extends Model implements Ratable {
 	@ManyToOne(fetch=FetchType.LAZY)
 	@JoinColumn(name="post_id", referencedColumnName="id", nullable = false)
 	public Post post;
-	
-	@OneToMany(mappedBy = "comment", cascade=CascadeType.REMOVE)
-	public Set<CommentRating> ratings = new HashSet<CommentRating>();
 
 	public Comment() {
 		creationDate = new Date();
@@ -65,19 +62,4 @@ public class Comment extends Model implements Ratable {
 		return new CommentRating(this, user, isPositive);
 	}
 
-	public Integer getRatingSum() {
-        int sum = 0;
-        for(CommentRating commentRating: ratings){
-            if(commentRating.isPositive()){
-                sum++;
-            }else{
-                sum--;
-            }
-        }
-        return sum;
-	}
-
-	public Integer getRatingCount() {
-		return ratings.size();
-	}
 }

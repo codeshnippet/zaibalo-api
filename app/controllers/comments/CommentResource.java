@@ -38,8 +38,6 @@ public class CommentResource implements HalResource {
 		commentResponse.content = comment.content;
 		commentResponse.author = UserResource.convertToJson(comment.author);
 		commentResponse.creationTimestamp = comment.creationDate.getTime();
-		commentResponse.ratingCount = comment.getRatingCount();
-		commentResponse.ratingSum = comment.getRatingSum();
 		
 		if (comment.author.equals(authUser)) {
 			commentResponse.deleteLink = "/comments/" + comment.id;

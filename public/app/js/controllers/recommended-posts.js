@@ -2,11 +2,11 @@
 
 angular.module('myApp.controllers')
 
-.controller('TagPostsController', ['PostsService', '$scope', '$routeParams', 'UserService', '$controller',
+.controller('RecommendedPostsController', ['PostsService', '$scope', '$routeParams', 'UserService', '$controller',
   function(PostsService, $scope, $routeParams, UserService, $controller) {
 
     $controller('ParentPostsController', {$scope: $scope});
 
-    $scope.loadPosts('/posts/hashtag/' + $routeParams.tag);
+    $scope.loadPosts('/posts/recommended');
 
 }]);

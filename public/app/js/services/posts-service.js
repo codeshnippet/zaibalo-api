@@ -6,41 +6,7 @@ angular.module('myApp.services')
 .service("PostsService", ['$http', function($http){
   var self = this;
 
-  // Constants
-
-  self.pageSize = 10;
-  self.sortBy = 'created_at';
-
   // Interface
-
-  self.loadLatestPosts = function(from, callback){
-    loadPosts(callback, 'latest', null, from);
-  }
-
-  self.loadPostById = function(postId, callback){
-    loadPosts(callback, 'post-by-id', postId);
-  }
-
-  self.loadPostsByTag = function(tag, from, callback){
-    loadPosts(callback, 'posts-by-tag', tag, from);
-  }
-
-  self.loadPostsByUser = function(user, from, callback){
-    loadPosts(callback, 'posts-by-user', user, from);
-  }
-
-  self.getLatestPostsCount = function(callback){
-    getPostsCount(callback, 'latest');
-  }
-
-  self.getPostsByTagCount = function(tag, callback){
-    getPostsCount(callback, 'posts-by-tag', tag);
-  }
-
-  self.getPostsByUserCount = function(user, callback){
-    getPostsCount(callback, 'posts-by-user', user);
-  }
-
   self.deletePost = function(post, callback){
     $http.delete(post._links.delete.href).
       success(function(data, status, headers, config) {
@@ -57,54 +23,17 @@ angular.module('myApp.services')
 
   // Private methods
 
-  function getPostsCount(callback, type, param){
-    $http.get(buildPostsCountUrl(type, param, true)).
-      success(function(data, status, headers, config) {
-          callback(data.count);
-      });
-  }
-
-  function loadPosts(callback, type, param, from){
+  self.loadPosts = function(url, callback){
       $http({
-        url: buildPostsUrl(type, param),
+        url: url,
         method: "GET",
         params: {
-          sort: self.sortBy,
-          limit: self.pageSize,
-          from: from
+          limit: self.pageSize
         }
       }).
       success(function(data, status, headers, config) {
           callback(data);
       });
-  }
-
-  function buildPostsCountUrl(type, param){
-    return buildPostsUrl(type, param) + '/count';
-  }
-
-  function buildPostsUrl(type, param){
-    var urlRoot;
-    switch (type)
-    {
-       case 'latest':
-         urlRoot = '/posts';
-         break;
-       case 'post-by-id':
-         urlRoot = '/posts/' + param;
-         break;
-       case 'posts-by-user':
-         urlRoot = '/users/' + param + '/posts';
-         break;
-      case 'posts-by-tag':
-         urlRoot = '/posts/hashtag/' + param;
-         break;
-      default:
-         console.error('Uknown case: ' + type);
-         break;
-    }
-
-    return urlRoot;
   }
 
 }]);

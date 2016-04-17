@@ -16,20 +16,9 @@ function($scope, $http, $routeParams, Avatar, $controller, PostsService) {
       $scope.user = data;
   });
 
-  PostsService.getPostsByUserCount($routeParams.login, function(count) {
-    $scope.postsCount = count;
-  });
-
-  $scope.loadPosts = function(){
-    PostsService.loadPostsByUser($routeParams.login, $scope.fromIndex, function(postsResource){
-      $scope.postsResource = postsResource;
-      $scope.fromIndex = $scope.fromIndex + PostsService.pageSize;
-    });
-  }
-
   $scope.getAvatar = function(user, size){
     return Avatar(user, size);
   }
 
-  $scope.loadPosts();
+  $scope.loadPosts('/users/' + $routeParams.login + '/posts');
 }]);

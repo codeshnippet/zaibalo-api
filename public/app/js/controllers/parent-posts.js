@@ -4,14 +4,11 @@ angular.module('myApp.controllers')
 
 .controller('ParentPostsController', ['$scope', 'PostsService', 'UserService', 'Avatar', function($scope, PostsService, UserService, Avatar) {
 
-  $scope.fromIndex = 0;
   $scope.postsResource = [];
-  $scope.postsCount;
 
   $scope.deletePost = function(postId, index, event){
     PostsService.deletePost(postId, function(){
       $scope.postsResource._embedded.posts.splice(index, 1);
-      $scope.postsCount--;
     });
 
     event.preventDefault();
@@ -22,7 +19,6 @@ angular.module('myApp.controllers')
       $scope.postsResource._embedded.posts.unshift(post);
     });
     this.newPost = "";
-    $scope.fromIndex++;
   }
 
   function getRatingBlockElement(){
@@ -48,7 +44,7 @@ angular.module('myApp.controllers')
     }
     event.preventDefault();
   }
-  
+
   $scope.shareOnFacebook = function(post, event){
 	  FB.ui({
 		  method: 'share',
@@ -59,7 +55,7 @@ angular.module('myApp.controllers')
 		}, function(response){});
 	  event.preventDefault();
   }
-  
+
   $scope.getAvatar = function(user, size){
       return Avatar(user, size);
     }
@@ -71,5 +67,26 @@ angular.module('myApp.controllers')
   $scope.hasComments = function(post){
     return post._embedded && post._embedded.comments && post._embedded.comments.length > 0;
   }
+
+  $scope.loadPostsCallback = function(postsResource){
+    if($scope.hasPosts()){
+      for(var i =0; i < postsResource._embedded.posts.length; i++){
+        $scope.postsResource._embedded.posts.push(postsResource._embedded.posts[i]);
+      }
+      $scope.postsResource._links = postsResource._links;
+    } else {
+      $scope.postsResource = postsResource;
+    }
+  };
+
+  $scope.loadPosts = function(url){
+    PostsService.loadPosts(url, $scope.loadPostsCallback);
+  };
+
+  $scope.hasPosts = function(){
+    return $scope.postsResource._embedded &&
+      $scope.postsResource._embedded.posts &&
+      $scope.postsResource._embedded.posts.length > 0;
+  };
 
 }]);

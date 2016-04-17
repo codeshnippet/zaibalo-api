@@ -27,6 +27,10 @@ var app = angular.module('myApp', ['myApp.filters', 'myApp.services',
       templateUrl: 'partials/signup.html',
       controller: 'SignupController'
       })
+    .when('/recommended', {
+      templateUrl: 'partials/posts.html',
+      controller: 'RecommendedPostsController'
+      })
     .otherwise({redirectTo: '/'});
 }])
 

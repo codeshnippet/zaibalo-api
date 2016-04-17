@@ -17,14 +17,11 @@ GET        /users/{loginName}                      users.Users.getUserByLogin
 PUT        /users/{id}                             users.Users.editUser
 DELETE     /users/{id}                             users.Users.deleteUser
 GET        /users/{loginName}/posts                users.Users.getUserPosts
-GET        /users/{loginName}/posts/count          users.Users.getUserPostsCount
 
 # Posts
 GET        /posts                                  posts.Posts.getPosts
-GET        /posts/count                            posts.Posts.getPostsCount
 POST       /posts                                  posts.Posts.createPost
-GET        /posts/hashtag/{name}                   posts.Posts.getPostsByTag
-GET        /posts/hashtag/{name}/count             posts.Posts.getPostsByTagCount
+GET        /posts/hashtag/{tag}                    posts.Posts.getPostsByTag
 GET        /posts/recommended                      posts.Posts.getRecommendedPosts
 
 GET        /posts/{id}                             posts.Posts.getPost

@@ -21,6 +21,7 @@ public class HalGsonBuilder {
 		GsonBuilder builder = new GsonBuilder();
 		builder.registerTypeAdapter(HalResource.class, new HalSerializer());
 		builder.setExclusionStrategies(new HalExclusionStrategy());
+        builder.disableHtmlEscaping();
 		return builder.create();
 	}
 }

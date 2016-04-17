@@ -82,4 +82,8 @@ public class Post extends Model implements Ratable {
 		return new PostRating(this, user, isPositive);
 	}
 
+    public enum SortBy {
+        CREATION_DATE
+    }
+
 }
