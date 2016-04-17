@@ -10,6 +10,7 @@ import controllers.posts.service.impl.PostsServiceImpl;
 import controllers.security.Secured;
 import controllers.security.Security;
 import models.Post;
+import models.PostRating;
 import models.User;
 import play.mvc.Http.Header;
 import play.mvc.Router;
@@ -17,7 +18,6 @@ import play.mvc.Util;
 import play.mvc.With;
 
 import java.io.InputStreamReader;
-import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -88,15 +88,12 @@ public class Posts extends BasicController {
 
         User user = Security.getAuthenticatedUser();
 
-        List<Map.Entry<Post, Double>> recommendations = postsService.getAllRecommendedPosts(user);
+        List<Post> postsList = postsService.getRecommendedPosts(user, from, limit);
 
-        List<Post> postsList = new ArrayList<Post>(recommendations.size());
-        for (Map.Entry<Post, Double> entry : recommendations.subList(from, from + limit)) {
-            postsList.add(entry.getKey());
-        }
+        long count = postsService.getRecommendedPostsCount(user);
 
         String nextUrl = null;
-        if (from <= recommendations.size()) {
+        if (from + postsList.size() < count) {
             Map<String, Object> map = new HashMap<String, Object>();
             map.put("from", from + 10);
             nextUrl = Router.reverse("posts.Posts.getRecommendedPosts", map).url;

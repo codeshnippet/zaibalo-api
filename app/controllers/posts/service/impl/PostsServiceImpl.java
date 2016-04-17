@@ -16,46 +16,32 @@ import java.util.Map;
 
 public class PostsServiceImpl implements PostsService {
 
-    public List<Map.Entry<Post, Double>> getAllRecommendedPosts(User user) {
-        Map<User, Double> similarities = Similarity.getSimilarities(user);
-        Map<User, Map<Post, Integer>> map = PostRating.getPostRatingsFromUsers(similarities.keySet());
-        List<Post> posts = PostRating.getRatesBySimilaritiesExceptUser(similarities.keySet(), user);
+    @Override
+    public List<Post> getRecommendedPosts(User user, int from, int limit) {
+        String query =
+                "select pr.post from PostRating as pr, Similarity sim " +
+                "where pr.user = sim.two " +
+                "and pr.user != :user " +
+                "and sim.one = :user " +
+                "group by pr.post " +
+                "having count(pr.user) >= floor((select count (s) from Similarity s where s.one = :user) * 0.2) " +
+                "order by sum(pr.value * sim.value) / sum(sim.value) desc";
 
-        List<Map.Entry<Post, Double>> recommendations = new ArrayList<Map.Entry<Post, Double>>();
+        return PostRating.find(query).setParameter("user", user).from(from).fetch(limit);
+    }
 
-        for(Post post: posts) {
-            double simSum = 0;
-            double sum = 0;
-            for(User critic: similarities.keySet()){
-                Double similarity = similarities.get(critic);
-                Map<Post, Integer> ratingSet = map.get(critic);
+    @Override
+    public long getRecommendedPostsCount(User user) {
+        String query =
+                "select pr.post from PostRating as pr, Similarity sim " +
+                        "where pr.user = sim.two " +
+                        "and pr.user != :user " +
+                        "and sim.one = :user " +
+                        "group by pr.post " +
+                        "having count(pr.user) >= floor((select count (s) from Similarity s where s.one = :user) * 0.2) " +
+                        "order by sum(pr.value * sim.value) / sum(sim.value) desc";
 
-                Integer value = ratingSet.get(post);
-
-                if(value != null){
-                    simSum += similarity;
-                    sum += similarity * value;
-                }
-            }
-
-            if(sum == 0){
-                continue;
-            }
-
-            double value = sum / simSum;
-            recommendations.add(new AbstractMap.SimpleEntry<Post, Double>(post, value));
-        }
-
-        Collections.sort(recommendations,
-                new Comparator<Map.Entry<Post, Double>>() {
-                    @Override
-                    public int compare(Map.Entry<Post, Double> e1, Map.Entry<Post, Double> e2) {
-                        return e2.getValue().compareTo(e1.getValue());
-                    }
-                }
-        );
-
-        return recommendations;
+        return PostRating.find(query).setParameter("user", user).fetch().size();
     }
 
     @Override

@@ -8,7 +8,9 @@ import java.util.Map;
 
 public interface PostsService {
 
-    List<Map.Entry<Post, Double>> getAllRecommendedPosts(User user);
+    List<Post> getRecommendedPosts(User user, int from, int limit);
+
+    long getRecommendedPostsCount(User user);
 
     List<Post> getPostsByTag(String tag, Post.SortBy sortBy, int from, int limit);
 
