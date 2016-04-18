@@ -74,12 +74,12 @@ public class PostsTest extends FunctionalTest {
 		assertEquals(2, postsList.size());
 		
 		PostResource postOne = postsList.get(0);
-		assertEquals("test content 1", postOne.content);
-		assertEquals(1, postOne.attachments.size());
+		assertEquals("test content 2", postOne.content);
+		assertEquals(0, postOne.attachments.size());
 
 		PostResource postTwo = postsList.get(1);
-		assertEquals("test content 2", postTwo.content);
-		assertEquals(0, postTwo.attachments.size());
+		assertEquals("test content 1", postTwo.content);
+		assertEquals(1, postTwo.attachments.size());
 	}
 
 	@Test
@@ -102,7 +102,7 @@ public class PostsTest extends FunctionalTest {
 
 		List<PostResource> postsList = getPostsListFrom(response);
 		assertEquals(1, postsList.size());
-		assertEquals("test content 1", postsList.get(0).content);
+		assertEquals("test content 2", postsList.get(0).content);
 	}
 
 	@Test
@@ -113,7 +113,7 @@ public class PostsTest extends FunctionalTest {
 
 		List<PostResource> postsList = getPostsListFrom(response);
 		assertEquals(1, postsList.size());
-		assertEquals("test content 2", postsList.get(0).content);
+		assertEquals("test content 1", postsList.get(0).content);
 	}
 
     @Test

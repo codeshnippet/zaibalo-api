@@ -31,8 +31,8 @@ public class TaggedPostsTest extends FunctionalTest {
 		List<PostResource> postsList = getPostsListFrom(response);
 		
 		assertEquals(2, postsList.size());
-		assertEquals("#tagged test content 1", postsList.get(0).content);
-		assertEquals("test content 4 #tagged.", postsList.get(1).content);
+		assertEquals("test content 4 #tagged.", postsList.get(0).content);
+		assertEquals("#tagged test content 1", postsList.get(1).content);
 	}
 
 	@Test
@@ -57,7 +57,7 @@ public class TaggedPostsTest extends FunctionalTest {
 		List<PostResource> postsList = getPostsListFrom(response);
 		
 		assertEquals(1, postsList.size());
-		assertEquals("#tagged test content 1", postsList.get(0).content);
+		assertEquals("test content 4 #tagged.", postsList.get(0).content);
 	}
 
 	@Test
@@ -69,7 +69,7 @@ public class TaggedPostsTest extends FunctionalTest {
 		List<PostResource> postsList = getPostsListFrom(response);
 		
 		assertEquals(1, postsList.size());
-		assertEquals("test content 4 #tagged.", postsList.get(0).content);
+		assertEquals("#tagged test content 1", postsList.get(0).content);
 	}
 
 	@Test
@@ -82,14 +82,6 @@ public class TaggedPostsTest extends FunctionalTest {
 		
 		assertEquals(1, postsList.size());
 		assertEquals("Ще одненький #тег українською", postsList.get(0).content);
-	}
-	
-	@Test
-	public void testGetTaggedPostsCount() {
-		Fixtures.loadModels("data/tagged-posts.yml");
-
-		Response response = GET("/posts/hashtag/tagged/count");
-		assertEquals("{\"count\":2}", response.out.toString());
 	}
 
 	private List<PostResource> getPostsListFrom(Response response) {

@@ -55,13 +55,8 @@ public class PostsServiceImpl implements PostsService {
     }
 
     @Override
-    public List<Post> getLatestPosts(Post.SortBy sortBy, int from, int limit) {
-        String query = "";
-        if(sortBy.equals(Post.SortBy.CREATION_DATE)){
-            query += " order by creationDate desc";
-        }
-
-        return Post.find(query).from(from).fetch(limit);
+    public List<Post> getLatestPosts(int from, int limit) {
+        return Post.find(" order by creationDate desc").from(from).fetch(limit);
     }
 
     @Override

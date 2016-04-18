@@ -212,21 +212,10 @@ public class UsersTest extends FunctionalTest {
 
 		List<PostResource> postsList = getPostsListFrom(response);
 		assertEquals(2, postsList.size());
-		assertEquals("test content 1", postsList.get(0).content);
-		assertEquals("test content 3", postsList.get(1).content);
+		assertEquals("test content 3", postsList.get(0).content);
+		assertEquals("test content 1", postsList.get(1).content);
 	}
 
-	@Test
-	public void testGetUserPostsCount() {
-		Fixtures.loadModels("data/user-posts.yml");
-		
-		User franky = User.findByLoginName("franky");
-		
-		Response response = GET("/users/" + franky.loginName + "/posts/count");
-
-		assertContentEquals("{\"count\":2}", response);
-	}
-	
 	private UserRequest createUserRequest(String login, String pass){
 		return createUserRequest(login, pass, null, null);
 	}

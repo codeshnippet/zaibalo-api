@@ -58,7 +58,7 @@ public class Posts extends BasicController {
         from = (from == 0) ? 0 : from;
         limit = (limit == 0) ? 10 : limit;
 
-        List<Post> postsList = postsService.getLatestPosts(Post.SortBy.CREATION_DATE, from, limit);
+        List<Post> postsList = postsService.getLatestPosts(from, limit);
 
         long count = getPostsCount();
 

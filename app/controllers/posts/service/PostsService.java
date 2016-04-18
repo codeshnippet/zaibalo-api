@@ -14,7 +14,7 @@ public interface PostsService {
 
     List<Post> getPostsByTag(String tag, Post.SortBy sortBy, int from, int limit);
 
-    List<Post> getLatestPosts(Post.SortBy creationDate, int from, int limit);
+    List<Post> getLatestPosts(int from, int limit);
 
     List<Post> getUserPosts(User user, Post.SortBy creationDate, int from, int limit);
 }
