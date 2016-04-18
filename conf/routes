@@ -16,12 +16,12 @@ POST       /users                                  users.Users.createUser
 GET        /users/{loginName}                      users.Users.getUserByLogin
 PUT        /users/{id}                             users.Users.editUser
 DELETE     /users/{id}                             users.Users.deleteUser
-GET        /users/{loginName}/posts                users.Users.getUserPosts
 
 # Posts
 GET        /posts                                  posts.Posts.getPosts
 POST       /posts                                  posts.Posts.createPost
 GET        /posts/hashtag/{tag}                    posts.Posts.getPostsByTag
+GET        /users/{loginName}/posts                posts.Posts.getUserPosts
 GET        /posts/recommended                      posts.Posts.getRecommendedPosts
 
 GET        /posts/{id}                             posts.Posts.getPost

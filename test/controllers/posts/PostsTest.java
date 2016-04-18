@@ -11,14 +11,10 @@ import play.mvc.Http.Response;
 import play.test.Fixtures;
 import play.test.FunctionalTest;
 import utils.HalGsonBuilder;
-import ch.halarious.core.HalDeserializer;
-import ch.halarious.core.HalExclusionStrategy;
 import ch.halarious.core.HalResource;
-import ch.halarious.core.HalSerializer;
 
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
-import com.google.gson.reflect.TypeToken;
 
 import controllers.ContentType;
 import controllers.HttpMethod;
@@ -217,11 +213,11 @@ public class PostsTest extends FunctionalTest {
 		assertEquals("new post content", post.content);
 
 		PostResource postResponse = new GsonBuilder().create().fromJson(response.out.toString(), PostResource.class);
-		assertEquals(Long.valueOf(post.id), Long.valueOf(postResponse.id));
+		assertEquals(post.id, Long.valueOf(postResponse.id));
 		assertEquals("new post content", postResponse.content);
 		assertNotNull(postResponse.author);
 		assertEquals("Superman", postResponse.author.displayName);
-		assertEquals(Long.valueOf(post.author.id), Long.valueOf(postResponse.author.id));
+		assertEquals(post.author.id, Long.valueOf(postResponse.author.id));
 	}
 
 	@Test
@@ -281,11 +277,36 @@ public class PostsTest extends FunctionalTest {
 
 		assertStatus(400, response);
 	}
-	
+
+    @Test
+    public void testNextLinkPresent(){
+        Fixtures.loadModels("data/posts.yml");
+
+        Response response = GET("/posts?from=0&limit=1");
+
+        PostsListResource resource = getPostsListResource(response);
+        assertNotNull(resource.next);
+        assertEquals("/posts?from=1&limit=1", resource.next);
+    }
+
+    @Test
+    public void testNextLinkNotPresentWhenLastPageShown(){
+        Fixtures.loadModels("data/posts.yml");
+
+        Response response = GET("/posts?from=1&limit=1");
+
+        PostsListResource resource = getPostsListResource(response);
+        assertNull(resource.next);
+    }
+
+    private PostsListResource getPostsListResource(Response response) {
+        Gson gson = HalGsonBuilder.getDeserializerGson(PostsListResource.class);
+        String responseBody = response.out.toString();
+        return (PostsListResource) gson.fromJson(responseBody, HalResource.class);
+    }
+
 	private List<PostResource> getPostsListFrom(Response response) {
-		String responseBody = response.out.toString();
-		Gson gson = HalGsonBuilder.getDeserializerGson(PostsListResource.class);
-		PostsListResource postsListResource = (PostsListResource) gson.fromJson(responseBody, HalResource.class);
+        PostsListResource postsListResource = getPostsListResource(response);
 		return postsListResource.posts;
 	}
 }
