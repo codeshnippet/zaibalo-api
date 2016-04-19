@@ -42,4 +42,16 @@ public class PostRating extends Rating {
     public static List<User> getUserRatingPosts() {
         return PostRating.find("select pr.user from PostRating as pr group by pr.user").fetch();
     }
+
+
+    public static long getMaxRecoThreshold(User user) {
+        String query = "select count(pr.user) from PostRating pr, Similarity sim " +
+                "where pr.user = sim.two " +
+                "and sim.one = :user " +
+                "and pr.user != :user " +
+                "group by pr.post " +
+                "order by count(pr.user) desc";
+
+        return (Long) PostRating.find(query).setParameter("user", user).fetch(1).get(0);
+    }
 }

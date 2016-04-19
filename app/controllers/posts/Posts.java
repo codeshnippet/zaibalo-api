@@ -7,6 +7,7 @@ import java.util.List;
 import java.util.Map;
 
 import models.Post;
+import models.PostRating;
 import models.User;
 import play.mvc.Http.Header;
 import play.mvc.Router;
@@ -66,18 +67,18 @@ public class Posts extends BasicController {
         renderPostsListJson(postsList, addPost, next);
     }
 
-    @Secured
-    public static void getRecommendedPosts(int from, int limit) {
-        from = (from == 0) ? DEFAULT_FROM : from;
-        limit = (limit == 0) ? DEFAULT_LIMIT : limit;
-
+    public static void getRecommendedPosts(int from, int limit, long threshold) {
         User user = Security.getAuthenticatedUser();
 
-        List<Post> postsList = postsService.getRecommendedPosts(user, from, limit);
+        from = (from == 0) ? DEFAULT_FROM : from;
+        limit = (limit == 0) ? DEFAULT_LIMIT : limit;
+        threshold = (threshold == 0) ? PostRating.getMaxRecoThreshold(user) : threshold;
 
-        long count = postsService.getRecommendedPostsCount(user);
+        List<Post> postsList = postsService.getRecommendedPosts(user, from, limit, threshold);
 
-        Map<String, Object> params = getNextPageParams(from, limit);
+        long count = postsService.getRecommendedPostsCount(user, threshold);
+
+        Map<String, Object> params = getNextPageParams(from, limit, new AbstractMap.SimpleEntry<String, Object>("threshold", threshold));
         boolean nextPageAvailable = isNextPageAvailable(from, postsList.size(), count);
         Optional<String> next = getNextPageUrl("posts.Posts.getRecommendedPosts", nextPageAvailable, params);
 
@@ -221,7 +222,7 @@ public class Posts extends BasicController {
         Map<String, Object> params = new LinkedHashMap<String, Object>();
         params.put("from", from + limit);
         params.put("limit", limit);
-        for(Map.Entry<String, Object> entry: additionalParams) {
+        for (Map.Entry<String, Object> entry : additionalParams) {
             params.put(entry.getKey(), entry.getValue());
         }
         return params;

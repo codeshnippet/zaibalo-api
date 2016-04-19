@@ -69,14 +69,14 @@ angular.module('myApp.controllers')
   }
 
   $scope.loadPostsCallback = function(postsResource){
-    if($scope.hasPosts()){
-      for(var i =0; i < postsResource._embedded.posts.length; i++){
-        $scope.postsResource._embedded.posts.push(postsResource._embedded.posts[i]);
-      }
-      $scope.postsResource._links = postsResource._links;
-    } else {
+    // if($scope.hasPosts()){
+    //   for(var i =0; i < postsResource._embedded.posts.length; i++){
+    //     $scope.postsResource._embedded.posts.push(postsResource._embedded.posts[i]);
+    //   }
+    //   $scope.postsResource._links = postsResource._links;
+    // } else {
       $scope.postsResource = postsResource;
-    }
+    //}
   };
 
   $scope.loadPosts = function(url){

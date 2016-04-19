@@ -24,6 +24,8 @@ GET        /posts/hashtag/{tag}                    posts.Posts.getPostsByTag
 GET        /users/{loginName}/posts                posts.Posts.getUserPosts
 GET        /posts/recommended                      posts.Posts.getRecommendedPosts
 
+GET        /similarities/max-rec-threshold         similarities.Similarities.getMaxRecThreshold
+
 GET        /posts/{id}                             posts.Posts.getPost
 PUT        /posts/{id}                             posts.Posts.editPost
 DELETE     /posts/{id}                             posts.Posts.deletePost
