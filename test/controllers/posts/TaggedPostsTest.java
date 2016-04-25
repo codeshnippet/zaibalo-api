@@ -15,12 +15,7 @@ import ch.halarious.core.HalResource;
 
 import com.google.gson.Gson;
 
-public class TaggedPostsTest extends FunctionalTest {
-	
-	@Before
-	public void beforeTest() {
-		Fixtures.deleteAllModels();
-	}
+public class TaggedPostsTest extends AbstractPostsTest {
 
 	@Test
 	public void testGetTaggedPosts() {
@@ -84,10 +79,4 @@ public class TaggedPostsTest extends FunctionalTest {
 		assertEquals("Ще одненький #тег українською", postsList.get(0).content);
 	}
 
-	private List<PostResource> getPostsListFrom(Response response) {
-		String responseBody = response.out.toString();
-		Gson gson = HalGsonBuilder.getDeserializerGson(PostsListResource.class);
-		PostsListResource postsListResource = (PostsListResource) gson.fromJson(responseBody, HalResource.class);
-		return postsListResource.posts;
-	}
 }

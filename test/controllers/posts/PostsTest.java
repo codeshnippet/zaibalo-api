@@ -20,16 +20,11 @@ import controllers.ContentType;
 import controllers.HttpMethod;
 import controllers.RequestBuilder;
 
-public class PostsTest extends FunctionalTest {
+public class PostsTest extends AbstractPostsTest {
 
 	private static final String BILLY_SECRET_TOKEN = "secret_token_321";
 	private static final String BILLY_USERNAME = "billy";
 	private static final int NOT_EXISTING_POST_ID = 133454552;
-
-	@Before
-	public void beforeTest() {
-		Fixtures.deleteAllModels();
-	}
 
 	@Test
 	public void testPostCreation() {
@@ -111,25 +106,6 @@ public class PostsTest extends FunctionalTest {
 		assertEquals(1, postsList.size());
 		assertEquals("test content 1", postsList.get(0).content);
 	}
-
-    @Test
-    public void testGetRecommendedPosts() {
-        Fixtures.loadModels("data/post-recommendation.yml");
-
-        Response response = new RequestBuilder()
-                .withPath("/posts/recommended")
-                .withHttpMethod(HttpMethod.GET)
-                .send();
-
-        assertStatus(200, response);
-        assertContentType("application/json", response);
-        List<PostResource> postsList = getPostsListFrom(response);
-
-        assertNotNull(postsList);
-        assertEquals(1, postsList.size());
-        PostResource postOne = postsList.get(0);
-        assertEquals("Post about Math!", postOne.content);
-    }
 
 	@Test
 	public void testGetSinglePost() {
@@ -299,14 +275,4 @@ public class PostsTest extends FunctionalTest {
         assertNull(resource.next);
     }
 
-    private PostsListResource getPostsListResource(Response response) {
-        Gson gson = HalGsonBuilder.getDeserializerGson(PostsListResource.class);
-        String responseBody = response.out.toString();
-        return (PostsListResource) gson.fromJson(responseBody, HalResource.class);
-    }
-
-	private List<PostResource> getPostsListFrom(Response response) {
-        PostsListResource postsListResource = getPostsListResource(response);
-		return postsListResource.posts;
-	}
 }

@@ -28,7 +28,7 @@ public class Post extends Model implements Ratable {
 	@NotNull
 	public Date creationDate;
 	
-	@ManyToOne(fetch=FetchType.EAGER)
+	@ManyToOne(fetch=FetchType.LAZY)
 	@JoinColumn(name="author_id", referencedColumnName="id")
 	public User author;
 
@@ -38,7 +38,7 @@ public class Post extends Model implements Ratable {
 	@OneToMany(mappedBy = "post", cascade=CascadeType.REMOVE, fetch=FetchType.LAZY)
 	public List<PostAttachment> attachments = new ArrayList<PostAttachment>();
 	
-	@OneToMany(mappedBy = "post", cascade=CascadeType.REMOVE)
+	@OneToMany(mappedBy = "post", cascade=CascadeType.REMOVE, fetch=FetchType.LAZY)
 	public Set<PostRating> ratings = new HashSet<PostRating>();
 	
 	public Post(){
