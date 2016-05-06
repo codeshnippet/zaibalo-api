@@ -19,15 +19,19 @@ public class PostsServiceImpl implements PostsService {
     @Override
     public List<Post> getRecommendedPosts(User user, int from, int limit, long threshold) {
         String query =
-                "select pr.post from PostRating as pr, Similarity sim " +
-                        "where pr.user = sim.two " +
-                        "and pr.user != :user " +
-                        "and sim.one = :user " +
+                "select pr.post from PostRating as pr, Similarity sim " + //select posts from post ratings
+                        "where pr.user = sim.two " + // where post rating was left by users
+                        "and pr.user != :user " +    // that are not the current one
+                        "and sim.one = :user " +     // but which have similarity with current one
                         "group by pr.post " +
-                        "having count(pr.user) >= :threshold " +
-                        "order by sum(pr.value * sim.value) / sum(sim.value) desc";
+                        "having count(pr) >= :threshold " +
+                        "order by sum(pr.value * sim.value) / count(pr) desc";
 
-        return PostRating.find(query).setParameter("user", user).setParameter("threshold", threshold).from(from).fetch(limit);
+        return Post.find(query)
+                .setParameter("user", user)
+                .setParameter("threshold", threshold)
+                .from(from)
+                .fetch(limit);
     }
 
     @Override
@@ -39,7 +43,7 @@ public class PostsServiceImpl implements PostsService {
                         "and sim.one = :user " +
                         "group by pr.post " +
                         "having count(pr.user) >= :threshold " +
-                        "order by sum(pr.value * sim.value) / sum(sim.value) desc";
+                        "order by sum(pr.value * sim.value) / count(pr) desc";
 
         return PostRating.find(query).setParameter("user", user).setParameter("threshold", threshold).fetch().size();
     }
