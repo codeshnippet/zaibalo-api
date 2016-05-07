@@ -33,8 +33,7 @@ public class User extends Model {
 	
 	@Column(unique=true)
 	public String email;
-	
-	@NotNull
+
 	@Column(name = "display_name", unique = true)
 	private String displayName;
 
@@ -60,7 +59,7 @@ public class User extends Model {
 	public User(String loginName, String displayName){
 		this();
 		this.loginName = loginName;
-		this.setDisplayName(displayName);
+		this.displayName = displayName;
 	}
 
 	public String getPassword() {
@@ -91,14 +90,13 @@ public class User extends Model {
 	}
 
 	public void setDisplayName(String displayName) {
-		if(StringUtils.isEmpty(displayName)){
-			this.displayName = loginName;
-		} else {
 			this.displayName = displayName;
-		}
 	}
 
 	public String getDisplayName() {
+        if(StringUtils.isEmpty(this.displayName)){
+            return loginName;
+        }
 		return this.displayName;
 	}
 

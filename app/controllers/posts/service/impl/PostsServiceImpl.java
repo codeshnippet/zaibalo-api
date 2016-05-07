@@ -21,7 +21,7 @@ public class PostsServiceImpl implements PostsService {
         String query =
                 "select pr.post from PostRating as pr, Similarity sim " + //select posts from post ratings
                         "where pr.user = sim.two " + // where post rating was left by users
-                        "and pr.user != :user " +    // that are not the current one
+                        "and pr.post not in (select p.post from PostRating p where p.user = :user) " +    // that are not the current one
                         "and sim.one = :user " +     // but which have similarity with current one
                         "group by pr.post " +
                         "having count(pr) >= :threshold " +

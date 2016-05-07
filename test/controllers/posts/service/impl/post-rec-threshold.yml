@@ -1,57 +1,30 @@
 User(frank):
-    displayName:      Superman
-    email:            superman@mail.com
-    registrationDate: 2009-03-26
     loginName:        franky
-    password:         secret
     token:            secret_token_123
 
 User(bill):
-    displayName:      Drunk
-    email:            bill@mail.com
-    registrationDate: 2009-03-27
     loginName:        billy
-    password:         secret
-    token:            secret_token_321
 
 User(joe):
-    displayName:      Joey
-    email:            joe@mail.com
-    registrationDate: 2009-03-28
     loginName:        joey
-    password:         secret
-    token:            secret_token_456
 
 User(pubsy):
-    displayName:      Pubsy
-    email:            pubsy@mail.com
-    registrationDate: 2009-03-21
     loginName:        pubsy
-    password:         secret
-    token:            secret_token_835
 
 User(loser):
-    displayName:      Loser
-    email:            loser@mail.com
-    registrationDate: 2009-03-20
     loginName:        loser
-    password:         secret
-    token:            secret_token_725
 
 Post(money):
     content:          Post about Money! N1
     author:           loser
-    creationDate:     2009-03-27
 
 Post(flowers):
     content:          Post about Flowers! N3
     author:           loser
-    creationDate:     2009-03-27
 
 Post(math):
     content:          Post about Math! N2
     author:           loser
-    creationDate:     2009-03-27
 
 Similarity(sim2):
     one:              frank
@@ -66,22 +39,29 @@ Similarity(sim3):
 Similarity(sim1):
     one:              frank
     two:              bill
-    value:            0.5
+    value:            0.4
 
 PostRating(postRating2):
-    creationDate:     2009-03-29
     user:             joe
     post:             flowers
     value:            1
 
 PostRating(postRating3):
-    creationDate:     2009-03-28
     user:             pubsy
     post:             money
     value:            1
 
 PostRating(postRating1):
-    creationDate:     2009-03-26
     user:             bill
     post:             math
+    value:            1
+
+PostRating(postRating4):
+    user:             joe
+    post:             money
+    value:            1
+
+PostRating(postRating5):
+    user:             bill
+    post:             flowers
     value:            1

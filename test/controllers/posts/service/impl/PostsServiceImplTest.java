@@ -2,6 +2,8 @@ package controllers.posts.service.impl;
 
 import controllers.posts.service.PostsService;
 import models.Post;
+import models.PostRating;
+import models.Similarity;
 import models.User;
 import org.junit.Before;
 import org.junit.Test;
@@ -17,11 +19,11 @@ public class PostsServiceImplTest extends FunctionalTest {
     @Before
     public void beforeTest() {
         Fixtures.deleteAllModels();
+        Fixtures.loadModels("controllers/posts/service/impl/post-rec-threshold.yml");
     }
 
     @Test
     public void testGetRecommendedPostsOrderedBySimilarity() {
-        Fixtures.loadModels("data/post-rec-order-by-similarity.yml");
         User franky = User.findByLoginName("franky");
 
         List<Post> postsList = postsService.getRecommendedPosts(franky, 0, 10, 0);
@@ -33,11 +35,89 @@ public class PostsServiceImplTest extends FunctionalTest {
     }
 
     @Test
-    public void testThresholdMatters(){
-        Fixtures.loadModels("data/post-rec-threshold.yml");
+    public void testThresholdMatters() {
         User franky = User.findByLoginName("franky");
 
         List<Post> postsList = postsService.getRecommendedPosts(franky, 0, 10, 2);
+
+        assertEquals(2, postsList.size());
+        assertEquals("Post about Money! N1", postsList.get(0).content);
+        assertEquals("Post about Flowers! N3", postsList.get(1).content);
+    }
+
+    @Test
+    public void testPaginatingRecommendedPostsFromOne() {
+        User franky = User.findByLoginName("franky");
+
+        List<Post> postsList = postsService.getRecommendedPosts(franky, 0, 1, 0);
+
+        assertEquals(1, postsList.size());
+        assertEquals("Post about Money! N1", postsList.get(0).content);
+    }
+
+    @Test
+    public void testPaginatingRecommendedPostsFromTwo() {
+        User franky = User.findByLoginName("franky");
+
+        List<Post> postsList = postsService.getRecommendedPosts(franky, 1, 1, 0);
+
+        assertEquals(1, postsList.size());
+        assertEquals("Post about Math! N2", postsList.get(0).content);
+    }
+
+    @Test
+    public void testPaginatingRecommendedPostsFromThree() {
+        User franky = User.findByLoginName("franky");
+
+        List<Post> postsList = postsService.getRecommendedPosts(franky, 2, 1, 0);
+
+        assertEquals(1, postsList.size());
+        assertEquals("Post about Flowers! N3", postsList.get(0).content);
+    }
+
+    @Test
+    public void testPaginatingRecommendedPostsFromFour() {
+        User franky = User.findByLoginName("franky");
+
+        List<Post> postsList = postsService.getRecommendedPosts(franky, 3, 1, 0);
+
+        assertEquals(0, postsList.size());
+    }
+
+    @Test
+    public void testPaginatingRecommendedPostsLimit() {
+        User franky = User.findByLoginName("franky");
+
+        List<Post> postsList = postsService.getRecommendedPosts(franky, 0, 2, 0);
+
+        assertEquals(2, postsList.size());
+        assertEquals("Post about Money! N1", postsList.get(0).content);
+        assertEquals("Post about Math! N2", postsList.get(1).content);
+    }
+
+    @Test
+    public void testPostsThatAreRatedByUserAreNotShown() {
+        User franky = User.findByLoginName("franky");
+        Post post = Post.find("byContent", "Post about Math! N2").first();
+        PostRating postRating = new PostRating(post, franky, true);
+        postRating.save();
+
+        List<Post> postsList = postsService.getRecommendedPosts(franky, 0, 10, 0);
+
+        assertEquals(2, postsList.size());
+        assertEquals("Post about Money! N1", postsList.get(0).content);
+        assertEquals("Post about Flowers! N3", postsList.get(1).content);
+    }
+
+    @Test
+    public void testPostsRatedByUsersWithUnknownSimilarityNotShown() {
+        User franky = User.findByLoginName("franky");
+        User billy = User.findByLoginName("billy");
+        Similarity sim = Similarity.find("byTwo", billy).first();
+
+        sim.delete();
+
+        List<Post> postsList = postsService.getRecommendedPosts(franky, 0, 10, 0);
 
         assertEquals(2, postsList.size());
         assertEquals("Post about Money! N1", postsList.get(0).content);
