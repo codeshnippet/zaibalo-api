@@ -7,7 +7,7 @@ function($scope, $routeParams, Avatar, UserService, PostsService) {
 
   $scope.post = null;
 
-  PostsService.loadPostById($routeParams.postId, function(post){
+  PostsService.loadPosts('/posts/' + $routeParams.postId, function(post){
     $scope.post = post;
   });
 
