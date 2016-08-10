@@ -10,6 +10,9 @@
           </button>
           <ul class="dropdown-menu pull-right" role="menu">
             <li ng-show="post._links.self"><a href="#/post/{{ post.id }}">{{ 'view.post.page' | translate }}</a></li>
+			<li>
+			  <a href="#" ng-click="shareOnFacebook(post, $event)">{{ 'share' | translate }}</a>
+            </li>
             <li ng-show="post._links.delete">
               <a href="#" ng-click="deletePost(post, $index, $event)" class="warning">{{ 'delete.post' | translate }}</a>
             </li>
@@ -42,10 +45,7 @@
                   translate-values="{ value: post._embedded.comments.length ? post._embedded.comments.length : 0 }" ></span>
           </a>
         </div>
-        <div class="col-xs-4">
-        	<a ng-click="shareOnFacebook(post, $event)" href="#" class="pull-right">Share</a>
-        </div>
-        <div class="col-xs-4">
+        <div class="col-xs-offset-4 col-xs-4">
           <a ng-click="toggleRatings(post, $event)" href="#" class="pull-right">
             <span class="glyphicon glyphicon-equalizer" aria-hidden="true"></span>
             <span>{{ 'rating.colon' | translate }} {{ post.ratingSum }} ({{ post.ratingCount }})</span>

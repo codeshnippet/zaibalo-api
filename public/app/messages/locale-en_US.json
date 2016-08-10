@@ -44,5 +44,6 @@
   "registration.fail.password.required" : "Registration failed: Password is required.",
   "registration.fail.username.not.free" : "Registration failed: Username is already taken.",
   "rating.colon" : "Rating:",
-  "recommended" : "Recommended"
+  "recommended" : "Recommended",
+  "share" : "Share"
 }
