@@ -4,6 +4,9 @@
 
 Журнал в якому люди сваряться на повсягденне життя, діляться досвідом та порадами.
 
+# Демо
+http://zaibalo-api.herokuapp.com
+
 ## Running the application locally
 
 Make sure your play framework install directory is on your path. Then navigate to the application directory and run the app with:
