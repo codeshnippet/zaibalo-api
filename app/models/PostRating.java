@@ -52,6 +52,7 @@ public class PostRating extends Rating {
                 "group by pr.post " +
                 "order by count(pr.user) desc";
 
-        return (Long) PostRating.find(query).setParameter("user", user).fetch(1).get(0);
+        List<Long> countList = PostRating.find(query).setParameter("user", user).fetch(1);
+        return countList.isEmpty() ? 0 : countList.get(0);
     }
 }
