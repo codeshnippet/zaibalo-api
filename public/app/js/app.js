@@ -3,7 +3,8 @@
 // Declare app level module which depends on filters, and services
 var app = angular.module('myApp', ['myApp.filters', 'myApp.services',
 'myApp.directives', 'myApp.controllers', 'pascalprecht.translate',
-'ngSanitize', 'bd.timedistance', 'ngRoute', 'ngCookies', 'angular-loading-bar', 'ngFacebook'])
+'ngSanitize', 'bd.timedistance', 'ngRoute', 'ngCookies', 'angular-loading-bar',
+'ngFacebook', 'xeditable'])
 
 .config(['$routeProvider', function($routeProvider) {
     $routeProvider
@@ -79,6 +80,10 @@ var app = angular.module('myApp', ['myApp.filters', 'myApp.services',
     ref.parentNode.insertBefore(js, ref);
 
   }(document));
+})
+
+.run(function(editableOptions) {
+  editableOptions.theme = 'bs3'; // bootstrap3 theme. Can be also 'bs2', 'default'
 })
 
 .config(['cfpLoadingBarProvider', function(cfpLoadingBarProvider) {

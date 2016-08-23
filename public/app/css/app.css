@@ -103,3 +103,13 @@ img.center {
 .buttom-buffer {
 	margin-bottom:20px;
 }
+
+a.editable-click {
+    color: black;
+    border-bottom: dotted 2px black;
+}
+
+a.editable-click:hover {
+    color: #337ab7;
+    border-bottom-color: #337ab7;
+}

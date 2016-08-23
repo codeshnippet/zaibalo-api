@@ -7,7 +7,7 @@ function($scope, $http, $routeParams, Avatar, $controller, PostsService) {
 
   $controller('ParentPostsController', {$scope: $scope});
 
-  $scope.user = null;
+  $scope.user = {};
 
   $http({
       method: 'GET',
@@ -19,6 +19,15 @@ function($scope, $http, $routeParams, Avatar, $controller, PostsService) {
   $scope.getAvatar = function(user, size){
     return Avatar(user, size);
   }
+
+  $scope.$watch('user.displayName', function(newVal, oldVal) {
+    if (newVal !== oldVal) {
+      $http.put('/users/' + $scope.user.id, JSON.stringify($scope.user)).
+        success(function(user, status, headers, config) {
+          $scope.user = user;
+        });
+    }
+  });
 
   $scope.loadPosts('/users/' + $routeParams.login + '/posts');
 }]);

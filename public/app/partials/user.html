@@ -10,7 +10,9 @@
 			</div>
 		</div>
 		<div class="col-sm-9 col-xs-7">
-				<div class="user-info-row user-info-disp-name">{{user.displayName}}</div>
+				<div class="user-info-row user-info-disp-name">
+					<a href="#" editable-text="user.displayName">{{ user.displayName || empty }}</a>
+				</div>
 				<div class="user-info-row user-info-about">Student in Ivano-Frankove</div>
 				<div class="clearfix visible-xs-block"></div>
 				<div class="user-info-row hidden-xs">
