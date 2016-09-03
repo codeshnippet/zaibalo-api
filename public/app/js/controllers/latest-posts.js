@@ -7,5 +7,5 @@ angular.module('myApp.controllers')
 
     $controller('ParentPostsController', {$scope: $scope});
 
-    $scope.loadPosts('/posts');
+    $scope.loadPosts('/posts?limit=10');
 }]);

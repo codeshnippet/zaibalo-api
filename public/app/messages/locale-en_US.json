@@ -45,5 +45,6 @@
   "registration.fail.username.not.free" : "Registration failed: Username is already taken.",
   "rating.colon" : "Rating:",
   "recommended" : "Recommended",
-  "share" : "Share"
+  "share" : "Share",
+  "next.page": "Next page"
 }

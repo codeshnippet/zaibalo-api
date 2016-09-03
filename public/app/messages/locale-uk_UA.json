@@ -45,5 +45,6 @@
   "registration.fail.username.not.free" : "Помилка реєстрації: Ім'я користувача зайнято",
   "rating.colon" : "Рейтинг:",
   "recommended" : "Рекомендовані",
-  "share" : "Поділитися"
+  "share" : "Поділитися",
+  "next.page": "Наступна сторінка"
 }
