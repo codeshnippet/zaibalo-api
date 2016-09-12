@@ -21,7 +21,7 @@ function($scope, $http, $routeParams, Avatar, $controller, PostsService) {
   }
 
   $scope.$watch('user.displayName', function(newVal, oldVal) {
-    if (newVal !== oldVal) {
+    if (newVal !== oldVal && oldVal !== undefined) {
       $http.put('/users/' + $scope.user.id, JSON.stringify($scope.user)).
         success(function(user, status, headers, config) {
           $scope.user = user;
