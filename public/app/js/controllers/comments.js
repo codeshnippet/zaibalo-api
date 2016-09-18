@@ -7,7 +7,7 @@ angular.module('myApp.controllers')
 
     $scope.addComment = function(post){
       var json = JSON.stringify({ content : post.newComment });
-      $http.post('/posts/' + post.id + '/comments', json).
+      $http.post('posts/' + post.id + '/comments', json).
         success(function(data, status, headers, config) {
           if(!$scope.hasComments(post)){
             post._embedded = {comments:[]};
@@ -23,7 +23,7 @@ angular.module('myApp.controllers')
     }
 
     $scope.deleteComment = function(post, commentId, index, event){
-      $http.delete('/comments/' + commentId).
+      $http.delete('comments/' + commentId).
         success(function(data, status, headers, config) {
           post._embedded.comments.splice(index, 1);
         });

@@ -15,7 +15,7 @@ angular.module('myApp.services')
   }
 
   self.addPost = function(content, callback){
-    $http.post('/posts', JSON.stringify({ content : content })).
+    $http.post('posts', JSON.stringify({ content : content })).
       success(function(post, status, headers, config) {
         callback(post);
       });

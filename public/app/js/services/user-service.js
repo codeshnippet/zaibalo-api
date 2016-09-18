@@ -14,7 +14,7 @@ angular.module('myApp.services')
       externalId : externalId
     };
 
-    $http.post('/oauth-login', JSON.stringify(request)).
+    $http.post('oauth-login', JSON.stringify(request)).
       success(function(data, status, headers, config) {
         self.authenticate(data);
         self.redirectBack();
@@ -27,7 +27,7 @@ angular.module('myApp.services')
       password : password
     };
 
-    $http.post('/login', JSON.stringify(request)).
+    $http.post('login', JSON.stringify(request)).
       success(function(data, status, headers, config) {
         self.authenticate(data);
         self.redirectBack();
@@ -69,7 +69,7 @@ angular.module('myApp.services')
       password : password
     };
 
-    $http.post('/users', JSON.stringify(request)).
+    $http.post('users', JSON.stringify(request)).
       success(function(data, status, headers, config) {
         self.authenticate(data);
         success();

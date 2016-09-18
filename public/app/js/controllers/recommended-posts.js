@@ -9,7 +9,7 @@ angular.module('myApp.controllers')
 
     $http({
         method: 'GET',
-        url: '/similarities/max-rec-threshold'
+        url: 'similarities/max-rec-threshold'
       }).success(function(data){
         var mySlider = $("#slider").slider({
           max: data.maxRecThreshold,
@@ -17,11 +17,11 @@ angular.module('myApp.controllers')
         });
 
         mySlider.on('slideStop', function(event){
-          $scope.loadPosts('/posts/recommended?from=0&limit=10&threshold=' + event.value);
+          $scope.loadPosts('posts/recommended?from=0&limit=10&threshold=' + event.value);
         });
 
     });
 
-    $scope.loadPosts('/posts/recommended');
+    $scope.loadPosts('posts/recommended');
 
 }]);
