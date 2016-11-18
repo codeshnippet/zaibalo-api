@@ -1,26 +1,23 @@
 package controllers.security;
 
+import models.User;
+import org.apache.commons.codec.binary.Base64;
+import org.apache.commons.codec.digest.DigestUtils;
+import org.apache.commons.io.IOUtils;
+import play.mvc.Before;
+import play.mvc.Controller;
+import play.mvc.Http.Header;
+import play.mvc.Util;
+import play.mvc.results.CustomUnauthorized;
+
+import javax.crypto.Mac;
+import javax.crypto.spec.SecretKeySpec;
 import java.io.ByteArrayInputStream;
 import java.io.ByteArrayOutputStream;
 import java.io.IOException;
 import java.io.UnsupportedEncodingException;
 import java.security.InvalidKeyException;
 import java.security.NoSuchAlgorithmException;
-
-import javax.crypto.Mac;
-import javax.crypto.spec.SecretKeySpec;
-
-import models.User;
-
-import org.apache.commons.codec.binary.Base64;
-import org.apache.commons.codec.digest.DigestUtils;
-import org.apache.commons.io.IOUtils;
-
-import play.mvc.Before;
-import play.mvc.Controller;
-import play.mvc.Http.Header;
-import play.mvc.Util;
-import play.mvc.results.CustomUnauthorized;
 
 public class Security extends Controller {
 
@@ -84,11 +81,16 @@ public class Security extends Controller {
 				DigestUtils.md5Hex(readRequestBody()) + "\n" +
 				contentTypeValue + "\n" +
 				timestampValue + "\n" +
-				request.path + request.querystring;
+				normalizePath(request.path) + request.querystring;
 		return sha1(token, data.toLowerCase());
 	}
 
-	@Util
+    @Util
+    private static String normalizePath(String path) {
+        return path.startsWith("/") ? path.substring(1) : path;
+    }
+
+    @Util
 	public static User getAuthenticatedUser() {
 		Header usernameHeader = request.headers.get("x-auth-username");
 		if(usernameHeader == null){

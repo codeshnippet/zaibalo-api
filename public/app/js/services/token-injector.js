@@ -4,10 +4,14 @@ function getHMAC(type, url, contentType, body, timestamp, token){
 	requestBodyMd5 + '\n' +
 	contentType + '\n' +
 	timestamp + '\n' +
-	url;
+	normalizeUrl(url);
 
 	var shaObj = new jsSHA(data.toLowerCase(), "TEXT");
 	return shaObj.getHMAC(token, "TEXT", "SHA-1", "B64");
+}
+
+function normalizeUrl(url){
+    return url.startsWith("/") ? url.substring(1) : url;
 }
 
 var module = angular.module('myApp');
