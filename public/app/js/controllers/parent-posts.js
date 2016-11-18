@@ -69,6 +69,9 @@ angular.module('myApp.controllers')
   }
 
   $scope.loadPostsCallback = function(postsResource){
+      if($scope.hasPosts()){
+        postsResource._embedded.posts = $scope.postsResource._embedded.posts.concat(postsResource._embedded.posts);
+      }
       $scope.postsResource = postsResource;
   };
 

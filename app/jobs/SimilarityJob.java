@@ -10,17 +10,24 @@ import play.jobs.OnApplicationStart;
 
 import java.util.*;
 
+@OnApplicationStart
 public class SimilarityJob extends Job {
+
+    private static class Statistics {
+        public int processedCount = 0;
+    }
 
     public void doJob() {
         Logger.info("SimilarityJob started.");
 
-        populateSimilarity();
+        Statistics statistics = populateSimilarity();
 
-        Logger.info("SimilarityJob ended.");
+        Logger.info("SimilarityJob ended. Processed items count %d", statistics.processedCount);
     }
 
-    private void populateSimilarity() {
+    private Statistics populateSimilarity() {
+        Statistics stat = new Statistics();
+
         List<User> users = PostRating.getUserRatingPosts();
         Map<User, Set<PostRating>> map = PostRating.getUserPostRatingsMap();
         for(User one: users) {
@@ -33,7 +40,7 @@ public class SimilarityJob extends Job {
                     // ratingsOne now contains only the elements which are also contained in ratingsTwo.
                     ratingsOne.keySet().retainAll(ratingsTwo.keySet());
 
-                    // do not save similarity value if less then 10 posts in common were rated
+                    // do not save similarity value if less then 5 posts in common were rated
                     if (ratingsOne.keySet().size() < 5) {
                         continue;
                     }
@@ -45,8 +52,10 @@ public class SimilarityJob extends Job {
 
             for(Critic critic: queue) {
                 saveSimilarity(one, critic.user, critic.value);
+                stat.processedCount++;
             }
         }
+        return stat;
     }
 
     private Map<Post, Integer> transform(Set<PostRating> postRatings) {
