@@ -21,6 +21,14 @@ angular.module('myApp.services')
       return '?size=large';
     }
 
+    if(provider == 'FACEBOOK' && size == 'S'){
+      return '?width=32&height=32';
+    }
+
+    if(provider == 'FACEBOOK' && size == 'M'){
+      return '?width=100&height=100';
+    }
+
     return '';
   };
   return function(user, size){
