@@ -126,9 +126,13 @@ public class RequestBuilder {
 	}
 	
 	private String concatDataString(String timestamp, String path, String contentType, String bodyMd5Hex, String method) {
-		String data = method + "\n" + bodyMd5Hex + "\n" + contentType + "\n" + timestamp + "\n" + path;
+		String data = method + "\n" + bodyMd5Hex + "\n" + contentType + "\n" + timestamp + "\n" + normalizePath(path);
 		return data.toLowerCase();
 	}
+
+    private static String normalizePath(String path) {
+        return path.startsWith("/") ? path.substring(1) : path;
+    }
 	
 	private String sha1(String data, String keyString){
 		byte[] bytes = new byte[0];
