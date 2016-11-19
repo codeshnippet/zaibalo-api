@@ -11,7 +11,7 @@ angular.module('myApp.controllers')
   $scope.$on('fb.auth.authResponseChange', function() {
     if($facebook.isConnected()) {
       $facebook.api('/me?fields=name, picture, email').then(function(user) {
-        UserService.loginSocial(user.id, user.email, user.name, buildPhotoUrl(user.id);
+        UserService.loginSocial(user.id, user.email, user.name, buildPhotoUrl(user.id));
       });
     }
   });
