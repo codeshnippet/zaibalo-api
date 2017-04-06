@@ -31,6 +31,7 @@ public class UserTest extends UnitTest{
 	    assertEquals("superman@mail.com", user.email);
 	    assertEquals("franky", user.loginName);
 	    assertEquals(SECRET_HASHED, user.getPassword());
+        assertEquals("AboutFrank", user.about);
 	}
 	
     @Test(expected = PersistenceException.class)

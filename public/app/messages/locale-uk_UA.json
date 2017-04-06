@@ -21,7 +21,7 @@
   "switch" : "English",
   "comments1" : " {{value}} коментар",
   "comments2" : " {{value}} коментарі",
-  "comments5" : " {{value}} коментарів",
+  "comments5" : " коментарів",
   "view.post.page" : "Сторінка зайоба",
   "delete.post" : "Видалити зайоб",
   "join.zaibalo.today" : "Приєднуйся до Заїбало!",
@@ -46,5 +46,6 @@
   "rating.colon" : "Рейтинг:",
   "recommended" : "Рекомендовані",
   "share" : "Поділитися",
-  "next.page": "Наступна сторінка"
+  "next.page": "Наступна сторінка",
+  "posts5": " зайобів"
 }

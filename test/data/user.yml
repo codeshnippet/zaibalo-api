@@ -5,6 +5,7 @@ User(frank):
     loginName:        franky
     password:         secret
     token:            secret_token_123
+    about:            AboutFrank
 
 User(bill):
     displayName:      Drunk
@@ -13,6 +14,7 @@ User(bill):
     loginName:        billy
     password:         secret
     token:            secret_token_321
+    about:            AboutBill
 
 User(face):
     displayName:      Johny Brown
@@ -22,3 +24,4 @@ User(face):
     password:         secret
     token:            secret_token_567
     photo:            http://img.com/a.jpg
+    about:            AboutFace

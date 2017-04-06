@@ -3,6 +3,8 @@ package controllers.users;
 import models.User;
 import controllers.posts.PostResource;
 
+import java.util.Date;
+
 public class UserResource {
 
 	public long id;
@@ -10,6 +12,9 @@ public class UserResource {
 	public String photo;
 	public String loginName;
 	public String photoProvider;
+    public String about;
+    public long postsCount;
+    public long commentsCount;
 	
 	public static UserResource convertToJson(User user) {
 		UserResource userResponse = new UserResource();
@@ -18,6 +23,7 @@ public class UserResource {
 		userResponse.photo = user.getPhoto();
 		userResponse.loginName = user.loginName;
 		userResponse.photoProvider = user.photoProvider.toString();
+        userResponse.about = user.about;
 		return userResponse;
 	}
 }

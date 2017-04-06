@@ -2,6 +2,8 @@ package controllers.users;
 
 import java.io.InputStreamReader;
 
+import models.Comment;
+import models.Post;
 import models.User;
 
 import org.apache.commons.lang.StringUtils;
@@ -13,8 +15,6 @@ import com.google.gson.GsonBuilder;
 
 import controllers.BasicController;
 import controllers.authentication.LoginDTO;
-import controllers.posts.service.PostsService;
-import controllers.posts.service.impl.PostsServiceImpl;
 import controllers.security.Secured;
 import controllers.security.Security;
 
@@ -52,8 +52,16 @@ public class Users extends BasicController {
 		if (user == null) {
 			notFound();
 		}
-		response.setContentTypeIfNotSet("application/json");
-		renderJSON(UserResource.convertToJson(user));
+
+        long postsCount = Post.count("byAuthor", user);
+        long commentsCount = Comment.count("byAuthor", user);
+
+        UserResource userResource = UserResource.convertToJson(user);
+        userResource.postsCount = postsCount;
+        userResource.commentsCount = commentsCount;
+
+        response.setContentTypeIfNotSet("application/json");
+		renderJSON(userResource);
 	}
 
 	@Secured

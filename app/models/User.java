@@ -50,6 +50,9 @@ public class User extends Model {
 	
 	public String token;
 
+    @Column(name = "about")
+    public String about = "-";
+
 	protected User(){
 		this.registrationDate = new Date();
 		this.token = new BigInteger(128, new SecureRandom()).toString(32);
@@ -84,7 +87,7 @@ public class User extends Model {
 	public static User findByLoginName(String loginName) {
 		return User.find("byLoginName", loginName).first();
 	}
-	
+
 	public static String hashPassword(String password) {
 		return DigestUtils.md5Hex(password);
 	}

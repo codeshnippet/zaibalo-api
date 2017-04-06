@@ -56,7 +56,30 @@ public class UsersTest extends FunctionalTest {
 		assertEquals(Long.valueOf(user.id), Long.valueOf(userResponse.id));
 		assertEquals("Superman", userResponse.displayName);
 		assertEquals("franky", userResponse.loginName);
+        assertEquals("AboutFrank", userResponse.about);
+        assertEquals(0L, userResponse.postsCount);
+        assertEquals(0L, userResponse.commentsCount);
 	}
+
+    @Test
+    public void testGetUserWitPosts(){
+        Fixtures.loadModels("data/user-posts.yml");
+
+        Response response = GET("/users/franky");
+        UserResource userResponse = new Gson().fromJson(response.out.toString(), UserResource.class);
+
+        assertEquals(2L, userResponse.postsCount);
+    }
+
+    @Test
+    public void testGetUserWitComments(){
+        Fixtures.loadModels("data/comments.yml");
+
+        Response response = GET("/users/franky");
+        UserResource userResponse = new Gson().fromJson(response.out.toString(), UserResource.class);
+
+        assertEquals(1L, userResponse.commentsCount);
+    }
 
 	@Test
 	public void testUserNotFound() {
