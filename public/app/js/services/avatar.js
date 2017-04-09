@@ -32,7 +32,7 @@ angular.module('myApp.services')
     return '';
   };
   return function(user, size){
-    if (typeof user != 'undefined' && typeof user.photo != 'undefined'){
+    if (user != null && typeof user != 'undefined' && typeof user.photo != 'undefined'){
       return user.photo + getSizeParameter(user.photoProvider, size);
     }
     return '';

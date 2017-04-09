@@ -7,7 +7,7 @@ function($scope, $http, $routeParams, Avatar, $controller, PostsService) {
 
   $controller('ParentPostsController', {$scope: $scope});
 
-  $scope.user = {};
+  $scope.user = null;
 
   $http({
       method: 'GET',
@@ -28,6 +28,23 @@ function($scope, $http, $routeParams, Avatar, $controller, PostsService) {
         });
     }
   });
+
+  $scope.translationSufix = function(number){
+    if(number == undefined){
+      number = 0;
+    }
+     if((number-number%10)%100!=10){
+       if(number%10==1){
+         return 1;
+       } else if(number%10>=2 && number%10<=4){
+         return 2;
+       } else {
+         return 5;
+       }
+     } else {
+       return 5;
+     }
+   };
 
   $scope.loadPosts('users/' + $routeParams.login + '/posts');
 }]);
