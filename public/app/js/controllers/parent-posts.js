@@ -97,4 +97,21 @@ angular.module('myApp.controllers')
       $scope.postsResource._embedded.posts.length > 0;
   };
 
+  $scope.translationSufix = function(number){
+    if(number == undefined){
+      number = 0;
+    }
+    if((number-number%10)%100!=10){
+      if(number%10==1){
+        return 1;
+      } else if(number%10>=2 && number%10<=4){
+        return 2;
+      } else {
+        return 5;
+      }
+    } else {
+      return 5;
+    }
+  };
+
 }]);
