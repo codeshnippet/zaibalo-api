@@ -16,8 +16,10 @@
 				<div class="user-info-row user-info-about">{{ user.about }}</div>
 				<div class="clearfix visible-xs-block"></div>
 				<div class="user-info-row hidden-xs">
-					<span class="user-info-stat"><strong>{{ user.postsCount }}</strong>{{ 'posts5' | translate }}</span>
-					<span class="user-info-stat"><strong>{{ user.commentsCount }}</strong> {{ 'comments5' | translate }}</span>
+                    <span translate="posts{{ translationSufix(user.postsCount) }}"
+                          translate-values="{ value: user.postsCount }" ></span>
+                    <span translate="comments{{ translationSufix(user.commentsCount) }}"
+                          translate-values="{ value: user.commentsCount }" ></span>
 				</div>
 		</div>
 	</div>

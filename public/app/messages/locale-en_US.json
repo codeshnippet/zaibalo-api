@@ -21,7 +21,7 @@
   "switch" : "Українською",
   "comments1" : " {{value}} comment",
   "comments2" : " {{value}} comments",
-  "comments5" : " comments",
+  "comments5" : " {{value}} comments",
   "view.post.page" : "View post page",
   "delete.post" : "Delete post",
   "join.zaibalo.today" : "Join Zaibalo today!",
@@ -47,5 +47,7 @@
   "recommended" : "Recommended",
   "share" : "Share",
   "next.page": "Next page",
-  "posts5": " posts"
+  "posts1" : " {{value}} post",
+  "posts2" : " {{value}} posts",
+  "posts5" : " {{value}} posts"
 }
