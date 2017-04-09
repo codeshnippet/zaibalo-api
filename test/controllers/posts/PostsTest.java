@@ -114,16 +114,15 @@ public class PostsTest extends AbstractPostsTest {
 		Post post = Post.find("byContent", "test content 1").first();
 
 		Response response = GET("/posts/" + post.getId());
-		String responseBody = response.out.toString();
-		PostResource json = new GsonBuilder().create().fromJson(responseBody, PostResource.class);
-		assertEquals(post.getId().longValue(), json.id);
-		assertEquals("test content 1", json.content);
-		assertEquals(post.author.id.longValue(), json.author.id);
-		assertEquals(post.author.getDisplayName(), json.author.displayName);
-		assertEquals(1238025600000l, json.creationTimestamp);
-		assertNull(json.comments);
-		assertEquals(2, json.ratingSum);
-		assertEquals(2, json.ratingCount);
+		PostsListResource json = getPostsListResource(response);
+		assertEquals(post.getId().longValue(), json.posts.get(0).id);
+		assertEquals("test content 1", json.posts.get(0).content);
+		assertEquals(post.author.id.longValue(), json.posts.get(0).author.id);
+		assertEquals(post.author.getDisplayName(), json.posts.get(0).author.displayName);
+		assertEquals(1238025600000l, json.posts.get(0).creationTimestamp);
+		assertNull(json.posts.get(0).comments);
+		assertEquals(2, json.posts.get(0).ratingSum);
+		assertEquals(2, json.posts.get(0).ratingCount);
 	}
 
 	@Test

@@ -1,10 +1,7 @@
 package controllers.posts;
 
 import java.io.InputStreamReader;
-import java.util.AbstractMap;
-import java.util.LinkedHashMap;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 
 import models.Post;
 import models.PostRating;
@@ -148,10 +145,8 @@ public class Posts extends BasicController {
         if (post == null) {
             notFound();
         }
-        User user = Security.getAuthenticatedUser();
 
-        HalResource postResponseJSON = PostResource.convertSinglePostResponse(post, user);
-        renderJSON(convertToHalResponse(postResponseJSON));
+        renderPostsListJson(Arrays.asList(post), Optional.absent(), Optional.absent());
     }
 
     @Secured
@@ -189,7 +184,7 @@ public class Posts extends BasicController {
     }
 
     @Util
-    private static void renderPostsListJson(List<Post> postsList, Optional<String> addPost, Optional<String> next) {
+    private static void renderPostsListJson(List<Post> postsList, Optional addPost, Optional next) {
         PostsListResource postsListResource = PostsListResource.convertToPostsListResource(postsList, addPost, next);
         renderJSON(convertToHalResponse(postsListResource));
     }

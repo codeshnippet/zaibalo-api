@@ -6,9 +6,12 @@ angular.module('myApp.controllers')
 
   $scope.postsResource = [];
 
+  $scope.post = null;
+
   $scope.deletePost = function(postId, index, event){
     PostsService.deletePost(postId, function(){
       $scope.postsResource._embedded.posts.splice(index, 1);
+      $scope.post = null;
     });
 
     event.preventDefault();
@@ -16,6 +19,11 @@ angular.module('myApp.controllers')
 
   $scope.addPost = function(){
     PostsService.addPost($scope.newPost, function(post){
+      if(typeof $scope.postsResource._embedded == 'undefined'){
+        $scope.postsResource._embedded = {
+          posts: []
+        }
+      }
       $scope.postsResource._embedded.posts.unshift(post);
     });
     this.newPost = "";
@@ -73,6 +81,10 @@ angular.module('myApp.controllers')
         postsResource._embedded.posts = $scope.postsResource._embedded.posts.concat(postsResource._embedded.posts);
       }
       $scope.postsResource = postsResource;
+
+      if(typeof $scope.postsResource._embedded != 'undefined'){
+        $scope.post = $scope.postsResource._embedded.posts[0];
+      }
   };
 
   $scope.loadPosts = function(url){
