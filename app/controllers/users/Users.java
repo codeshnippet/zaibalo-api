@@ -78,8 +78,15 @@ public class Users extends BasicController {
 		UserRequest.updateUserFromUserRequest(userRequest, user);
 		user.save();
 
+        long postsCount = Post.count("byAuthor", user);
+        long commentsCount = Comment.count("byAuthor", user);
+
+        UserResource userResource = UserResource.convertToJson(user);
+        userResource.postsCount = postsCount;
+        userResource.commentsCount = commentsCount;
+        
 		response.setContentTypeIfNotSet("application/json");
-		renderJSON(UserResource.convertToJson(user));
+		renderJSON(userResource);
 	}
 
 	private static void failure(String errorMessage) {
