@@ -1,8 +1,6 @@
 package models;
 
-import java.util.Date;
-import java.util.HashSet;
-import java.util.Set;
+import java.util.*;
 
 import javax.persistence.CascadeType;
 import javax.persistence.Column;
@@ -43,6 +41,9 @@ public class Comment extends Model implements Ratable {
 	@JoinColumn(name="post_id", referencedColumnName="id", nullable = false)
 	public Post post;
 
+    @OneToMany(mappedBy = "comment", cascade=CascadeType.REMOVE, fetch=FetchType.LAZY)
+    public List<CommentRating> ratings = new ArrayList<CommentRating>();
+
 	public Comment() {
 		creationDate = new Date();
 	}
@@ -61,5 +62,10 @@ public class Comment extends Model implements Ratable {
 	public Rating createRating(User user, boolean isPositive) {
 		return new CommentRating(this, user, isPositive);
 	}
+
+    @Override
+    public List<? extends Rating> getRatings() {
+        return ratings;
+    }
 
 }

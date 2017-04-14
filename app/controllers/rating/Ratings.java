@@ -6,9 +6,6 @@ import models.Ratable;
 import models.Rating;
 import models.User;
 
-import org.apache.commons.lang.StringUtils;
-
-import play.mvc.Http.Header;
 import play.mvc.Util;
 
 import com.google.gson.GsonBuilder;
@@ -31,18 +28,18 @@ public abstract class Ratings extends BasicController {
             badRequest();
         }
         
-        Rating opositeRating = ratable.getRating(user, !ratingJSON.isPositive);
+        Rating oppositeRating = ratable.getRating(user, !ratingJSON.isPositive);
         
-        if(opositeRating != null){
-        	opositeRating.delete();
-            response.status = 204;
-            renderText(StringUtils.EMPTY);
+        if(oppositeRating != null){
+        	oppositeRating.delete();
+            response.status = 200;
+            renderJSON(RatingResourceList.convertToRatingResourceList(ratable));
         }
-        
+
         ratable.createRating(user, ratingJSON.isPositive).save();
 
         response.status = 201;
-        renderJSON(StringUtils.EMPTY);
+        renderJSON(RatingResourceList.convertToRatingResourceList(ratable));
 	}
 
 }

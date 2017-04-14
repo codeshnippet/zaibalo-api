@@ -2,10 +2,10 @@
 
 angular.module('myApp.controllers')
 
-.controller('ParentPostsController', ['$scope', 'PostsService', 'UserService', 'Avatar', function($scope, PostsService, UserService, Avatar) {
+.controller('ParentPostsController', ['$scope', 'PostsService', 'UserService', 'Avatar',
+function($scope, PostsService, UserService, Avatar) {
 
   $scope.postsResource = [];
-
   $scope.post = null;
 
   $scope.deletePost = function(postId, index, event){
@@ -46,7 +46,7 @@ angular.module('myApp.controllers')
   }
 
   $scope.toggleRatings = function(post, event){
-    if (post.ratings.length > 0) {
+    if (post.ratings.ratings.length > 0) {
       getCommentBlockElement().hide(500);
       getRatingBlockElement().slideToggle(500);
     }
@@ -112,6 +112,16 @@ angular.module('myApp.controllers')
     } else {
       return 5;
     }
+  };
+
+  $scope.ratePostUp = function(post, event){
+    PostsService.ratePost(post, true);
+    event.preventDefault();
+  };
+
+  $scope.ratePostDown = function(post, event){
+    PostsService.ratePost(post, false);
+    event.preventDefault();
   };
 
 }]);

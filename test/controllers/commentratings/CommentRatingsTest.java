@@ -48,9 +48,7 @@ public class CommentRatingsTest
         .withBody("{\"isPositive\": false}")
         .send();
 
-        assertStatus(204, response);
-
-        comment.refresh();
+        assertStatus(200, response);
     }
 
     @Test

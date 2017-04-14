@@ -2,6 +2,7 @@ package controllers.postratings;
 
 import models.Post;
 import models.PostRating;
+import models.Rating;
 import models.User;
 
 import org.junit.Before;
@@ -17,6 +18,8 @@ import controllers.HttpMethod;
 import controllers.RequestBuilder;
 import controllers.posts.PostRequest;
 import controllers.rating.RatingRequest;
+
+import java.util.List;
 
 public class PostRatingsTest
     extends FunctionalTest {
@@ -56,8 +59,8 @@ public class PostRatingsTest
         assertEquals(false, postRating.isPositive());
 
         post.refresh();
-        assertEquals(Integer.valueOf(4), post.getRatingCount());
-        assertEquals(Integer.valueOf(0), post.getRatingSum());
+        assertEquals(4, post.getRatings().size());
+        assertEquals(0, getRatingSum(post.getRatings()));
 
     }
 
@@ -85,11 +88,11 @@ public class PostRatingsTest
         .withBody("{\"isPositive\": false}")
         .send();
 
-        assertStatus(204, response);
+        assertStatus(200, response);
 
         post.refresh();
-        assertEquals(Integer.valueOf(2), post.getRatingCount());
-        assertEquals(Integer.valueOf(0), post.getRatingSum());
+        assertEquals(2, post.getRatings().size());
+        assertEquals(0, getRatingSum(post.getRatings()));
     }
 
     @Test
@@ -108,7 +111,19 @@ public class PostRatingsTest
         assertContentEquals("POST_RATE_EXISTS", response);
 
         post.refresh();
-        assertEquals(Integer.valueOf(3), post.getRatingCount());
-        assertEquals(Integer.valueOf(1), post.getRatingSum());
+        assertEquals(3, post.getRatings().size());
+        assertEquals(1, getRatingSum(post.getRatings()));
+    }
+
+    private int getRatingSum(List<? extends Rating> ratingList) {
+        int sum = 0;
+        for (Rating rating : ratingList) {
+            if (rating.isPositive()) {
+                sum++;
+            } else {
+                sum--;
+            }
+        }
+        return sum;
     }
 }

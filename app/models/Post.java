@@ -39,7 +39,7 @@ public class Post extends Model implements Ratable {
 	public List<PostAttachment> attachments = new ArrayList<PostAttachment>();
 	
 	@OneToMany(mappedBy = "post", cascade=CascadeType.REMOVE, fetch=FetchType.LAZY)
-	public Set<PostRating> ratings = new HashSet<PostRating>();
+	public List<PostRating> ratings = new ArrayList<PostRating>();
 	
 	public Post(){
 		creationDate = new Date();
@@ -50,22 +50,6 @@ public class Post extends Model implements Ratable {
 		this.content = content;
 		this.author = author;
 	}
-
-    public Integer getRatingCount() {
-        return ratings.size();
-    }
-
-    public Integer getRatingSum() {
-        int sum = 0;
-        for(PostRating postRating: ratings){
-            if(postRating.isPositive()){
-                sum++;
-            }else{
-                sum--;
-            }
-        }
-        return sum;
-    }
 
 	@Override
 	public boolean hasRating(User user, boolean isPositive) {
@@ -81,6 +65,11 @@ public class Post extends Model implements Ratable {
 	public Rating createRating(User user, boolean isPositive) {
 		return new PostRating(this, user, isPositive);
 	}
+
+    @Override
+    public List<? extends Rating> getRatings() {
+        return ratings;
+    }
 
     public enum SortBy {
         CREATION_DATE

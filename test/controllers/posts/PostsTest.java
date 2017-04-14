@@ -121,8 +121,8 @@ public class PostsTest extends AbstractPostsTest {
 		assertEquals(post.author.getDisplayName(), json.posts.get(0).author.displayName);
 		assertEquals(1238025600000l, json.posts.get(0).creationTimestamp);
 		assertNull(json.posts.get(0).comments);
-		assertEquals(2, json.posts.get(0).ratingSum);
-		assertEquals(2, json.posts.get(0).ratingCount);
+		assertEquals(2, json.posts.get(0).ratings.ratingSum);
+		assertEquals(2, json.posts.get(0).ratings.ratingCount);
 	}
 
 	@Test

@@ -6,6 +6,8 @@ import java.util.Set;
 import models.Post;
 import models.PostRating;
 import controllers.users.UserResource;
+import models.Ratable;
+import models.Rating;
 
 public class RatingResource {
 
@@ -13,17 +15,10 @@ public class RatingResource {
 	public UserResource user;
 	public String value;
 	
-	public RatingResource(PostRating postRating){
-		this.creationTimestamp = postRating.creationDate.getTime();
-		this.user = UserResource.convertToJson(postRating.user);
-		this.value = postRating.isPositive() ? "+1" : "-1";
+	public RatingResource(Rating rating){
+		this.creationTimestamp = rating.creationDate.getTime();
+		this.user = UserResource.convertToJson(rating.user);
+		this.value = rating.isPositive() ? "+1" : "-1";
 	}
-	
-	public static Set<RatingResource> convertToPostRatingListResponse(Set<PostRating> ratings) {
-		Set<RatingResource> postRatings = new HashSet<RatingResource>();
-		for(PostRating postRating: ratings){
-			postRatings.add(new RatingResource(postRating));
-		}
-		return postRatings;
-	}
+
 }

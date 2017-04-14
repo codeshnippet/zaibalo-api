@@ -1,19 +1,14 @@
 package controllers.posts;
 
-import java.lang.reflect.Type;
-import java.util.ArrayList;
 import java.util.List;
 import java.util.Set;
 
+import controllers.rating.RatingResourceList;
 import models.Post;
 import models.User;
-import utils.HalGsonBuilder;
 import ch.halarious.core.HalBaseResource;
 import ch.halarious.core.HalEmbedded;
 import ch.halarious.core.HalLink;
-import ch.halarious.core.HalResource;
-
-import com.google.gson.reflect.TypeToken;
 
 import controllers.comments.CommentResource;
 import controllers.rating.RatingResource;
@@ -30,15 +25,16 @@ public class PostResource extends HalBaseResource {
 	public List<CommentResource> comments;
 	
 	public List<PostAttachmentResponse> attachments;
-	public Set<RatingResource> ratings;
-	public int ratingSum;
-	public int ratingCount;
+	public RatingResourceList ratings;
 
 	@HalLink(name = "delete")
 	public String deleteLink;
 	
 	@HalLink(name = "addComment")
 	public String addCommentLink;
+
+    @HalLink(name = "ratePost")
+    public String ratePost;
 
 	public static PostResource convertSinglePostResponse(Post post, User authUser) {
 		PostResource postResponseJSON = new PostResource();
@@ -49,9 +45,7 @@ public class PostResource extends HalBaseResource {
 		postResponseJSON.author = userResponseJSON;
 		postResponseJSON.comments = CommentResource.convertToCommentResponsesList(post.comments, authUser);
 		postResponseJSON.attachments = PostAttachmentResponse.convertToPostAttachmentListResponse(post.attachments);
-		postResponseJSON.ratings = RatingResource.convertToPostRatingListResponse(post.ratings);
-		postResponseJSON.ratingCount = post.getRatingCount();
-		postResponseJSON.ratingSum = post.getRatingSum();
+		postResponseJSON.ratings = RatingResourceList.convertToRatingResourceList(post);
 
 		if(authUser != null){
 			postResponseJSON.addCommentLink = "/posts/" + post.id + "/comments";
@@ -60,6 +54,8 @@ public class PostResource extends HalBaseResource {
 		if (post.author.equals(authUser)) {
 			postResponseJSON.deleteLink = "/posts/" + post.id;
 		}
+
+        postResponseJSON.ratePost = "/posts/" + post.id + "/post-ratings";
 
 		postResponseJSON.setSelfRef("/posts/" + post.id);
 
