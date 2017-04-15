@@ -27,4 +27,10 @@ public abstract class AbstractPostsTest extends FunctionalTest{
         PostsListResource postsListResource = getPostsListResource(response);
         return postsListResource.posts;
     }
+
+    protected  PostResource getPostFrom(Http.Response response){
+        Gson gson = HalGsonBuilder.getDeserializerGson(PostResource.class);
+        String responseBody = response.out.toString();
+        return (PostResource) gson.fromJson(responseBody, HalResource.class);
+    }
 }

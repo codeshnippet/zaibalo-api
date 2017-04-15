@@ -56,12 +56,13 @@ public class Users extends BasicController {
         long postsCount = Post.count("byAuthor", user);
         long commentsCount = Comment.count("byAuthor", user);
 
-        UserResource userResource = UserResource.convertToJson(user);
+        User authUser = Security.getAuthenticatedUser();
+        UserResource userResource = UserResource.convertToJson(user, authUser);
         userResource.postsCount = postsCount;
         userResource.commentsCount = commentsCount;
 
         response.setContentTypeIfNotSet("application/json");
-		renderJSON(userResource);
+		renderJSON(convertToHalResponse(userResource));
 	}
 
 	@Secured
@@ -81,12 +82,13 @@ public class Users extends BasicController {
         long postsCount = Post.count("byAuthor", user);
         long commentsCount = Comment.count("byAuthor", user);
 
-        UserResource userResource = UserResource.convertToJson(user);
+        User authUser = Security.getAuthenticatedUser();
+        UserResource userResource = UserResource.convertToJson(user, authUser);
         userResource.postsCount = postsCount;
         userResource.commentsCount = commentsCount;
         
 		response.setContentTypeIfNotSet("application/json");
-		renderJSON(userResource);
+		renderJSON(convertToHalResponse(userResource));
 	}
 
 	private static void failure(String errorMessage) {

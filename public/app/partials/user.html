@@ -11,7 +11,8 @@
 		</div>
 		<div class="col-sm-9 col-xs-7">
 				<div class="user-info-row user-info-disp-name">
-					<a href="#" editable-text="user.displayName">{{ user.displayName || empty }}</a>
+					<a ng-show="user._links.editUser" href="#" editable-text="user.displayName">{{ user.displayName || empty }}</a>
+					<span ng-hide="user._links.editUser">{{ user.displayName || empty }}</span>
 				</div>
 				<div class="user-info-row user-info-about">{{ user.about }}</div>
 				<div class="clearfix visible-xs-block"></div>
@@ -21,15 +22,6 @@
                     <span translate="comments{{ translationSufix(user.commentsCount) }}"
                           translate-values="{ value: user.commentsCount }" ></span>
 				</div>
-		</div>
-	</div>
-	<div class="row">
-		<div class="col-xs-12">
-			<div class="user-info-row visible-xs row">
-				<span class="user-info-stat col-xs-4"><strong>15</strong> posts</span>
-				<span class="user-info-stat col-xs-4"><strong>345</strong> comments</span>
-				<span class="user-info-stat col-xs-4"><strong>3.15</strong> rate</span>
-			</div>
 		</div>
 	</div>
 </div>

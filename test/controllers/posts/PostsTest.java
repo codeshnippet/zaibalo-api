@@ -187,7 +187,7 @@ public class PostsTest extends AbstractPostsTest {
 		post.refresh();
 		assertEquals("new post content", post.content);
 
-		PostResource postResponse = new GsonBuilder().create().fromJson(response.out.toString(), PostResource.class);
+		PostResource postResponse = getPostFrom(response);
 		assertEquals(post.id, Long.valueOf(postResponse.id));
 		assertEquals("new post content", postResponse.content);
 		assertNotNull(postResponse.author);
