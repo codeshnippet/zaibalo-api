@@ -39,8 +39,8 @@ public class Security extends Controller {
             request.secure = request.headers.get("x-forwarded-proto").values.contains("https");
         }
 
-        //redirect if it's not secure
-        if (!request.secure && Play.id.equals("prod")) {
+        //redirect if it's not secure//!request.host.equals("localhost") &&
+        if (!request.domain.equals("localhost") && !request.secure) {
             String url = "https://" + request.host + request.url;
             redirect(url);
         }

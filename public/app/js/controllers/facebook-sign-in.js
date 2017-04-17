@@ -17,7 +17,7 @@ angular.module('myApp.controllers')
   });
 
   function buildPhotoUrl(userId){
-    return 'http://graph.facebook.com/%user_id%/picture'.replace('%user_id%', userId);
+    return 'https://graph.facebook.com/%user_id%/picture'.replace('%user_id%', userId);
   }
 
   $scope.init();
