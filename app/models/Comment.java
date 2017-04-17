@@ -68,4 +68,9 @@ public class Comment extends Model implements Ratable {
         return ratings;
     }
 
+    @Override
+    public String getRateUrl() {
+        return "/comments/" + this.id + "/comment-ratings";
+    }
+
 }

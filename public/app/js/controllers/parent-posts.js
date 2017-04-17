@@ -46,7 +46,8 @@ function($scope, PostsService, UserService, Avatar) {
   }
 
   $scope.toggleRatings = function(post, event){
-    if (post.ratings.ratings.length > 0) {
+    if (post._embedded.ratings._embedded &&
+      post._embedded.ratings._embedded.ratings.length > 0) {
       getCommentBlockElement().hide(500);
       getRatingBlockElement().slideToggle(500);
     }

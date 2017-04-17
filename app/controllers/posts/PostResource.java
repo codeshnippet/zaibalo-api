@@ -4,6 +4,7 @@ import java.util.List;
 import java.util.Set;
 
 import controllers.rating.RatingResourceList;
+import controllers.security.Security;
 import models.Post;
 import models.User;
 import ch.halarious.core.HalBaseResource;
@@ -33,10 +34,9 @@ public class PostResource extends HalBaseResource {
 	@HalLink(name = "addComment")
 	public String addCommentLink;
 
-    @HalLink(name = "ratePost")
-    public String ratePost;
+	public static PostResource convertSinglePostResponse(Post post) {
+        User authUser = Security.getAuthenticatedUser();
 
-	public static PostResource convertSinglePostResponse(Post post, User authUser) {
 		PostResource postResponseJSON = new PostResource();
 		postResponseJSON.id = post.id;
 		postResponseJSON.content = post.content;
@@ -50,12 +50,10 @@ public class PostResource extends HalBaseResource {
 		if(authUser != null){
 			postResponseJSON.addCommentLink = "/posts/" + post.id + "/comments";
 		}
-		
+
 		if (post.author.equals(authUser)) {
 			postResponseJSON.deleteLink = "/posts/" + post.id;
 		}
-
-        postResponseJSON.ratePost = "/posts/" + post.id + "/post-ratings";
 
 		postResponseJSON.setSelfRef("/posts/" + post.id);
 

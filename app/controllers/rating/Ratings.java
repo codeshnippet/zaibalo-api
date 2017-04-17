@@ -13,6 +13,8 @@ import com.google.gson.GsonBuilder;
 import controllers.BasicController;
 import controllers.security.Security;
 
+import static controllers.rating.RatingResourceList.convertToRatingResourceList;
+
 public abstract class Ratings extends BasicController {
 	
 	@Util
@@ -33,13 +35,13 @@ public abstract class Ratings extends BasicController {
         if(oppositeRating != null){
         	oppositeRating.delete();
             response.status = 200;
-            renderJSON(RatingResourceList.convertToRatingResourceList(ratable));
+            renderJSON(convertToHalResponse(convertToRatingResourceList(ratable)));
         }
 
         ratable.createRating(user, ratingJSON.isPositive).save();
 
         response.status = 201;
-        renderJSON(RatingResourceList.convertToRatingResourceList(ratable));
+        renderJSON(convertToHalResponse(convertToRatingResourceList(ratable)));
 	}
 
 }

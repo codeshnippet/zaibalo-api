@@ -136,7 +136,7 @@ public class Posts extends BasicController {
         response.setContentTypeIfNotSet("application/json");
         response.status = 201;
 
-        HalBaseResource postResponseJSON = PostResource.convertSinglePostResponse(post, user);
+        HalBaseResource postResponseJSON = PostResource.convertSinglePostResponse(post);
         renderJSON(convertToHalResponse(postResponseJSON));
     }
 
@@ -164,9 +164,8 @@ public class Posts extends BasicController {
         post.save();
 
         response.setContentTypeIfNotSet("application/json");
-        User user = Security.getAuthenticatedUser();
 
-        HalBaseResource postResponseJSON = PostResource.convertSinglePostResponse(post, user);
+        HalBaseResource postResponseJSON = PostResource.convertSinglePostResponse(post);
         renderJSON(convertToHalResponse(postResponseJSON));
     }
 

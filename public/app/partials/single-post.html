@@ -47,13 +47,13 @@
         </div>
         <div class="col-xs-offset-4 col-xs-4">
           <div class="pull-right">
-            <a ng-click="ratePostDown(post, $event)" href="#">
+            <a ng-show="post._embedded.ratings._links.ratePostDown" ng-click="ratePostDown(post, $event)" href="#">
               <span class="glyphicon glyphicon-thumbs-down"></span>
             </a>
             <a ng-click="toggleRatings(post, $event)" href="#">
-              <span>{{ 'rating.colon' | translate }} {{ post.ratings.ratingSum }} ({{ post.ratings.ratingCount }})</span>
+              <span>{{ 'rating.colon' | translate }} {{ post._embedded.ratings.ratingSum }} ({{ post._embedded.ratings.ratingCount }})</span>
             </a>
-            <a ng-click="ratePostUp(post, $event)" href="#">
+            <a ng-show="post._embedded.ratings._links.ratePostUp" ng-click="ratePostUp(post, $event)" href="#">
               <span class="glyphicon glyphicon-thumbs-up"></span>
             </a>
           </div>

@@ -71,6 +71,11 @@ public class Post extends Model implements Ratable {
         return ratings;
     }
 
+    @Override
+    public String getRateUrl() {
+        return "/posts/" + this.id + "/post-ratings";
+    }
+
     public enum SortBy {
         CREATION_DATE
     }

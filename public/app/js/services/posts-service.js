@@ -35,11 +35,17 @@ angular.module('myApp.services')
   };
 
   self.ratePost = function(post, isPositive){
-    $http.post(post._links.ratePost.href, JSON.stringify(
+    var ratePostHref = null;
+    if(isPositive){
+      ratePostHref = post._embedded.ratings._links.ratePostUp.href
+    } else {
+      ratePostHref = post._embedded.ratings._links.ratePostDown.href
+    }
+    $http.post(ratePostHref, JSON.stringify(
       { isPositive: isPositive }
     ))
     .success(function(data) {
-      post.ratings = data;
+      post._embedded.ratings = data;
     })
     .error(function(error_code){
       alert(error_code);

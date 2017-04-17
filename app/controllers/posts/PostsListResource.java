@@ -29,8 +29,7 @@ public class PostsListResource extends HalBaseResource {
 	public static PostsListResource convertToPostsListResource(List<Post> postsList, Optional<String> addPost, Optional<String> next) {
 		PostsListResource resource = new PostsListResource();
 
-        User user = Security.getAuthenticatedUser();
-		resource.posts = convertToPostResponsesList(postsList, user);
+		resource.posts = convertToPostResponsesList(postsList);
 
 		if (addPost.isPresent()) {
 			resource.addPost = addPost.get();
@@ -41,10 +40,10 @@ public class PostsListResource extends HalBaseResource {
 		return resource;
 	}
 
-	private static List<PostResource> convertToPostResponsesList(List<Post> postsList, User user) {
+	private static List<PostResource> convertToPostResponsesList(List<Post> postsList) {
 		List<PostResource> postResourceList = new ArrayList<PostResource>(postsList.size());
 		for (Post post : postsList) {
-			PostResource postResponseJSON = PostResource.convertSinglePostResponse(post, user);
+			PostResource postResponseJSON = PostResource.convertSinglePostResponse(post);
 			postResourceList.add(postResponseJSON);
 		}
 		return postResourceList;

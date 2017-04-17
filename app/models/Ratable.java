@@ -10,4 +10,5 @@ public interface Ratable {
 	Rating getRating(User user, boolean isPositive);
 	Rating createRating(User user, boolean isPositive);
     List<? extends Rating> getRatings();
+    String getRateUrl();
 }
