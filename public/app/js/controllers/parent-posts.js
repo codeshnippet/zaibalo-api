@@ -100,7 +100,7 @@ function($scope, PostsService, UserService, Avatar) {
 
   $scope.translationSufix = function(number){
     if(number == undefined){
-      number = 0;
+      return '';
     }
     if((number-number%10)%100!=10){
       if(number%10==1){

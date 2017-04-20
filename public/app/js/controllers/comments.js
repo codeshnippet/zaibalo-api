@@ -10,7 +10,7 @@ angular.module('myApp.controllers')
       $http.post('posts/' + post.id + '/comments', json).
         success(function(data, status, headers, config) {
           if(!$scope.hasComments(post)){
-            post._embedded = {comments:[]};
+            post._embedded.comments = [];
           }
         	post._embedded.comments.push(data);
         });

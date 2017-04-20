@@ -15,8 +15,6 @@ public class CommentResource implements HalResource {
 	public String content;
 	public UserResource author;
 	public long creationTimestamp;
-	public int ratingSum;
-	public int ratingCount;
 
 	@HalLink(name = "delete")
 	public String deleteLink;

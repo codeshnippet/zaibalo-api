@@ -41,8 +41,8 @@
         <div class="col-xs-4">
           <a ng-click="toggleComments(post, $event)" href="#">
             <span class="glyphicon glyphicon-comment" aria-hidden="true" style="vertical-align:middle"></span>
-            <span translate="comments{{ translationSufix(post._embedded.comments.length ? post._embedded.comments.length : 0 ) }}"
-                  translate-values="{ value: post._embedded.comments.length ? post._embedded.comments.length : 0 }" ></span>
+            <span translate="comments{{ translationSufix(post._embedded.comments.length) }}"
+                  translate-values="{ value: post._embedded.comments.length }" ></span>
           </a>
         </div>
         <div class="col-xs-offset-4 col-xs-4">
