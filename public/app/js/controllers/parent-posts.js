@@ -29,18 +29,18 @@ function($scope, PostsService, UserService, Avatar) {
     this.newPost = "";
   }
 
-  function getRatingBlockElement(){
+  function getRatingBlockElement(event){
     return $(event.target).parents('.comment-rating-block').children('.post-rating-block');
   }
 
-  function getCommentBlockElement(){
+  function getCommentBlockElement(event){
     return $(event.target).parents('.comment-rating-block').children('.comment-block');
   }
 
   $scope.toggleComments = function(post, event){
     if ($scope.hasComments(post) || $scope.isUserLoggeIn()) {
-      getRatingBlockElement().hide(500);
-      getCommentBlockElement().slideToggle(500);
+      getRatingBlockElement(event).hide(500);
+      getCommentBlockElement(event).slideToggle(500);
     }
     event.preventDefault();
   }
@@ -48,8 +48,8 @@ function($scope, PostsService, UserService, Avatar) {
   $scope.toggleRatings = function(post, event){
     if (post._embedded.ratings._embedded &&
       post._embedded.ratings._embedded.ratings.length > 0) {
-      getCommentBlockElement().hide(500);
-      getRatingBlockElement().slideToggle(500);
+      getCommentBlockElement(event).hide(500);
+      getRatingBlockElement(event).slideToggle(500);
     }
     event.preventDefault();
   }
