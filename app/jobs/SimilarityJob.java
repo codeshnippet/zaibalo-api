@@ -10,7 +10,7 @@ import play.jobs.OnApplicationStart;
 
 import java.util.*;
 
-@OnApplicationStart
+//@OnApplicationStart
 public class SimilarityJob extends Job {
 
     private static class Statistics {

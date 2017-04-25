@@ -51,10 +51,13 @@ POST       /oauth-login                            oauth.Oauths.login
 
 GET        /image/{fileName}                       Images.image
 
-# Ignore favicon requests
-GET     /favicon.ico                               404
+GET        /public/                                staticDir:public
 
-GET     /public/                                   staticDir:public
+# Redirects for legacy URLs
+GET        /user/{id}                              redirects.Redirects.userRedirect
+GET        /post/{id}                              redirects.Redirects.postRedirect
+GET        /category/{id}                          redirects.Redirects.categoryRedirect
+
 
 # Catch all
 *       /{controller}/{action}                  {controller}.{action}
