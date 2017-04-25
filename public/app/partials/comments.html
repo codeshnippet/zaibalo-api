@@ -1,10 +1,10 @@
 <div style="display: none;" class="comment-block">
     <div ng-repeat="comment in post._embedded.comments" class="comment">
       <div class="row">
-        <div class="col-xs-1">
+        <div class="col-xs-2 col-sm-1">
           <img ng-src="{{ getAvatar(comment._embedded.author, 'S') }}" class="img-circle" width="32px" height="32px">
         </div>
-        <div class="col-xs-11">
+        <div class="col-xs-10 col-sm-11">
           <div>
             <a href="/#/@{{ comment._embedded.author.loginName }}">
               <strong>{{ comment._embedded.author.displayName }}</strong>
@@ -20,10 +20,10 @@
     </div>
     <div ng-show="post._links.addComment">
         <div class="row comment">
-          <div class="col-xs-1">
+          <div class="col-xs-2 col-sm-1">
              <img ng-src="{{ getAvatarUrl() }}" class="img-circle" width="32px" height="32px">
           </div>
-          <div class="col-xs-11">
+          <div class="col-xs-10 col-sm-11">
             <form>
               <div class="input-group">
                 <textarea id="new-comment-text" class="form-control custom-control" placeholder="{{ 'text' | translate }}" ng-model="post.newComment" rows="2" style="resize:none"></textarea>
