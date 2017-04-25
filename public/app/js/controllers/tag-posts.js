@@ -7,6 +7,6 @@ angular.module('myApp.controllers')
 
     $controller('ParentPostsController', {$scope: $scope});
 
-    $scope.loadPosts('posts/hashtag/' + $routeParams.tag);
+    $scope.loadPosts('posts/hashtag/' + $routeParams.tag + '?limit=10');
 
 }]);
