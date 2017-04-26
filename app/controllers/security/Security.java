@@ -4,10 +4,8 @@ import models.User;
 import org.apache.commons.codec.binary.Base64;
 import org.apache.commons.codec.digest.DigestUtils;
 import org.apache.commons.io.IOUtils;
-import play.Play;
 import play.mvc.Before;
 import play.mvc.Controller;
-import play.mvc.Http;
 import play.mvc.Http.Header;
 import play.mvc.Util;
 import play.mvc.results.CustomUnauthorized;
@@ -29,60 +27,42 @@ public class Security extends Controller {
 
 	@Before
 	public static void securityCheck() {
-        redirectToHttps();
-        checkAuthenticated();
+		Secured secured = getActionAnnotation(Secured.class);
+		if (secured != null) {
+			User user = getAuthenticatedUser();
+			if(user == null) {
+				customUnauthorized();
+			}
+			
+			Header timestampHeader = request.headers.get("x-utc-timestamp");
+			if(timestampHeader == null){
+				customUnauthorized();
+			}
+			
+			if(System.currentTimeMillis() - Long.valueOf(timestampHeader.value()) > 10*60*1000){
+				customUnauthorized();
+			}
+			
+			String hmacToken = null;
+			try {
+				hmacToken = createHmac1Token(user.token, timestampHeader.value());
+			} catch (Exception e) {
+				e.printStackTrace();
+				error("Unable to verify auth token.");
+			}
+			
+			Header authTokenHeader = request.headers.get("x-auth-token");
+			if(authTokenHeader == null){
+				customUnauthorized();
+			}
+			
+			if(!hmacToken.equals(authTokenHeader.value())){
+				customUnauthorized();
+			}
+		}
 	}
 
-    private static void redirectToHttps() {
-        //if it's not secure, but Heroku has already done the SSL processing then it might actually be secure after all
-        if (!request.secure && request.headers.get("x-forwarded-proto") != null) {
-            request.secure = request.headers.get("x-forwarded-proto").values.contains("https");
-        }
-
-        //redirect if it's not secure//!request.host.equals("localhost") &&
-        if (!request.domain.equals("localhost") && !request.secure) {
-            String url = "https://" + request.host + request.url;
-            redirect(url);
-        }
-    }
-
-    private static void checkAuthenticated() {
-        Secured secured = getActionAnnotation(Secured.class);
-        if (secured != null) {
-            User user = getAuthenticatedUser();
-            if(user == null) {
-                customUnauthorized();
-            }
-
-            Header timestampHeader = request.headers.get("x-utc-timestamp");
-            if(timestampHeader == null){
-                customUnauthorized();
-            }
-
-            if(System.currentTimeMillis() - Long.valueOf(timestampHeader.value()) > 10*60*1000){
-                customUnauthorized();
-            }
-
-            String hmacToken = null;
-            try {
-                hmacToken = createHmac1Token(user.token, timestampHeader.value());
-            } catch (Exception e) {
-                e.printStackTrace();
-                error("Unable to verify auth token.");
-            }
-
-            Header authTokenHeader = request.headers.get("x-auth-token");
-            if(authTokenHeader == null){
-                customUnauthorized();
-            }
-
-            if(!hmacToken.equals(authTokenHeader.value())){
-                customUnauthorized();
-            }
-        }
-    }
-
-    private static void customUnauthorized() {
+	private static void customUnauthorized() {
 		throw new CustomUnauthorized("Unauthorized");
 	}
 
