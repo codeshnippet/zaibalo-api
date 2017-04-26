@@ -57,10 +57,10 @@ function($scope, PostsService, UserService, Avatar) {
   $scope.shareOnFacebook = function(post, event){
 	  FB.ui({
 		  method: 'share',
-		  href: 'https://zaibalo-api.herokuapp.com/#/post/' + post.id,
+		  href: 'http://zaibalo-api.herokuapp.com/#/post/' + post.id,
 		  description: post.content,
 		  picture: $scope.getAvatar(post.author, 'M'),
-		  link: 'https://zaibalo-api.herokuapp.com/#/post/' + post.id
+		  link: 'http://zaibalo-api.herokuapp.com/#/post/' + post.id
 		}, function(response){});
 	  event.preventDefault();
   }

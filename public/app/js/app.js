@@ -46,7 +46,6 @@ var app = angular.module('myApp', ['myApp.filters', 'myApp.services',
 .config(['$httpProvider', function($httpProvider) {
     $httpProvider.interceptors.push('tokenInjector');
     $httpProvider.interceptors.push('authHttpResponseInterceptor');
-    $httpProvider.interceptors.push('https-redirect');
 }])
 
 .config( function( $facebookProvider ) {
