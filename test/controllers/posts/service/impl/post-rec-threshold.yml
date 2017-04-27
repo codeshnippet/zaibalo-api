@@ -1,18 +1,23 @@
 User(frank):
     loginName:        franky
+    displayName:      franky
     token:            secret_token_123
 
 User(bill):
     loginName:        billy
+    displayName:      billy
 
 User(joe):
     loginName:        joey
+    displayName:      joey
 
 User(pubsy):
     loginName:        pubsy
+    displayName:      pubsy
 
 User(loser):
     loginName:        loser
+    displayName:      loser
 
 Post(money):
     content:          Post about Money! N1

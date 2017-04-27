@@ -34,7 +34,7 @@ public class User extends Model {
 	@Column(unique=true)
 	public String email;
 
-	@Column(name = "display_name", unique = true)
+	@Column(name = "display_name", unique = true, nullable = false)
 	private String displayName;
 
 	@NotNull
@@ -62,7 +62,11 @@ public class User extends Model {
 	public User(String loginName, String displayName){
 		this();
 		this.loginName = loginName;
-		this.displayName = displayName;
+        if(StringUtils.isEmpty(displayName)){
+            this.displayName = loginName;
+        } else {
+            this.displayName = displayName;
+        }
 	}
 
 	public String getPassword() {
@@ -97,9 +101,6 @@ public class User extends Model {
 	}
 
 	public String getDisplayName() {
-        if(StringUtils.isEmpty(this.displayName)){
-            return loginName;
-        }
 		return this.displayName;
 	}
 

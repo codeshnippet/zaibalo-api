@@ -111,7 +111,19 @@ public class UserTest extends UnitTest{
     	User updatedUser = User.find("byEmail", "email123@test.com").first();
     	assertNotNull(updatedUser.getPassword());
     }
-    
+
+    @Test
+    public void testSaveUserWithNullDisplayName(){
+        User user = new User("login", null);
+        user.setPassword("password");
+        user.email =  null;
+        user.save();
+
+        User updatedUser = User.find("byLoginName", "login").first();
+        assertNotNull(updatedUser.getDisplayName());
+        assertEquals(updatedUser.getDisplayName(), "login");
+    }
+
     @Test
     public void testSaveUserWithNullOptionalFields(){
     	User user = new User("login", null);
