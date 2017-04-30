@@ -61,6 +61,7 @@ GET        /post/{id}                              redirects.Redirects.postRedir
 GET        /post.do                                redirects.Redirects.postWithoutIdRedirect
 GET        /post                                   redirects.Redirects.postWithoutIdRedirect
 
+GET        /category                               redirects.Redirects.categoryWithoutIdRedirect
 GET        /category/{id}                          redirects.Redirects.categoryRedirect
 GET        /category/{id}/page/{page}              redirects.Redirects.categoryPageRedirect
 GET        /category/{id}/count/{count}            redirects.Redirects.categoryCountRedirect

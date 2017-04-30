@@ -63,6 +63,10 @@ public class Redirects extends BasicController {
         }
     }
 
+    public static void categoryWithoutIdRedirect(){
+        redirect("/#/");
+    }
+
     public static void categoryPageRedirect(Long id, Long page) throws UnsupportedEncodingException {
         categoryRedirect(id);
     }
