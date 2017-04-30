@@ -83,6 +83,10 @@ public class Redirects extends BasicController {
         categoryRedirect(id);
     }
 
+    public static void categoryCountPageRedirect(Long id, Long count, Long page) throws UnsupportedEncodingException {
+        categoryRedirect(id);
+    }
+
     public static void countPageRedirect(Long count, Long page) throws UnsupportedEncodingException {
         redirect("/#/");
     }
