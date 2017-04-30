@@ -55,9 +55,23 @@ GET        /public/                                staticDir:public
 
 # Redirects for legacy URLs
 GET        /user/{id}                              redirects.Redirects.userRedirect
+GET        /user                                   redirects.Redirects.userWithoutIdRedirect
+
 GET        /post/{id}                              redirects.Redirects.postRedirect
+GET        /post.do                                redirects.Redirects.postWithoutIdRedirect
+GET        /post                                   redirects.Redirects.postWithoutIdRedirect
+
 GET        /category/{id}                          redirects.Redirects.categoryRedirect
+GET        /category/{id}/page/{page}              redirects.Redirects.categoryPageRedirect
+GET        /category/{id}/count/{count}            redirects.Redirects.categoryCountRedirect
+GET        /category/{id}/order/{order}            redirects.Redirects.categoryOrderRedirect
+GET        /category/{id}/count/{count}/page/{page}          redirects.Redirects.categoryCountPageRedirect
+GET        /category/{id}/order/{order}/count/{count}        redirects.Redirects.categoryOrderCountRedirect
+GET        /category/{id}/order/{order}/count/{count}/page/{page}          redirects.Redirects.categoryOrderCountPageRedirect
 
+GET        /count/100/page/9                       redirects.Redirects.countPageRedirect
 
-# Catch all
-*       /{controller}/{action}                  {controller}.{action}
+GET        /order/{order}                          redirects.Redirects.orderRedirect
+GET        /order/{order}/count/{count}            redirects.Redirects.orderCountRedirect
+GET        /order/{order}/page/{page}               redirects.Redirects.orderPageRedirect
+GET        /order/{order}/count/{count}/page/{page}          redirects.Redirects.orderCountPageRedirect

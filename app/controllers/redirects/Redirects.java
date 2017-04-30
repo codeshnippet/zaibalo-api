@@ -16,6 +16,10 @@ import java.util.Map;
  */
 public class Redirects extends BasicController {
     public static void userRedirect(Long id) {
+        if(id == null){
+            redirect("/#/");
+        }
+
         User user = User.findById(id);
         if(user == null){
             redirect("/#/");
@@ -24,7 +28,15 @@ public class Redirects extends BasicController {
         }
     }
 
+    public static void userWithoutIdRedirect() {
+        redirect("/#/");
+    }
+
     public static void postRedirect(Long id){
+        if(id == null){
+            redirect("/#/");
+        }
+
         Post post = Post.findById(id);
         if(post == null){
             redirect("/#/");
@@ -33,7 +45,15 @@ public class Redirects extends BasicController {
         }
     }
 
+    public static void postWithoutIdRedirect(){
+        redirect("/#/");
+    }
+
     public static void categoryRedirect(Long id) throws UnsupportedEncodingException {
+        if(id == null){
+            redirect("/#/");
+        }
+
         Tag tag = Tag.findById(id);
         if(tag == null){
             redirect("/#/");
@@ -42,4 +62,45 @@ public class Redirects extends BasicController {
             redirect("/#/tag/" + URLEncoder.encode(tagName, "UTF-8"));
         }
     }
+
+    public static void categoryPageRedirect(Long id, Long page) throws UnsupportedEncodingException {
+        categoryRedirect(id);
+    }
+
+    public static void categoryCountRedirect(Long id, Long count) throws UnsupportedEncodingException {
+        categoryRedirect(id);
+    }
+
+    public static void categoryOrderCountPageRedirect(Long id, String order, Long count, Long page) throws UnsupportedEncodingException {
+        categoryRedirect(id);
+    }
+
+    public static void categoryOrderCountRedirect(Long id, String order, Long count) throws UnsupportedEncodingException {
+        categoryRedirect(id);
+    }
+
+    public static void categoryOrderRedirect(Long id, String order) throws UnsupportedEncodingException {
+        categoryRedirect(id);
+    }
+
+    public static void countPageRedirect(Long count, Long page) throws UnsupportedEncodingException {
+        redirect("/#/");
+    }
+
+    public static void orderCountPageRedirect(String order, Long count, Long page) throws UnsupportedEncodingException {
+        redirect("/#/");
+    }
+
+    public static void orderCountRedirect(String order, Long count) throws UnsupportedEncodingException {
+        redirect("/#/");
+    }
+
+    public static void orderPageRedirect(String order, Long page) throws UnsupportedEncodingException {
+        redirect("/#/");
+    }
+
+    public static void orderRedirect(String order) throws UnsupportedEncodingException {
+        redirect("/#/");
+    }
+
 }
