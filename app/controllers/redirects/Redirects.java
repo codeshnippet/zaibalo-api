@@ -15,6 +15,15 @@ import java.util.Map;
  * Created by acidum on 4/25/17.
  */
 public class Redirects extends BasicController {
+
+    public static void loginRedirect() {
+        redirect("/#/signup");
+    }
+
+    public static void feedRedirect() {
+        redirect("/#/");
+    }
+
     public static void userRedirect(Long id) {
         if(id == null){
             redirect("/#/");
@@ -82,6 +91,9 @@ public class Redirects extends BasicController {
     public static void categoryOrderCountRedirect(Long id, String order, Long count) throws UnsupportedEncodingException {
         categoryRedirect(id);
     }
+    public static void categoryOrderPageRedirect(Long id, String order, Long page) throws UnsupportedEncodingException {
+        categoryRedirect(id);
+    }
 
     public static void categoryOrderRedirect(Long id, String order) throws UnsupportedEncodingException {
         categoryRedirect(id);
@@ -91,23 +103,27 @@ public class Redirects extends BasicController {
         categoryRedirect(id);
     }
 
-    public static void countPageRedirect(Long count, Long page) throws UnsupportedEncodingException {
+    public static void countPageRedirect(Long count, Long page) {
         redirect("/#/");
     }
 
-    public static void orderCountPageRedirect(String order, Long count, Long page) throws UnsupportedEncodingException {
+    public static void pageRedirect(Long page) {
         redirect("/#/");
     }
 
-    public static void orderCountRedirect(String order, Long count) throws UnsupportedEncodingException {
+    public static void orderCountPageRedirect(String order, Long count, Long page) {
         redirect("/#/");
     }
 
-    public static void orderPageRedirect(String order, Long page) throws UnsupportedEncodingException {
+    public static void orderCountRedirect(String order, Long count) {
         redirect("/#/");
     }
 
-    public static void orderRedirect(String order) throws UnsupportedEncodingException {
+    public static void orderPageRedirect(String order, Long page) {
+        redirect("/#/");
+    }
+
+    public static void orderRedirect(String order) {
         redirect("/#/");
     }
 

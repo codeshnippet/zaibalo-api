@@ -54,6 +54,10 @@ GET        /image/{fileName}                       Images.image
 GET        /public/                                staticDir:public
 
 # Redirects for legacy URLs
+GET        /login                                  redirects.Redirects.loginRedirect
+
+GET        /feed                                   redirects.Redirects.feedRedirect
+
 GET        /user/{id}                              redirects.Redirects.userRedirect
 GET        /user                                   redirects.Redirects.userWithoutIdRedirect
 
@@ -62,17 +66,23 @@ GET        /post.do                                redirects.Redirects.postWitho
 GET        /post                                   redirects.Redirects.postWithoutIdRedirect
 
 GET        /category                               redirects.Redirects.categoryWithoutIdRedirect
+GET        /category/                              redirects.Redirects.categoryWithoutIdRedirect
 GET        /category/{id}                          redirects.Redirects.categoryRedirect
+GET        /category/{id}/                         redirects.Redirects.categoryRedirect
 GET        /category/{id}/page/{page}              redirects.Redirects.categoryPageRedirect
 GET        /category/{id}/count/{count}            redirects.Redirects.categoryCountRedirect
 GET        /category/{id}/order/{order}            redirects.Redirects.categoryOrderRedirect
 GET        /category/{id}/count/{count}/page/{page}          redirects.Redirects.categoryCountPageRedirect
+GET        /category/{id}/order/{order}/page/{page}          redirects.Redirects.categoryOrderPageRedirect
 GET        /category/{id}/order/{order}/count/{count}        redirects.Redirects.categoryOrderCountRedirect
 GET        /category/{id}/order/{order}/count/{count}/page/{page}          redirects.Redirects.categoryOrderCountPageRedirect
 
 GET        /count/{count}/page/{page}              redirects.Redirects.countPageRedirect
 
 GET        /order/{order}                          redirects.Redirects.orderRedirect
+GET        /order/{order}/count/{count}/           redirects.Redirects.orderCountRedirect
 GET        /order/{order}/count/{count}            redirects.Redirects.orderCountRedirect
 GET        /order/{order}/page/{page}              redirects.Redirects.orderPageRedirect
 GET        /order/{order}/count/{count}/page/{page}          redirects.Redirects.orderCountPageRedirect
+
+GET        /page/{page}                             redirects.Redirects.pageRedirect
