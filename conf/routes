@@ -86,3 +86,5 @@ GET        /order/{order}/page/{page}              redirects.Redirects.orderPage
 GET        /order/{order}/count/{count}/page/{page}          redirects.Redirects.orderCountPageRedirect
 
 GET        /page/{page}                             redirects.Redirects.pageRedirect
+
+POST       /controllers.SecurityTestController/secureAction   SecurityTestController.secureAction
