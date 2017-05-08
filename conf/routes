@@ -52,11 +52,15 @@ POST       /oauth-login                            oauth.Oauths.login
 GET        /image/{fileName}                       Images.image
 
 GET        /public/                                staticDir:public
+GET        /favicon.ico                            staticFile:/public/favicon.ico
+GET        /robots.txt                             staticFile:/public/robots.txt
+GET        /googlede11f0b7a50d12e7.html            staticFile:/public/googlede11f0b7a50d12e7.html
 
 # Redirects for legacy URLs
 GET        /login                                  redirects.Redirects.loginRedirect
 
-GET        /feed                                   redirects.Redirects.feedRedirect
+GET        /feed                                   redirects.Redirects.otherRedirect
+GET        /users/                                 redirects.Redirects.otherRedirect
 
 GET        /user/{id}                              redirects.Redirects.userRedirect
 GET        /user                                   redirects.Redirects.userWithoutIdRedirect
@@ -64,6 +68,7 @@ GET        /user                                   redirects.Redirects.userWitho
 GET        /post/{id}                              redirects.Redirects.postRedirect
 GET        /post.do                                redirects.Redirects.postWithoutIdRedirect
 GET        /post                                   redirects.Redirects.postWithoutIdRedirect
+GET        /archives/{id}                          redirects.Redirects.postRedirect
 
 GET        /category                               redirects.Redirects.categoryWithoutIdRedirect
 GET        /category/                              redirects.Redirects.categoryWithoutIdRedirect
@@ -71,15 +76,20 @@ GET        /category/{id}                          redirects.Redirects.categoryR
 GET        /category/{id}/                         redirects.Redirects.categoryRedirect
 GET        /category/{id}/page/{page}              redirects.Redirects.categoryPageRedirect
 GET        /category/{id}/count/{count}            redirects.Redirects.categoryCountRedirect
+GET        /category/{id}/count/{count}/           redirects.Redirects.categoryCountRedirect
 GET        /category/{id}/order/{order}            redirects.Redirects.categoryOrderRedirect
+GET        /category/{id}/order/{order}/           redirects.Redirects.categoryOrderRedirect
 GET        /category/{id}/count/{count}/page/{page}          redirects.Redirects.categoryCountPageRedirect
 GET        /category/{id}/order/{order}/page/{page}          redirects.Redirects.categoryOrderPageRedirect
 GET        /category/{id}/order/{order}/count/{count}        redirects.Redirects.categoryOrderCountRedirect
+GET        /category/{id}/order/{order}/count/{count}/       redirects.Redirects.categoryOrderCountRedirect
 GET        /category/{id}/order/{order}/count/{count}/page/{page}          redirects.Redirects.categoryOrderCountPageRedirect
 
 GET        /count/{count}/page/{page}              redirects.Redirects.countPageRedirect
+GET        /count/{count}/                         redirects.Redirects.countRedirect
 
 GET        /order/{order}                          redirects.Redirects.orderRedirect
+GET        /order/{order}/                         redirects.Redirects.orderRedirect
 GET        /order/{order}/count/{count}/           redirects.Redirects.orderCountRedirect
 GET        /order/{order}/count/{count}            redirects.Redirects.orderCountRedirect
 GET        /order/{order}/page/{page}              redirects.Redirects.orderPageRedirect

@@ -21,7 +21,7 @@ public class Redirects extends BasicController {
         redirect("/#/signup");
     }
 
-    public static void feedRedirect() {
+    public static void otherRedirect() {
         redirect("/#/");
     }
 
@@ -107,6 +107,10 @@ public class Redirects extends BasicController {
     }
 
     public static void orderCountRedirect(String order, Long count) {
+        redirect("/#/");
+    }
+
+    public static void countRedirect(Long count) {
         redirect("/#/");
     }
 
