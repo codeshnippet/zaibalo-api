@@ -5,6 +5,7 @@ import models.Post;
 import models.Tag;
 import models.User;
 import org.apache.commons.codec.binary.Base64;
+import play.mvc.Util;
 
 import java.io.UnsupportedEncodingException;
 import java.net.URLEncoder;
@@ -59,17 +60,7 @@ public class Redirects extends BasicController {
     }
 
     public static void categoryRedirect(Long id) throws UnsupportedEncodingException {
-        if(id == null){
-            redirect("/#/");
-        }
-
-        Tag tag = Tag.findById(id);
-        if(tag == null){
-            redirect("/#/");
-        } else {
-            String tagName = tag.name.substring(1);
-            redirect("/#/tag/" + URLEncoder.encode(tagName, "UTF-8"));
-        }
+        categoryByIdRedirect(id);
     }
 
     public static void categoryWithoutIdRedirect(){
@@ -77,30 +68,30 @@ public class Redirects extends BasicController {
     }
 
     public static void categoryPageRedirect(Long id, Long page) throws UnsupportedEncodingException {
-        categoryRedirect(id);
+        categoryByIdRedirect(id);
     }
 
     public static void categoryCountRedirect(Long id, Long count) throws UnsupportedEncodingException {
-        categoryRedirect(id);
+        categoryByIdRedirect(id);
     }
 
     public static void categoryOrderCountPageRedirect(Long id, String order, Long count, Long page) throws UnsupportedEncodingException {
-        categoryRedirect(id);
+        categoryByIdRedirect(id);
     }
 
     public static void categoryOrderCountRedirect(Long id, String order, Long count) throws UnsupportedEncodingException {
-        categoryRedirect(id);
+        categoryByIdRedirect(id);
     }
     public static void categoryOrderPageRedirect(Long id, String order, Long page) throws UnsupportedEncodingException {
-        categoryRedirect(id);
+        categoryByIdRedirect(id);
     }
 
     public static void categoryOrderRedirect(Long id, String order) throws UnsupportedEncodingException {
-        categoryRedirect(id);
+        categoryByIdRedirect(id);
     }
 
     public static void categoryCountPageRedirect(Long id, Long count, Long page) throws UnsupportedEncodingException {
-        categoryRedirect(id);
+        categoryByIdRedirect(id);
     }
 
     public static void countPageRedirect(Long count, Long page) {
@@ -125,6 +116,21 @@ public class Redirects extends BasicController {
 
     public static void orderRedirect(String order) {
         redirect("/#/");
+    }
+
+    @Util
+    private static void categoryByIdRedirect(Long id) throws UnsupportedEncodingException {
+        if(id == null){
+            redirect("/#/");
+        }
+
+        Tag tag = Tag.findById(id);
+        if(tag == null){
+            redirect("/#/");
+        } else {
+            String tagName = tag.name.substring(1);
+            redirect("/#/tag/" + URLEncoder.encode(tagName, "UTF-8"));
+        }
     }
 
 }
