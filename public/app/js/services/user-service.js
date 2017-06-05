@@ -2,7 +2,7 @@
 
 /* Services */
 
-angular.module('myApp.services')
+angular.module('zabalo-web.services')
 .service('UserService', ['$http', 'CookiesService', '$location', 'Avatar', '$facebook', function($http, CookiesService, $location, Avatar, $facebook){
   var self = this;
 

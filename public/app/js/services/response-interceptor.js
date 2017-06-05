@@ -1,4 +1,4 @@
-var module = angular.module('myApp');
+var module = angular.module('zabalo-web');
 
 module.factory('authHttpResponseInterceptor',['$q', '$location', function($q, $location){
     return {
@@ -10,7 +10,6 @@ module.factory('authHttpResponseInterceptor',['$q', '$location', function($q, $l
         },
         responseError: function(rejection) {
             if (rejection.status === 401) {
-                console.log("Response Error 401",rejection);
                 var returnPath = $location.path();
                 $location.path('/signup').search('returnTo', returnPath);
             }

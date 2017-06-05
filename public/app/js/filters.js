@@ -2,7 +2,7 @@
 
 /* Filters */
 
-angular.module('myApp.filters', []).
+angular.module('zabalo-web.filters', []).
   filter('hashtagger',['$filter',
       function($filter) {
           return function(text) {

@@ -1,6 +1,6 @@
 'use strict';
 
-angular.module('myApp.controllers')
+angular.module('zabalo-web.controllers')
 
 .controller('NavigationController', ['$translate', '$scope', 'UserService', function($translate, $scope, UserService) {
   $scope.locale = $translate.use();

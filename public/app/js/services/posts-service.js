@@ -2,7 +2,7 @@
 
 /* Services */
 
-angular.module('myApp.services')
+angular.module('zabalo-web.services')
 .service("PostsService", ['$http', function($http){
   var self = this;
 

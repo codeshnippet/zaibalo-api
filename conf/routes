@@ -3,7 +3,11 @@
 # ~~~~
 
 # Angular scripts, templates, libraries and artifacts
-GET        /app/                                   staticDir:/public/app
+GET        /js/                                    staticDir:/public/app/js
+GET        /css/                                   staticDir:/public/app/css
+GET        /img/                                   staticDir:/public/app/img
+GET        /messages/                              staticDir:/public/app/messages
+GET        /bower_components/                      staticDir:/public/app/bower_components
 GET        /partials/                              staticDir:/public/app/partials
 
 # Home page

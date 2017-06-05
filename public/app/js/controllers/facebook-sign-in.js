@@ -1,6 +1,6 @@
 'use strict';
 
-angular.module('myApp.controllers')
+angular.module('zabalo-web.controllers')
 
 .controller('FacebookSignInController', ['$scope', 'UserService', '$facebook', function($scope, UserService, $facebook) {
 

@@ -14,7 +14,7 @@ function normalizeUrl(url){
     return url.startsWith("/") ? url.substring(1) : url;
 }
 
-var module = angular.module('myApp');
+var module = angular.module('zabalo-web');
 
 module.factory('tokenInjector', ['CookiesService', '$q','$location', function(CookiesService, $q, $location) {
     var tokenInjector = {

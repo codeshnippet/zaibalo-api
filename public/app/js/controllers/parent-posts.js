@@ -1,6 +1,6 @@
 'use strict';
 
-angular.module('myApp.controllers')
+angular.module('zabalo-web.controllers')
 
 .controller('ParentPostsController', ['$scope', 'PostsService', 'UserService', 'Avatar',
 function($scope, PostsService, UserService, Avatar) {

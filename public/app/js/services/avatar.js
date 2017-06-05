@@ -2,7 +2,7 @@
 
 /* Services */
 
-angular.module('myApp.services')
+angular.module('zabalo-web.services')
 .factory("Avatar", function AvatarFactory(){
   var getSizeParameter = function(provider, size){
     if(provider == 'GOOGLE_PLUS' && size == 'S') {

@@ -6,6 +6,7 @@ test-result/
 tmp/
 modules/
 precompiled/
+public/app/bower_components/
 .classpath
 .project
 .settings

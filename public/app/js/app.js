@@ -1,8 +1,8 @@
 'use strict';
 
 // Declare app level module which depends on filters, and services
-var app = angular.module('myApp', ['myApp.filters', 'myApp.services',
-'myApp.directives', 'myApp.controllers', 'pascalprecht.translate',
+var app = angular.module('zabalo-web', ['zabalo-web.filters', 'zabalo-web.services',
+'zabalo-web.directives', 'zabalo-web.controllers', 'pascalprecht.translate',
 'ngSanitize', 'bd.timedistance', 'ngRoute', 'ngCookies', 'angular-loading-bar',
 'ngFacebook', 'xeditable'])
 
@@ -37,7 +37,7 @@ var app = angular.module('myApp', ['myApp.filters', 'myApp.services',
 
 .config(function ($translateProvider) {
     $translateProvider.useStaticFilesLoader({
-      prefix: 'app/messages/locale-',
+      prefix: 'messages/locale-',
       suffix: '.json'
     });
     $translateProvider.use('uk_UA');
@@ -90,6 +90,6 @@ var app = angular.module('myApp', ['myApp.filters', 'myApp.services',
   cfpLoadingBarProvider.includeSpinner = false;
 }]);
 
-angular.module('myApp.services', []);
+angular.module('zabalo-web.services', []);
 
-angular.module('myApp.controllers', []);
+angular.module('zabalo-web.controllers', []);

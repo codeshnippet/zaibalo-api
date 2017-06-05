@@ -1,6 +1,6 @@
 'use strict';
 
-angular.module('myApp.controllers')
+angular.module('zabalo-web.controllers')
 
 .controller('TagPostsController', ['PostsService', '$scope', '$routeParams', 'UserService', '$controller',
   function(PostsService, $scope, $routeParams, UserService, $controller) {

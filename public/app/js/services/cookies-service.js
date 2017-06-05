@@ -2,14 +2,14 @@
 
 /* Services */
 
-angular.module('myApp.services')
+angular.module('zabalo-web.services')
 .service("CookiesService", ['$cookies', function($cookies){
   var self = this;
 
   var TOKEN = 'token';
   var USERNAME = 'username';
   var AVATAR_URL = 'avatar-url';
-  
+
   self.saveAuthCookies = function(username, token, avatarUrl){
     var expireDate = new Date();
     expireDate.setDate(expireDate.getDate() + 90);
@@ -25,7 +25,7 @@ angular.module('myApp.services')
   self.getUsername = function(){
     return $cookies.get(USERNAME);
   }
-  
+
   self.getAvatarUrl = function(){
     return $cookies.get(AVATAR_URL);
   }

@@ -1,6 +1,6 @@
 'use strict';
 
-angular.module('myApp.controllers')
+angular.module('zabalo-web.controllers')
 
 .controller('SignupController', ['$scope', 'UserService', '$translate',
   function($scope, UserService, $translate) {

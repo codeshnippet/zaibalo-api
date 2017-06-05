@@ -2,7 +2,7 @@
 
 /* Directives */
 
-angular.module('myApp.directives', [])
+angular.module('zabalo-web.directives', [])
 
 .directive('navigationBar', function() {
 	return {

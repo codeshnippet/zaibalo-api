@@ -1,6 +1,6 @@
 'use strict';
 
-angular.module('myApp.controllers')
+angular.module('zabalo-web.controllers')
 
 .controller('UserController', ['$scope', '$http', '$routeParams', 'Avatar', '$controller', 'PostsService',
 function($scope, $http, $routeParams, Avatar, $controller, PostsService) {

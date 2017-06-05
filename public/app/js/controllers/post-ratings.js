@@ -1,6 +1,6 @@
 'use strict';
 
-angular.module('myApp.controllers')
+angular.module('zabalo-web.controllers')
 
 .controller('PostRatingsController', ['$http', '$scope', '$translate', 'Avatar',
   function($http, $scope, $translate, Avatar) {
