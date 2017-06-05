@@ -1,0 +1,14 @@
+{
+  "name": "zaibalo-web",
+  "private": true,
+  "version": "0.0.0",
+  "description": "Client web app for Zaibalo API",
+  "repository": "https://github.com/pubsy/zaibalo-api",
+  "license": "MIT",
+  "scripts": {
+    "postinstall": "./node_modules/bower/bin/bower install"
+  },
+  "dependencies": {
+    "bower": "^1.6.5"
+  }
+}
