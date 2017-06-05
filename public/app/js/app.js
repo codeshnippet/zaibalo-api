@@ -36,7 +36,7 @@ var app = angular.module('zabalo-web', ['zabalo-web.filters', 'zabalo-web.servic
 }])
 
 .config(function ($translateProvider) {
-    $translateProvider.useSanitizeValueStrategy('sanitize');
+    $translateProvider.useSanitizeValueStrategy('escape');
     $translateProvider.useStaticFilesLoader({
       prefix: 'messages/locale-',
       suffix: '.json'
