@@ -4,6 +4,8 @@ angular.module('zabalo-web.controllers')
 
 .controller('FacebookSignInController', ['$scope', 'UserService', '$facebook', function($scope, UserService, $facebook) {
 
+  $facebook.init();
+
   $scope.$on('fb.auth.authResponseChange', function() {
     if($facebook.isConnected()) {
       $facebook.api('/me?fields=name, picture, email').then(function(user) {

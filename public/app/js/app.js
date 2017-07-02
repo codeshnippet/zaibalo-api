@@ -56,8 +56,7 @@ var app = angular.module('zabalo-web', ['zabalo-web.filters', 'zabalo-web.servic
     channelUrl : 'partial/facebook-channel.html',
     xfbml      : true,
     status     : true,
-    cookie     : true,
-    xfbml      : true
+    cookie     : true
   })
   .setVersion("v2.2");
 })

@@ -21,6 +21,7 @@ angular.module('zabalo-web.controllers')
     $scope.locale = langKey;
   };
 
+  if(UserService.isUserLoggedIn()) {
     $http({
       method: 'GET',
       url: 'similarities/max-rec-threshold'
@@ -29,5 +30,6 @@ angular.module('zabalo-web.controllers')
         $scope.showRecommended = true;
       }
     });
+  }
 
 }]);
