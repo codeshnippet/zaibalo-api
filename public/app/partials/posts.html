@@ -1,11 +1,8 @@
 <div>
 
-  <div class="row">
-    <div class="col-xs-12">
-      <input ng-show="sliderMax" id="slider" data-slider-id='ex1Slider' type="text" data-slider-min="0" data-slider-step="1" />
-    </div>
+  <div ng-hide="postsResource._embedded.posts.length">
+    <div class="alert alert-info" role="alert">{{ 'post.list.is.empty' | translate }}</div>
   </div>
-
   <div ng-repeat="post in postsResource._embedded.posts">
     <ng-include src="'partials/single-post.html'"></ng-include>
   </div>

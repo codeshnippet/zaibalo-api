@@ -11,7 +11,6 @@ import play.mvc.Router;
 import play.mvc.Util;
 import play.mvc.With;
 import ch.halarious.core.HalBaseResource;
-import ch.halarious.core.HalResource;
 
 import com.google.common.base.Optional;
 import com.google.gson.GsonBuilder;

@@ -6,11 +6,12 @@ import models.Similarity;
 import models.User;
 import play.Logger;
 import play.jobs.Job;
+import play.jobs.On;
 import play.jobs.OnApplicationStart;
 
 import java.util.*;
 
-//@OnApplicationStart
+@On("0 0 3 * * ?")
 public class SimilarityJob extends Job {
 
     private static class Statistics {

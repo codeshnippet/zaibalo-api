@@ -8,20 +8,10 @@ angular.module('zabalo-web.controllers')
     $controller('ParentPostsController', {$scope: $scope});
 
     $http({
-        method: 'GET',
-        url: 'similarities/max-rec-threshold'
-      }).success(function(data){
-        var mySlider = $("#slider").slider({
-          max: data.maxRecThreshold,
-          value: 0
-        });
-
-        mySlider.on('slideStop', function(event){
-          $scope.loadPosts('posts/recommended?from=0&limit=10&threshold=' + event.value);
-        });
-
+      method: 'GET',
+      url: 'similarities/max-rec-threshold'
+    }).success(function(data){
+      $scope.loadPosts('posts/recommended?from=0&limit=10&threshold=' + data.maxRecThreshold);
     });
-
-    $scope.loadPosts('posts/recommended');
 
 }]);

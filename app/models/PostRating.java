@@ -45,12 +45,13 @@ public class PostRating extends Rating {
 
 
     public static long getMaxRecoThreshold(User user) {
-        String query = "select count(pr.user) from PostRating pr, Similarity sim " +
-                "where pr.user = sim.two " +
-                "and sim.one = :user " +
-                "and pr.user != :user " +
-                "group by pr.post " +
-                "order by count(pr.user) desc";
+        String query =
+                "select count(pr.user) from PostRating pr, Similarity sim " +
+                        "where pr.user = sim.two " +
+                        "and sim.one = :user " +
+                        "and pr.post not in (select p.post from PostRating p where p.user = :user) " +
+                        "group by pr.post " +
+                        "order by count(pr.user) desc";
 
         List<Long> countList = PostRating.find(query).setParameter("user", user).fetch(1);
         return countList.isEmpty() ? 0 : countList.get(0);

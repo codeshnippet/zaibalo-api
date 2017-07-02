@@ -2,8 +2,9 @@
 
 angular.module('zabalo-web.controllers')
 
-.controller('NavigationController', ['$translate', '$scope', 'UserService', function($translate, $scope, UserService) {
+.controller('NavigationController', ['$translate', '$scope', 'UserService', '$http', function($translate, $scope, UserService, $http) {
   $scope.locale = $translate.use();
+  $scope.showRecommended = false;
 
   $scope.isUserLoggeIn = function() {
     return UserService.isUserLoggedIn();
@@ -19,5 +20,14 @@ angular.module('zabalo-web.controllers')
     $translate.use(langKey);
     $scope.locale = langKey;
   };
+
+    $http({
+      method: 'GET',
+      url: 'similarities/max-rec-threshold'
+    }).success(function(data){
+      if(data.maxRecThreshold > 0){
+        $scope.showRecommended = true;
+      }
+    });
 
 }]);
