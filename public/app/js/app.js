@@ -86,6 +86,10 @@ var app = angular.module('zabalo-web', ['zabalo-web.filters', 'zabalo-web.servic
   editableOptions.theme = 'bs3'; // bootstrap3 theme. Can be also 'bs2', 'default'
 })
 
+.run(['UserService', function (UserService) {
+  UserService.fetchDisplayNames();
+}])
+
 .config(['cfpLoadingBarProvider', function(cfpLoadingBarProvider) {
   cfpLoadingBarProvider.includeSpinner = false;
 }]);

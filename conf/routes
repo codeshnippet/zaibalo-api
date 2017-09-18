@@ -17,7 +17,8 @@ GET        /avatar                                 Application.avatar
 # Users
 POST       /users                                  users.Users.createUser
 
-GET        /users/{loginName}                      users.Users.getUserByLogin
+GET        /users                                  users.Users.getUserDisplayNames
+GET        /users/{displayName}                    users.Users.getUserByDisplayName
 PUT        /users/{id}                             users.Users.editUser
 DELETE     /users/{id}                             users.Users.deleteUser
 
@@ -25,7 +26,7 @@ DELETE     /users/{id}                             users.Users.deleteUser
 GET        /posts                                  posts.Posts.getPosts
 POST       /posts                                  posts.Posts.createPost
 GET        /posts/hashtag/{tag}                    posts.Posts.getPostsByTag
-GET        /users/{loginName}/posts                posts.Posts.getUserPosts
+GET        /users/{displayName}/posts              posts.Posts.getUserPosts
 GET        /posts/recommended                      posts.Posts.getRecommendedPosts
 
 GET        /similarities/max-rec-threshold         similarities.Similarities.getMaxRecThreshold

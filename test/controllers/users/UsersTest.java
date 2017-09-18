@@ -1,28 +1,22 @@
 package controllers.users;
 
-import java.util.List;
-
-import models.Post;
-import models.User;
-
-import org.junit.Before;
-import org.junit.Test;
-
-import play.mvc.Http.Response;
-import play.test.Fixtures;
-import play.test.FunctionalTest;
-import utils.HalGsonBuilder;
 import ch.halarious.core.HalResource;
-
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
-import com.google.gson.reflect.TypeToken;
-
 import controllers.ContentType;
 import controllers.HttpMethod;
 import controllers.RequestBuilder;
 import controllers.posts.PostResource;
 import controllers.posts.PostsListResource;
+import models.User;
+import org.junit.Before;
+import org.junit.Test;
+import play.mvc.Http.Response;
+import play.test.Fixtures;
+import play.test.FunctionalTest;
+import utils.HalGsonBuilder;
+
+import java.util.List;
 
 public class UsersTest extends FunctionalTest {
 
@@ -48,7 +42,7 @@ public class UsersTest extends FunctionalTest {
 		Fixtures.loadModels("data/user.yml");
 
 		User user = User.findByLoginName(FRANKY_LOGIN_NAME);
-		Response response = GET("/users/franky");
+		Response response = GET("/users/Superman");
 
 		assertIsOk(response);
 		assertContentType(APPLICATION_JSON, response);
@@ -65,7 +59,7 @@ public class UsersTest extends FunctionalTest {
     public void testGetUserWitPosts(){
         Fixtures.loadModels("data/user-posts.yml");
 
-        Response response = GET("/users/franky");
+        Response response = GET("/users/Superman");
         UserResource userResponse = new Gson().fromJson(response.out.toString(), UserResource.class);
 
         assertEquals(2L, userResponse.postsCount);
@@ -75,7 +69,7 @@ public class UsersTest extends FunctionalTest {
     public void testGetUserWitComments(){
         Fixtures.loadModels("data/comments.yml");
 
-        Response response = GET("/users/franky");
+        Response response = GET("/users/Superman");
         UserResource userResponse = new Gson().fromJson(response.out.toString(), UserResource.class);
 
         assertEquals(1L, userResponse.commentsCount);
@@ -231,13 +225,23 @@ public class UsersTest extends FunctionalTest {
 		
 		User franky = User.findByLoginName("franky");
 		
-		Response response = GET("/users/" + franky.loginName + "/posts");
+		Response response = GET("/users/" + franky.getDisplayName() + "/posts");
 
 		List<PostResource> postsList = getPostsListFrom(response);
 		assertEquals(2, postsList.size());
 		assertEquals("test content 3", postsList.get(0).content);
 		assertEquals("test content 1", postsList.get(1).content);
 	}
+
+	@Test
+    public void testGetUserDisplayNames() {
+        Fixtures.loadModels("data/user.yml");
+
+        Response response = GET("/users");
+
+        String json = response.out.toString();
+        assertEquals("[\"Superman\",\"Drunk\",\"Johny Brown\"]", json);
+    }
 
 	private UserRequest createUserRequest(String login, String pass){
 		return createUserRequest(login, pass, null, null);

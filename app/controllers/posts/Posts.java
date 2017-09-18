@@ -84,11 +84,11 @@ public class Posts extends BasicController {
         renderJSON(convertToHalResponse(postsListResource));
     }
 
-    public static void getUserPosts(String loginName, int from, int limit) {
+    public static void getUserPosts(String displayName, int from, int limit) {
         from = (from == 0) ? DEFAULT_FROM : from;
         limit = (limit == 0) ? DEFAULT_LIMIT : limit;
 
-        User user = User.find("byLoginName", loginName).first();
+        User user = User.find("byDisplayName", displayName).first();
         if (user == null) {
             notFound();
         }
@@ -97,7 +97,7 @@ public class Posts extends BasicController {
 
         long count = Post.count("byAuthor", user);
 
-        Map<String, Object> params = getNextPageParams(from, limit, new AbstractMap.SimpleEntry<String, Object>("loginName", loginName));
+        Map<String, Object> params = getNextPageParams(from, limit, new AbstractMap.SimpleEntry<String, Object>("displayName", displayName));
         boolean nextPageAvailable = isNextPageAvailable(from, postsList.size(), count);
         Optional<String> next = getNextPageUrl("posts.Posts.getUserPosts", nextPageAvailable, params);
 

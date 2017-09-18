@@ -21,9 +21,9 @@
       </div>
       <div>
 		<img ng-src="{{ getAvatar(post._embedded.author, 'S') }}" class="img-circle" width="32px" height="32px">
-		<a href="/#/@{{post._embedded.author.loginName}}">
+		<a href="/#/@{{post._embedded.author.displayName}}">
           <strong>{{post._embedded.author.displayName}}</strong>
-          <span class="author-login">@{{ post._embedded.author.loginName }}</span>
+          <span class="author-login">@{{ post._embedded.author.displayName }}</span>
         </a>
         <span class="date">{{ post.creationTimestamp | timeDistance : locale }}</span>
       </div>

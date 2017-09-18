@@ -6,6 +6,8 @@ angular.module('zabalo-web.services')
 .service('UserService', ['$http', 'CookiesService', '$location', 'Avatar', '$facebook', function($http, CookiesService, $location, Avatar, $facebook){
   var self = this;
 
+  self.userDisplayNames = [];
+
   self.loginSocial = function(externalId, email, displayName, photo){
     var request = {
       email : email,
@@ -51,10 +53,6 @@ angular.module('zabalo-web.services')
     return CookiesService.isUserLoggedIn();
   }
 
-  self.isOwner = function(loginName){
-    return self.getUsername() == loginName;
-  }
-
   self.getUsername = function(){
     return CookiesService.getUsername();
   }
@@ -87,5 +85,14 @@ angular.module('zabalo-web.services')
     var returnTo = $location.search().returnTo ? $location.search().returnTo : '/';
     $location.search({});
     $location.path(returnTo);
+  };
+
+  self.fetchDisplayNames = function() {
+    $http.get('users').
+      success(function(data) {
+        self.userDisplayNames = data;
+      }).error(function(data) {
+        error(data);
+      });
   };
 }]);

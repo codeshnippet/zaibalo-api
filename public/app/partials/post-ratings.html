@@ -6,7 +6,7 @@
       </div>
       <div class="col-xs-10">
         <div>
-          <a href="/#/@{{ rating._embedded.user.loginName }}"><strong>{{ rating._embedded.user.displayName }}</strong></a>
+          <a href="/#/@{{ rating._embedded.user.displayName }}"><strong>{{ rating._embedded.user.displayName }}</strong></a>
           <span class="date">{{ rating.creationTimestamp | timeDistance : locale }}</span>
         </div>
         <div>{{ rating.value }}</div>

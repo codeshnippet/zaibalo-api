@@ -6,9 +6,9 @@
         </div>
         <div class="col-xs-10 col-sm-11">
           <div>
-            <a href="/#/@{{ comment._embedded.author.loginName }}">
+            <a href="/#/@{{ comment._embedded.author.displayName }}">
               <strong>{{ comment._embedded.author.displayName }}</strong>
-              <span class="author-login">@{{ comment._embedded.author.loginName }}</span>
+              <span class="author-login">@{{ comment._embedded.author.displayName }}</span>
             </a>
             <span class="date">{{ comment.creationTimestamp | timeDistance : locale }}</span>
             <span class="glyphicon glyphicon-remove pull-right remove-comment-btn"
