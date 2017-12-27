@@ -4,8 +4,8 @@
 
 Журнал в якому люди сваряться на повсягденне життя, діляться досвідом та порадами.
 
-# Демо
-http://zaibalo-api.herokuapp.com
+# Продакшн
+http://zaibalo.com.ua
 
 ## Running the application locally
 
